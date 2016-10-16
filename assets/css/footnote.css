@@ -1,5 +1,5 @@
 body {
-    padding-top: 50px;
+    /*padding-top: 50px;*/
 }
 
 
@@ -51,6 +51,9 @@ html,
 .row-offcanvas {
     height: 100%;
 }
+.row-offcanvas {
+    padding-top: 50px;
+}
 
 #sidebar {
     width: inherit;
@@ -67,6 +70,60 @@ html,
 #main {
     height: 100%;
     overflow: auto;
+}
+
+img[data-action="zoom"] {
+    cursor: pointer;
+    cursor: -webkit-zoom-in;
+    cursor: -moz-zoom-in;
+}
+
+.zoom-img,
+.zoom-img-wrap {
+    position: relative;
+    z-index: 1080;
+    -webkit-transition: all 300ms;
+    -o-transition: all 300ms;
+    transition: all 300ms;
+}
+
+img.zoom-img {
+    cursor: pointer;
+    cursor: -webkit-zoom-out;
+    cursor: -moz-zoom-out;
+}
+
+.zoom-overlay {
+    z-index: 1079;
+    background: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    filter: "alpha(opacity=0)";
+    opacity: 0;
+    -webkit-transition: opacity 300ms;
+    -o-transition: opacity 300ms;
+    transition: opacity 300ms;
+}
+
+.zoom-overlay-open .zoom-overlay {
+    filter: "alpha(opacity=100)";
+    opacity: 1;
+}
+
+.zoom-overlay-open,
+.zoom-overlay-transitioning {
+    cursor: default;
+}
+
+.zoom-overlay-open .media,
+.zoom-overlay-open .media-body,
+.zoom-overlay-transitioning .media,
+.zoom-overlay-transitioning .media-body {
+    overflow: visible;
 }
 
 
@@ -142,7 +199,8 @@ html,
     color: #dcdcdc;
 }
 
-.news-feed, .profile-page {
+.news-feed,
+.profile-page {
     max-width: 500px;
     margin: 0 auto;
     margin-top: 20px;
@@ -153,7 +211,8 @@ html,
     margin-bottom: 0px;
 }
 
-.news-feed textarea.box {
+.news-feed textarea.box,
+.profile-page textarea.box {
     width: 100%;
     height: 100%;
     border: none;
@@ -257,4 +316,98 @@ html,
     width: 100%;
     height: 350px;
     background-size: cover;
+}
+
+.admin-page {
+    margin-top: 20px;
+}
+
+.profile-banner {
+    min-height: 200px;
+    position: relative;
+}
+
+.profile-banner .blur-bg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: 100%;
+    /*-webkit-filter: blur(10px);
+    -moz-filter: blur(10px);
+    -o-filter: blur(10px);
+    -ms-filter: blur(10px);
+    filter: blur(10px);*/
+    background-position: top center;
+    background-size: cover;
+}
+
+.profile-banner .content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: table;
+    width: 100%;
+    height: 200px;
+    padding: 20px;
+    z-index: 2;
+}
+
+.profile-banner .blur-bg:after {
+    position: absolute;
+    content: "";
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: linear-gradient(to bottom, rgba(255, 0, 0, 0) 50%, rgba(0, 0, 0, 0.5) 100%);
+    /* W3C */
+}
+
+.profile-banner .content .img-cont {
+    display: table-cell;
+    vertical-align: bottom;
+    padding-right: 20px;
+}
+
+.profile-banner .content .img-cont img {
+    margin-bottom: -50px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 4px;
+    transition: all 0.2s ease-in-out 0s;
+}
+
+.profile-banner .content .nb {
+    display: table-cell;
+    vertical-align: bottom;
+    color: #ffffff;
+    text-align: left;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+    width: 10000px;
+    overflow-x: hidden;
+}
+
+.profile-banner .bio {
+    font-size: 18px;
+}
+
+.aligner {
+    -moz-box-align: center;
+    -moz-box-pack: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    min-height: 24em;
+    width: 100%;
+    height: 100%;
+}
+
+.aligner-item {
+    -moz-box-flex: 0;
+    flex: 0 0 auto;
+    width: 400px;
 }

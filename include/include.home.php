@@ -72,7 +72,7 @@ $posts = getAllPosts($s->_get('id'));
             <ul>
                 <li><a href="<?=$config['url']['base_path']?>/profile.php?action=edit&type=info"><span class="glyphicon glyphicon-pencil"></span> Edit Account</a></li>
                 <li><a href="<?=$config['url']['base_path']?>/profile.php?action=edit&type=security"><span class="glyphicon glyphicon-lock"></span> Change Password</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-camera"></span> Change Profile Picture</a></li>
+                <li><a href="<?=$config['url']['base_path']?>/profile.php?action=edit&type=pic"><span class="glyphicon glyphicon-camera"></span> Change Profile Picture</a></li>
             </ul>
         </div>
     </div>
@@ -119,7 +119,7 @@ $posts = getAllPosts($s->_get('id'));
                             <h4 class="name"><a href="#"><?=$post['firstname']?> <?=$post['lastname']?></a></h4>
                             <span class="moment" data-toggle="moment" data-time="<?=$post['post_created']?>" ><?=$post['post_created']?></span>
                             <div class="image">
-                                <img class="" src="<?=$config['url']['base_path']?>/media.php?hash=<?=$post['media_hash']?>&type=post" />
+                                <img class="" src="<?=$config['url']['base_path']?>/media.php?hash=<?=$post['media_hash']?>&type=post" data-action="zoom"/>
                             </div>
                             <p><?=$post['post_text']?></p>
                             <span class="likes">
@@ -150,7 +150,7 @@ $posts = getAllPosts($s->_get('id'));
                                     </div>
                                     <div class="media-body">
                                         <h4 class="name"><a href="#"><?=$comment['firstname']?> <?=$comment['lastname']?></a></h4>
-                                        <span class="moment" data-toggle="moment" data-time="<?=$post['post_created']?>"><?=$comment['comment_created']?></span>
+                                        <span class="moment" data-toggle="moment" data-time="<?=$comment['comment_created']?>"><?=$comment['comment_created']?></span>
                                         <p><?=$comment['comment_text']?></p>
                                     </div>
                                 </div>
@@ -179,7 +179,7 @@ $posts = getAllPosts($s->_get('id'));
             </div>
         </div>
         <div class="col-md-3">
-            <?php //var_dump(getAllPosts($s->_get('id'))); ?>
+            <div id="location-map" style="height: 250px;"></div>
         </div>
     </div>
 </div>

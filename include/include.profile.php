@@ -57,13 +57,6 @@ $posts = getAllPosts($s->_get('id'));
 ?>
 <div class="row-offcanvas row-offcanvas-left">
     <div id="sidebar" class="sidebar-offcanvas">
-        <div class="profile-side">
-            <img class="img-circle" src="<?=$config['url']['profile_pic']?>/<?=$s->_get('user')['profile']?>" width="50" height="50" />&nbsp;
-            <strong><?=$s->_get('user')['firstname']?> <?=$s->_get('user')['lastname']?></strong>
-            <div class="bio">
-                <?=$s->_get('user')['bio']?>
-            </div>
-        </div>
         <div class="col-md-12 profile-actions">
             <ul>
                 <li><a href="<?=$config['url']['base_path']?>"><span class="glyphicon glyphicon-home"></span> News Feed</a></li>
@@ -74,16 +67,30 @@ $posts = getAllPosts($s->_get('id'));
             <ul>
                 <li><a href="<?=$config['url']['base_path']?>/profile.php?action=edit&type=info"><span class="glyphicon glyphicon-pencil"></span> Edit Account</a></li>
                 <li><a href="<?=$config['url']['base_path']?>/profile.php?action=edit&type=security"><span class="glyphicon glyphicon-lock"></span> Change Password</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-camera"></span> Change Profile Picture</a></li>
+                <li><a href="<?=$config['url']['base_path']?>/profile.php?action=edit&type=pic"><span class="glyphicon glyphicon-camera"></span> Change Profile Picture</a></li>
             </ul>
         </div>
     </div>
     <div id="main">
+        <div class="profile-banner" >
+            <div class="blur-bg" style="background-image: url(<?=$config['url']['profile_pic']?>/<?=$s->_get('user')['profile']?>);"></div>
+            <div class="content">
+                <div class="img-cont">
+                    <img class="img-circle" src="<?=$config['url']['profile_pic']?>/<?=$s->_get('user')['profile']?>" width="120" height="120" class="profile-banner-pic" />
+                </div>
+                <div class="nb">
+                    <h2><?=$s->_get('user')['firstname']?> <?=$s->_get('user')['lastname']?></h2>
+                    <div class="bio">
+                        <?=$s->_get('user')['bio']?>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="col-md-9">
             <p class="visible-xs">
                 <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas"><i class="glyphicon glyphicon-chevron-left"></i></button>
             </p>
-            <div class="news-feed">
+            <div class="profile-page">
                 <div class="status-box">
                     <div class="media">
                         <div class="media-left">
@@ -121,7 +128,7 @@ $posts = getAllPosts($s->_get('id'));
                             <h4 class="name"><a href="#"><?=$post['firstname']?> <?=$post['lastname']?></a></h4>
                             <span class="moment" data-toggle="moment" data-time="<?=$post['post_created']?>" ><?=$post['post_created']?></span>
                             <div class="image">
-                                <img class="" src="<?=$config['url']['base_path']?>/media.php?hash=<?=$post['media_hash']?>&type=post" />
+                                <img class="" src="<?=$config['url']['base_path']?>/media.php?hash=<?=$post['media_hash']?>&type=post" data-action="zoom"/>
                             </div>
                             <p><?=$post['post_text']?></p>
                             <span class="likes">
@@ -152,7 +159,7 @@ $posts = getAllPosts($s->_get('id'));
                                     </div>
                                     <div class="media-body">
                                         <h4 class="name"><a href="#"><?=$comment['firstname']?> <?=$comment['lastname']?></a></h4>
-                                        <span class="moment" data-toggle="moment" data-time="<?=$post['post_created']?>"><?=$comment['comment_created']?></span>
+                                        <span class="moment" data-toggle="moment" data-time="<?=$comment['comment_created']?>"><?=$comment['comment_created']?></span>
                                         <p><?=$comment['comment_text']?></p>
                                     </div>
                                 </div>
@@ -173,10 +180,10 @@ $posts = getAllPosts($s->_get('id'));
                     }
                 ?>
                 <?php if($page-1 > 1): ?>
-                <a href="<?=$config['url']['base_path']?>/?page=<?=$page-2?>">Previous</a>
+                <a href="<?=$config['url']['base_path']?>/profile.php?page=<?=$page-2?>">Previous</a>
                 <?php endif; ?>
                 <?php if(count($posts) > 0): ?>
-                <a href="<?=$config['url']['base_path']?>/?page=<?=$page?>" class="pull-right">Next</a>
+                <a href="<?=$config['url']['base_path']?>/profile.php?page=<?=$page?>" class="pull-right">Next</a>
                 <?php endif; ?>
             </div>
         </div>

@@ -3,6 +3,7 @@
 <head>
     <title>Footnote</title>
     <link rel="stylesheet" href="<?=$config['url']['base_path']?>/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="<?=$config['url']['base_path']?>/assets/bower_components/bootstrap/dist/css/bootstrap-date-picker.min.css" />
     <link rel="stylesheet" href="<?=$config['url']['base_path']?>/assets/css/footnote.css" />
 </head>
 <body>
@@ -19,7 +20,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="<?=$url['base_path']?>">Footnote</a>
+      <a class="navbar-brand" href="<?=$config['url']['base_path']?>">Footnote</a>
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <form class="navbar-form navbar-left" action="<?=$config['url']['base_path']?>/search.php" method="get">
@@ -32,9 +33,7 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
+            <li><a href="<?=$config['url']['base_path']?>/profile.php">Profile</a></li>
             <?php if($s->_get('level') == '1' ) : ?>
             <li><a href="<?=$config['url']['base_path']?>/admin.php">Admin Panel</a></li>
             <?php  endif; ?> 

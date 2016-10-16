@@ -223,6 +223,34 @@ var footnote = (function($, document) {
                     }
 
                 });
+            },
+
+            // update profile pic
+            function($) {
+                console.log($('#profile-image'));
+                $('#profile-image').on("change", function() {
+                    var files = !!this.files ? this.files : [];
+                    if (!files.length || !window.FileReader) return;
+
+                    if (/^image/.test(files[0].type)) {
+                        var reader = new FileReader();
+                        reader.readAsDataURL(files[0]);
+                        console.log('changing');
+                        reader.onloadend = function() {
+                            $("#n-pp").attr("src", this.result)
+                                .removeClass('hide');
+                            $("#c-pp").addClass('hide');
+                        }
+                    }
+                });
+            },
+
+            // datepicker
+            function($) {
+                $('[data-toggle=datepicker], input[type=date]').each(function() {
+                    $(this).datepicker({});
+                    console.log($(this));
+                });
             }
 
         ],

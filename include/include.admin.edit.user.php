@@ -1,17 +1,43 @@
 <?php 
 $s = new Session; 
 
-$user = $s->_get('user');
-$user['email'] = $s->_get('email');
+function getUserById($userId) {
+    $db = new DB;
+    $sql =  "SELECT ";
+    $sql .= "ud.user_id, ";
+    $sql .= "ud.firstname, ";
+    $sql .= "ud.middlename, ";
+    $sql .= "ud.lastname, ";
+    $sql .= "ud.address, ";
+    $sql .= "ud.birthdate, ";
+    $sql .= "ud.gender, ";
+    $sql .= "ud.bio, ";
+    $sql .= "ud.profile, ";
+    $sql .= "u.username, ";
+    $sql .= "u.email, ";
+    $sql .= "u.active ";
+    $sql .= "FROM ";
+    $sql .= "`user_details` as ud ";
+    $sql .= "INNER JOIN ";
+    $sql .= "`users` as u ";
+    $sql .= "ON ";
+    $sql .= "u.id = ud.user_id ";
+    $sql .= "WHERE ";
+    $sql .= "u.id = :user_id";
+    $return = $db->row($sql, array("user_id" => $userId));
+
+    return $return;
+}
+$userId = httpGet('id');
+if($userId) {
+    $user = getUserbyId($userId);
+}
 ?>
 <div class="row-offcanvas row-offcanvas-left">
     <div id="sidebar" class="sidebar-offcanvas">
         <div class="profile-side">
             <img class="img-circle" src="<?=$config['url']['profile_pic']?>/<?=$s->_get('user')['profile']?>" width="50" height="50" />&nbsp;
             <strong><?=$s->_get('user')['firstname']?> <?=$s->_get('user')['lastname']?></strong>
-            <div class="bio">
-                <?=$s->_get('user')['bio']?>
-            </div>
         </div>
         <div class="col-md-12 profile-actions">
             <ul>
@@ -21,21 +47,26 @@ $user['email'] = $s->_get('email');
             </ul>
             <h4>Account Settings</h4>
             <ul>
-                <li class="active"><a href="<?=$config['url']['base_path']?>/profile.php?action=edit&type=info"><span class="glyphicon glyphicon-pencil"></span> Edit Account</a></li>
+                <li><a href="<?=$config['url']['base_path']?>/profile.php?action=edit&type=info"><span class="glyphicon glyphicon-pencil"></span> Edit Account</a></li>
                 <li><a href="<?=$config['url']['base_path']?>/profile.php?action=edit&type=security"><span class="glyphicon glyphicon-lock"></span> Change Password</a></li>
                 <li><a href="<?=$config['url']['base_path']?>/profile.php?action=edit&type=pic"><span class="glyphicon glyphicon-camera"></span> Change Profile Picture</a></li>
+            </ul>
+            <h4>Admin Settings</h4>
+            <ul>
+                <li class="active"><a href="<?=$config['url']['base_path']?>/admin.php?action=view&type=users"><span class="glyphicon glyphicon-user"></span> Users</a></li>
+                <li><a href="<?=$config['url']['base_path']?>/admin.php?action=view&type=ads"><span class="glyphicon glyphicon-flag"></span> Ads</a></li>                
             </ul>
         </div>
     </div>
     <div id="main">
-        <div class="col-md-9">
+        <div class="col-md-12">
             <p class="visible-xs">
                 <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas"><i class="glyphicon glyphicon-chevron-left"></i></button>
             </p>
-            <div class="profile-page">
+            <div class="admin-page">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Update User Details</h3>
+                        <h3 class="panel-title">Edit <?=$user['firstname']?> <?=$user['lastname']?></h3>
                     </div>
                     <div class="panel-body">
                         <?php if(isset($save)) : if($save) : ?>
@@ -44,7 +75,8 @@ $user['email'] = $s->_get('email');
                             <strong>Successfully updated!</strong> 
                         </div>
                         <?php endif; endif; ?>
-                        <form action="<?=$config['url']['base_path']?>/profile.php?action=update&type=info" method="POST" data-toggle="validator" role="form">
+                        <form action="<?=$config['url']['base_path']?>/admin.php?action=update&type=user&id=<?=$user['user_id']?>" method="POST" data-toggle="validator" role="form">
+                            <input type="hidden" name="user_id" value="<?=$user['user_id']?>" />
                             <div class="form-group">
                                 <label class="control-label">Name</label>
                                 <div class="form-inline row">
@@ -54,9 +86,6 @@ $user['email'] = $s->_get('email');
                                     <div class="form-group col-sm-6">
                                         <input type="text" name="lastname" class="form-control" id="lastname" placeholder="Last name" value="<?=$user['lastname']?>" required>
                                     </div>
-                                    <!--<div class="form-group col-sm-4">
-                                        <input type="text" name="middlename" class="form-control" id="middlename" placeholder="Middle name" value="<?=$user['middlename']?>" required>
-                                    </div>-->
                                 </div>
                             </div>
                             <div class="form-group">
@@ -85,7 +114,26 @@ $user['email'] = $s->_get('email');
                             </div>
                              <div class="form-group">
                                 <label for="bio" class="control-label">Bio</label>
-                                <textarea rows="3" class="form-control" id="bio" name="bio" placeholder="Bio" required><?=$user['bio']?></textarea>
+                                <textarea rows="3" class="form-control" id="bio" name="bio" placeholder="Bio" ><?=$user['bio']?></textarea>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-inline row">
+                                    <div class="form-group col-sm-6">
+                                        <label for="" class="control-label">Username</label>
+                                        <input type="text" name="username" class="form-control" value="<?=$user['username']?>"  required>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="" class="control-label">Password</label>
+                                        <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Password">
+                                        <div class="help-block">Minimum of 6 characters</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="1" name="active" <?=$user['active']?'checked':''?> />
+                                    Active
+                                </label>
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Update</button>
@@ -94,9 +142,6 @@ $user['email'] = $s->_get('email');
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <?php //var_dump(getAllPosts($s->_get('id'))); ?>
         </div>
     </div>
 </div>

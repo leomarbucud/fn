@@ -27,6 +27,10 @@ if($action == 'edit' || $action == 'update') {
             require_once 'action/action.update.profile.php';
             include_once 'include/include.edit.security.php';
             break;
+        case 'pic':
+            require_once 'action/action.update.profile.pic.php';
+            include_once 'include/include.edit.profile.pic.php';
+            break;
         default:
             
             break;

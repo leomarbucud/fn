@@ -65,7 +65,7 @@ header('Content-Type: text/html; charset=utf-8');
     </div>
     <div class="media-body">
         <h4 class="name"><a href="#"><?=$comment['firstname']?> <?=$comment['lastname']?></a></h4>
-        <span class="moment" data-toggle="moment"><?=$comment['comment_created']?></span>
+        <span class="moment" data-toggle="moment" data-time="<?=$comment['comment_created']?>"><?=$comment['comment_created']?></span>
         <p><?=$comment['comment_text']?></p>
     </div>
 </div>
