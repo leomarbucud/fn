@@ -1,0 +1,260 @@
+body {
+    padding-top: 50px;
+}
+
+
+/*body,
+html {
+    height: 100%;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
+}*/
+
+.nb-g {
+    background-color: #006400;
+    color: #ffffff;
+    border-bottom: none;
+}
+
+.nb-g .navbar-header a,
+.nb-g .collapse .nav>li>a {
+    color: #ffffff;
+}
+
+.nb-g .navbar-header a:hover,
+.nb-g .collapse .nav a:hover {
+    color: #dcdcdc
+}
+
+.nb-g .navbar-nav>.open>a,
+.nb-g .navbar-nav>.open>a:focus,
+.nb-g .navbar-nav>.open>a:hover {
+    background: #228b22;
+    color: #dcdcdc;
+}
+
+.form-inline .form-control {
+    width: 100%;
+}
+
+.navbar-form {
+    width: 30%;
+}
+
+.navbar-form .form-group,
+.navbar-form .form-control {
+    width: 100%;
+}
+
+body,
+html,
+.row-offcanvas {
+    height: 100%;
+}
+
+#sidebar {
+    width: inherit;
+    min-width: 220px;
+    max-width: 220px;
+    background-color: #5d6875;
+    float: left;
+    height: 100%;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#main {
+    height: 100%;
+    overflow: auto;
+}
+
+
+/*
+ * off Canvas sidebar
+ * --------------------------------------------------
+ */
+
+@media screen and (max-width: 768px) {
+    .row-offcanvas {
+        position: relative;
+        -webkit-transition: all 0.25s ease-out;
+        -moz-transition: all 0.25s ease-out;
+        transition: all 0.25s ease-out;
+        width: calc(100% + 220px);
+    }
+    .row-offcanvas-left {
+        left: -220px;
+    }
+    .row-offcanvas-left.active {
+        left: 0;
+    }
+    .sidebar-offcanvas {
+        position: absolute;
+        top: 0;
+    }
+}
+
+.profile-side {
+    background: #006400;
+    padding: 10px;
+    color: #dcdcdc;
+}
+
+.profile-side .bio {
+    margin-top: 15px;
+    text-align: center
+}
+
+.profile-actions {
+    margin-top: 15px;
+}
+
+.profile-actions h4 {
+    font-size: 14px;
+    color: #cdd0d1;
+    margin: 20px 0;
+}
+
+.profile-actions ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.profile-actions ul li a {
+    color: #cdd0d1;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: block;
+}
+
+.profile-actions ul li a .glyphicon {
+    margin-right: 15px;
+}
+
+.profile-actions ul li.active a {
+    color: #dcdcdc;
+}
+
+.profile-actions ul li a:hover {
+    text-decoration: none;
+    color: #dcdcdc;
+}
+
+.news-feed, .profile-page {
+    max-width: 500px;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.news-feed .status-box {
+    margin-bottom: 0px;
+}
+
+.news-feed textarea.box {
+    width: 100%;
+    height: 100%;
+    border: none;
+    resize: none;
+}
+
+.post .name {
+    margin-top: 0px;
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.post .name a:hover {
+    text-decoration: none;
+}
+
+.post .moment {
+    color: #d0d0d0;
+    font-size: 12px;
+}
+
+.post .image img {
+    max-width: 100%;
+    margin: 10px 0px;
+}
+
+.post .likes {
+    font-size: 12px;
+}
+
+.post .actions {
+    position: relative;
+}
+
+.post .actions .comment-box {
+    border: none;
+    box-shadow: none;
+    padding-right: 40px;
+    padding-left: 0px;
+}
+
+.post .actions .comment-box:focus {
+    border: none;
+    box-shadow: none;
+}
+
+.post .actions .favorite {
+    padding: 6px 12px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 18px;
+    color: #dcdcdc;
+    cursor: pointer;
+}
+
+.post .actions .favorite.red {
+    color: #ff2222;
+}
+
+.post hr {
+    margin: 10px 0;
+}
+
+.comment .name {
+    font-size: 14px;
+    margin-bottom: 0px;
+}
+
+.comment .media-body p {
+    font-size: 12px;
+}
+
+.comment .moment {
+    font-size: 10px;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+.image-preview {
+    width: 100%;
+    height: 350px;
+    background-size: cover;
+}
