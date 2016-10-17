@@ -123,15 +123,19 @@ var footnote = (function($, document) {
                                 </div>
                                 <div class="media-body">
                                     <h4 class="name"><a href="#">{2}</a></h4>
-                                    <span class="moment" data-toggle="moment">{3}</span>
+                                    <label class="my-location"><span class="glyphicon glyphicon-map-marker"></span> {3}</label>
+                                    <span class="moment" data-toggle="moment">{4}</span>
                                     <div class="image">
-                                        <img class="" src="{4}&type=post" />
+                                        <img class="" src="{5}&type=post" />
                                     </div>
-                                    <p>{5}</p>
+                                    <p>{6}</p>
                                     <span class="likes">0 like</span>
                                     <hr>
                                     <div class="actions">
-                                        <input type="text" class="form-control comment-box" placeholder="Write comment..." />
+                                        <form class="add-comment" action="/fn/action/action.comment.php" data-toggle="validator" data-post-id="{0}>">
+                                            <input type="hidden" name="post_id" value="{0}" />
+                                            <input type="text" name="comment" class="form-control comment-box" placeholder="Write comment..." required/>
+                                        </form>
                                         <a href="#" data-toggle="like" data-post-id="{0}" class="favorite"><span class="glyphicon glyphicon-heart-empty"></span></a>
                                     </div>
                                     <hr>
@@ -143,9 +147,11 @@ var footnote = (function($, document) {
                                 data.post_id,
                                 config.profile_pic + '/' + data.profile,
                                 data.firstname + ' ' + data.lastname,
+                                data.location,
                                 data.post_created,
                                 config.post_pic + data.media_hash,
                                 data.post_text
+
                             ));
                             $(".image-preview").addClass('hide');
                             $('#text').val('');
@@ -250,6 +256,13 @@ var footnote = (function($, document) {
                 $('[data-toggle=datepicker], input[type=date]').each(function() {
                     $(this).datepicker({});
                     console.log($(this));
+                });
+            },
+
+            // select radius
+            function($) {
+                $('#radius').on('change', function() {
+                    $(this).closest('form').submit();
                 });
             }
 

@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="<?=$config['url']['base_path']?>/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="<?=$config['url']['base_path']?>/assets/bower_components/bootstrap/dist/css/bootstrap-date-picker.min.css" />
     <link rel="stylesheet" href="<?=$config['url']['base_path']?>/assets/css/footnote.css" />
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHhJTqvMbixe8tZcprHVS_mDnVKy_X4Rg&libraries=places"></script>
 </head>
 <body>
 <?php

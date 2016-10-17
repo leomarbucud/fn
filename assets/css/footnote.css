@@ -51,6 +51,7 @@ html,
 .row-offcanvas {
     height: 100%;
 }
+
 .row-offcanvas {
     padding-top: 50px;
 }
@@ -211,6 +212,10 @@ img.zoom-img {
     margin-bottom: 0px;
 }
 
+.status-box .panel-body {
+    padding-bottom: 5px;
+}
+
 .news-feed textarea.box,
 .profile-page textarea.box {
     width: 100%;
@@ -231,8 +236,9 @@ img.zoom-img {
 }
 
 .post .moment {
-    color: #d0d0d0;
     font-size: 12px;
+    font-weight: 300;
+    color: #999999;
 }
 
 .post .image img {
@@ -410,4 +416,29 @@ img.zoom-img {
     -moz-box-flex: 0;
     flex: 0 0 auto;
     width: 400px;
+}
+
+.my-location {
+    font-size: 12px;
+    font-weight: 300;
+    color: #999999;
+    display: block;
+}
+
+.right-side {
+    margin-top: 20px;
+}
+
+#location-map {
+    min-height: 250px;
+    background-color: rgb(229, 227, 223);
+}
+
+#gmap_canvas {
+    height: 30em;
+    width: 100%;
+}
+
+.place-page {
+    margin-top: 20px;
 }

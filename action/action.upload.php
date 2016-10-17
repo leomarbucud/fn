@@ -5,16 +5,36 @@ require_once '../class/class.session.php';
 require_once '../class/class.upload.php';
 require_once '../class/class.db.php';
 
-function save($user_id, $text, $media) {
+function save($user_id, $text, $media,$lat,$lng,$loc) {
     $db = new DB;
     $postId = $user_id.'_'.strtotime(date("Y-m-d H:i:s")).microtime(true);
 
-    $db->query("INSERT INTO `posts` (`post_id`,`user_id`,`post_text`) VALUES (:id,:user_id,:text)",
-        Array("id"=>$postId,"user_id"=>$user_id,"text"=>$text));
+    $sql =  "INSERT INTO ";
+    $sql .= "`posts` ";
+    $sql .= "(`post_id`,`user_id`,`post_text`,`lat`,`lng`,`location`) ";
+    $sql .= "VALUES ";
+    $sql .= "(:id,:user_id,:text,:lat,:lng,:loc) ";
+    $db->query($sql,
+        Array("id" => $postId, 
+            "user_id" => $user_id,
+            "text" => $text,
+            "lat" => $lat,
+            "lng" => $lng,
+            "loc" => $loc));
 
     $mediaHash = $media["hash"];
     $mediaExt = $media["ext"];
-    $db->query("INSERT INTO `medias` (`post_id`,`media_hash`,`media_ext`) VALUES (:postId, :mediaHash, :mediaExt)", Array("postId" => $postId, "mediaHash" => $mediaHash, "mediaExt" => $mediaExt));
+
+    $sql =  "INSERT INTO ";
+    $sql .= "`medias` ";
+    $sql .= "(`post_id`,`media_hash`,`media_ext`) ";
+    $sql .= "VALUES ";
+    $sql .= "(:postId, :mediaHash, :mediaExt)";
+
+    $db->query($sql, 
+        Array("postId" => $postId, 
+            "mediaHash" => $mediaHash, 
+            "mediaExt" => $mediaExt));
 
     return $postId;
 }
@@ -23,13 +43,18 @@ function create($media) {
     $s = new Session;
     $data['status'] = 'failed';
     $text = httpPost('text');
-
-    $post_id = save($s->_get('id'),$text,$media);
+    $lat = httpPost('lat');
+    $lng = httpPost('lng');
+    $loc = httpPost('loc');
+    $post_id = save($s->_get('id'),$text,$media,$lat,$lng,$loc);
 
     $account_details = $s->_get('user');
     $data['post_id'] = $post_id;
     $data['status'] = 'success';
     $data['text'] = $text;
+    $data['lat'] = $lat;
+    $data['lng'] = $lng;
+    $data['loc'] = $loc;
     $data['account'] = $account_details;
     
     return $data;
@@ -92,6 +117,9 @@ function upload() {
                     $return['profile'] = $data['account']['profile'];
                     $return['post_id'] = $data['post_id'];
                     $return['post_text'] = $data['text'];
+                    $return['lat'] = $data['lat'];
+                    $return['lng'] = $data['lng'];
+                    $return['location'] = $data['loc'];
                     $return['media_hash'] = $mediaHash;
                     $return['post_created'] = date('Y-m-d H:i:s');
                     header('Content-Type: application/json');

@@ -6,7 +6,7 @@ function getAllPosts($userId) {
     $db = new DB;
     $post_per_page = $config['post']['post_per_page'];
     $page = httpGet('page');
-    $sql  = "SELECT ud.user_id, ud.firstname, ud.lastname, ud.profile, p.post_id, p.post_text, p.post_images, p.post_metas, p.post_created, ";
+    $sql  = "SELECT ud.user_id, ud.firstname, ud.lastname, ud.profile, p.post_id, p.post_text, p.location, p.lat, p.lng, p.post_images, p.post_metas, p.post_created, ";
     $sql .= "(SELECT `media_hash` FROM `medias` as m WHERE m.post_id = p.post_id) as media_hash, ";
     $sql .= "(SELECT COUNT(hearts_id) FROM `hearts` as h WHERE h.post_id = p.post_id) as hearts, ";
     $sql .= "(SELECT COUNT(hearts_id) FROM `hearts` as h WHERE h.post_id = p.post_id AND h.hearts_rating = 1) as hearts_1, ";
@@ -98,10 +98,14 @@ $posts = getAllPosts($s->_get('id'));
                         </div>
                         <div class="media-body">
                             <form id="status-form" action="<?=$config['url']['base_path']?>/action/action.upload.php" enctype="multipart/form-data" data-toggle="validator" role="form">
+                                <input type="hidden" name="lat" id="lat" />
+                                <input type="hidden" name="lng" id="lng" />
+                                <input type="hidden" name="loc" id="loc" />
                                 <div class="panel panel-default">
                                     <div class="image-preview hide"></div>
                                     <div class="panel-body">
                                         <textarea class="box" id="text" name="text" placeholder="Share your travels..." required></textarea>
+                                        <label class="my-location"><span class="glyphicon glyphicon-map-marker"></span> <span class="location">Looking where you are...</span></label>
                                     </div>
                                     <div class="panel-footer">
                                         <span class="btn btn-default btn-sm btn-file">
@@ -126,6 +130,7 @@ $posts = getAllPosts($s->_get('id'));
                         </div>
                         <div class="media-body">
                             <h4 class="name"><a href="#"><?=$post['firstname']?> <?=$post['lastname']?></a></h4>
+                            <label class="my-location"><span class="glyphicon glyphicon-map-marker"></span> <?=$post['location']?></label>
                             <span class="moment" data-toggle="moment" data-time="<?=$post['post_created']?>" ><?=$post['post_created']?></span>
                             <div class="image">
                                 <img class="" src="<?=$config['url']['base_path']?>/media.php?hash=<?=$post['media_hash']?>&type=post" data-action="zoom"/>
@@ -187,8 +192,27 @@ $posts = getAllPosts($s->_get('id'));
                 <?php endif; ?>
             </div>
         </div>
-        <div class="col-md-3">
-            <?php //var_dump(getAllPosts($s->_get('id'))); ?>
+        <div class="col-md-3 right-side">
+            <div class="panel panel-default">
+                <div id="location-map"></div>
+                <div class="panel-body">
+                    <span class="location"></span>
+                </div>
+            </div>
+             <div class="panel panel-default">
+                <div class="panel-body">
+                    <label>Nearby Places <small>(within)</small></label>
+                    <form action="<?=htmlspecialchars($_SERVER["PHP_SELF"])?>" method="GET">
+                        <select class="form-control" name="radius" id="radius">
+                            <option value="1000" <?=httpGet('radius')==1000?'selected':''?>>1km</option>
+                            <option value="5000" <?=httpGet('radius')==5000?'selected':''?>>5km</option>
+                            <option value="10000" <?=httpGet('radius')==10000?'selected':''?>>10km</option>
+                            <option value="15000" <?=httpGet('radius')==15000?'selected':''?>>15km</option>
+                        </select>
+                    </form>
+                </div>
+                <div class="list-group nearby"></div>
+            </div>
         </div>
     </div>
 </div>
