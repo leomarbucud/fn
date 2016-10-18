@@ -1,6 +1,6 @@
 <?php 
 $s = new Session; 
-
+$uid = $s->_get('id');
 function getAllPosts($userId) {
     global $config;
     $db = new DB;
@@ -53,7 +53,7 @@ function getComments($postId) {
     return $db->rows($sql, array("postId" => $postId));
 }
 
-$posts = getAllPosts($s->_get('id'));
+$posts = getAllPosts($uid);
 ?>
 <div class="row-offcanvas row-offcanvas-left">
     <div id="sidebar" class="sidebar-offcanvas">
@@ -129,13 +129,26 @@ $posts = getAllPosts($s->_get('id'));
                             </a>
                         </div>
                         <div class="media-body">
+                            <div class="dropdown pull-right">
+                                <a href="#" class="dropdown-toggle" id="p-a" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="p-a">
+                                    <li><a href="<?=$config['url']['base_path']?>/post.php?action=view&type=post&post=<?=$post['post_id']?>">View Post</a></li>
+                                    <?php if($uid == $post['user_id']): ?>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="<?=$config['url']['base_path']?>/post.php?action=edit&type=post&post=<?=$post['post_id']?>">Edit Post</a></li>
+                                    <li><a href="<?=$config['url']['base_path']?>/post.php?action=delete&type=post&post=<?=$post['post_id']?>&rUrl=<?=$_SERVER['REQUEST_URI']?>">Remove Post</a></li>
+                                    <?php endif; ?>
+                                </ul>
+                            </div>
                             <h4 class="name"><a href="#"><?=$post['firstname']?> <?=$post['lastname']?></a></h4>
                             <label class="my-location"><span class="glyphicon glyphicon-map-marker"></span> <?=$post['location']?></label>
                             <span class="moment" data-toggle="moment" data-time="<?=$post['post_created']?>" ><?=$post['post_created']?></span>
                             <div class="image">
                                 <img class="" src="<?=$config['url']['base_path']?>/media.php?hash=<?=$post['media_hash']?>&type=post" data-action="zoom"/>
                             </div>
-                            <p><?=$post['post_text']?></p>
+                            <p><?=nl2br(trim($post['post_text']))?></p>
                             <span class="likes">
                             <?php if($post['hearts'] > 1 ): ?>
                                 <?=$post['hearts']?> likes

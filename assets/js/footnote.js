@@ -172,7 +172,14 @@ var footnote = (function($, document) {
                         reader.readAsDataURL(files[0]); // read the local file
 
                         reader.onloadend = function() { // set image data as background of div
-                            $(".image-preview").css("background-image", "url(" + this.result + ")")
+
+                            var img = '<div class="image">' +
+                                '<img src="' + this.result + '" data-action="zoom"/>' +
+                                '</div>';
+
+                            $(".image-preview")
+                                .html('')
+                                .append(img)
                                 .removeClass('hide');
                         }
                     }
@@ -203,7 +210,7 @@ var footnote = (function($, document) {
                             $('.post[data-post-id="' + post_id + '"] .likes')
                                 .text(data.total + " " + (data.total > 1 ? 'likes' : 'like'));
                         }
-                    })
+                    });
                 });
             },
 
@@ -264,6 +271,52 @@ var footnote = (function($, document) {
                 $('#radius').on('change', function() {
                     $(this).closest('form').submit();
                 });
+            },
+
+            // reaction 
+            function($) {
+                $(".like-btn").hover(function() {
+                    $(".reaction-icon").each(function(i, e) {
+                        setTimeout(function() {
+                            $(e).addClass("show-icon");
+                        }, i * 100);
+                    });
+                }, function() {
+                    $(".reaction-icon").removeClass("show-icon")
+                });
+                $('.reaction-icon').click(function() {
+                    var post_id = $(this).data('post-id');
+                    var rating = $(this).data('rating');
+                    var self = $(this);
+                    $.ajax({
+                        url: config.base_path + '/action/action.heart.post.php',
+                        type: 'POST',
+                        data: { rating: rating, post_id: post_id },
+                        success: function(data) {
+                            if (data.hearts_given > 0) {
+                                self.addClass('red');
+                                $('span', self).removeClass('glyphicon-heart-empty')
+                                    .addClass('glyphicon-heart');
+                            } else {
+                                self.removeClass('red');
+                                $('span', self).removeClass('glyphicon-heart')
+                                    .addClass('glyphicon-heart-empty');
+                            }
+                            $('.post[data-post-id="' + post_id + '"] .likes')
+                                .text(data.total + " " + (data.total > 1 ? 'likes' : 'like'));
+                        }
+                    })
+                });
+            },
+            // resize textarea
+            function($) {
+                var textarea = document.getElementById("text");
+                var limit = 200;
+
+                textarea.oninput = function() {
+                    textarea.style.height = "";
+                    textarea.style.height = Math.min(textarea.scrollHeight, 300) + "px";
+                };
             }
 
         ],

@@ -1,8 +1,8 @@
-<div class="aligner">
+<div class="aligner login-wrapper">
     <div class="aligner-item">
         <div class="panel panel-success">
             <div class="panel-heading">
-                <h3 class="panel-title">Login</h3>
+                <h3 class="panel-title">Login to Footnote</h3>
             </div>
             <div class="panel-body">
                 <?php if(httpGet('error') == 'login') : ?>
@@ -38,6 +38,7 @@
                     <div class="form-group">
                         <label for="password">Password</label>
                         <input type="password" name="password" id="password" class="form-control" placeholder="Password" required value="">
+                        <div class="help-block"><a href="<?=$config['url']['base_path']?>/forgot.php">Forgot password?</a></div>
                     </div>
                     <div class="checkbox">
                         <label>

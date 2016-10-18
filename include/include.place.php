@@ -42,13 +42,16 @@ $s = new Session;
                     ?>
                     <div class="panel panel-default">
                         <div id="gmap_canvas">Loading map...</div>
-                        <div id='map-label' class="panel-body"><p>Map shows approximate location.<p></div>
+                        <div id='map-label' class="panel-body">
+                            <p>Map shows approximate location.<p>
+                            <p><?=httpGet('address')?></p>
+                        </div>
                     </div>
                     
                     <script type="text/javascript">
                         function init_map() {
                             var myOptions = {
-                                zoom: 14,
+                                zoom: 15,
                                 center: new google.maps.LatLng(<?=$latitude?>, <?=$longitude?>),
                                 mapTypeId: google.maps.MapTypeId.ROADMAP
                             };

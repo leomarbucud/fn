@@ -47,6 +47,8 @@ function create($media) {
     $lng = httpPost('lng');
     $loc = httpPost('loc');
     $post_id = save($s->_get('id'),$text,$media,$lat,$lng,$loc);
+    
+    $text = preg_replace("/(\r\n){3,}/","\r\n\r\n",trim($text));
 
     $account_details = $s->_get('user');
     $data['post_id'] = $post_id;

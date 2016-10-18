@@ -1,7 +1,7 @@
 <?php 
 $s = new Session; 
 $uid = $s->_get('id');
-function getAllPosts($userId) {
+function getPost($userId, $postId) {
     global $config;
     $db = new DB;
     $post_per_page = $config['post']['post_per_page'];
@@ -20,13 +20,15 @@ function getAllPosts($userId) {
     $sql .= "ON p.user_id = u.id ";
     $sql .= "INNER JOIN `user_details` ud ";
     $sql .= "ON ud.user_id = u.id ";
+    $sql .= "WHERE ";
+    $sql .= "p.post_id = :post_id ";
     $sql .= "ORDER BY p.post_created DESC ";
     if($page > 1 ) {
         $sql .= "LIMIT {$post_per_page} OFFSET ".($page * $post_per_page)." ";
     } else {
         $sql .= "LIMIT {$post_per_page} ";
     }
-    return $db->rows($sql, Array("userId" => $userId, "uId" => $userId));
+    return $db->row($sql, Array("userId" => $userId, "uId" => $userId, "post_id" => $postId));
 }
 
 function getComments($postId) {
@@ -51,7 +53,10 @@ function getComments($postId) {
     return $db->rows($sql, array("postId" => $postId));
 }
 
-$posts = getAllPosts($uid);
+$post = getPost($uid, httpGet('post'));
+if(!$post){
+    header("location: {$config['url']['base_path']}");
+}
 ?>
 <div class="row-offcanvas row-offcanvas-left">
     <div id="sidebar" class="sidebar-offcanvas">
@@ -82,37 +87,13 @@ $posts = getAllPosts($uid);
                 <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas"><i class="glyphicon glyphicon-chevron-left"></i></button>
             </p>
             <div class="news-feed">
-                <div class="status-box">
-                    <div class="media">
-                        <div class="media-left">
-                            <img class="media-object img-circle" src="<?=$config['url']['base_path']?>/assets/images/uploads/profiles/<?=$s->_get('user')['profile']?>" width="50" height="50" />
-                        </div>
-                        <div class="media-body">
-                            <form id="status-form" action="<?=$config['url']['base_path']?>/action/action.upload.php" enctype="multipart/form-data" data-toggle="validator" role="form">
-                                <input type="hidden" name="lat" id="lat" />
-                                <input type="hidden" name="lng" id="lng" />
-                                <input type="hidden" name="loc" id="loc" />
-                                <div class="panel panel-default">
-                                    <div class="image-preview hide"></div>
-                                    <div class="panel-body">
-                                        <textarea class="box" id="text" name="text" placeholder="Share your travels..." required></textarea>
-                                        <label class="my-location"><span class="glyphicon glyphicon-map-marker"></span> <span class="location">Looking where you are...</span></label>
-                                    </div>
-                                    <div class="panel-footer">
-                                        <span class="btn btn-default btn-sm btn-file">
-                                            <span class="glyphicon glyphicon-camera"></span>
-                                            <input type="file" name="postImg" id="post-image" required/>
-                                        </span>
-                                        <button type="submit" class="btn btn-success btn-sm pull-right">Post</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <hr>
+                <?php if(isset($save)) : if($save == true):  ?>
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Success!</strong> Post updated.
                 </div>
+                <?php endif; endif;?>
                 <div class="post-list">
-                    <?php foreach($posts as $post): ?>
                     <div class="media post feed" data-post-id="<?=$post['post_id']?>">
                         <div class="media-left">
                             <a href="#">
@@ -120,19 +101,17 @@ $posts = getAllPosts($uid);
                             </a>
                         </div>
                         <div class="media-body">
+                            <?php if($uid == $post['user_id']): ?>
                             <div class="dropdown pull-right">
                                 <a href="#" class="dropdown-toggle" id="p-a" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="p-a">
-                                    <li><a href="<?=$config['url']['base_path']?>/post.php?action=view&type=post&post=<?=$post['post_id']?>">View Post</a></li>
-                                    <?php if($uid == $post['user_id']): ?>
-                                    <li role="separator" class="divider"></li>
                                     <li><a href="<?=$config['url']['base_path']?>/post.php?action=edit&type=post&post=<?=$post['post_id']?>">Edit Post</a></li>
                                     <li><a href="<?=$config['url']['base_path']?>/post.php?action=delete&type=post&post=<?=$post['post_id']?>&rUrl=<?=$_SERVER['REQUEST_URI']?>">Remove Post</a></li>
-                                    <?php endif; ?>
                                 </ul>
                             </div>
+                            <?php endif; ?>
                             <h4 class="name"><a href="#"><?=$post['firstname']?> <?=$post['lastname']?></a></h4>
                             <label class="my-location"><span class="glyphicon glyphicon-map-marker"></span> <?=$post['location']?></label>
                             <span class="moment" data-toggle="moment" data-time="<?=$post['post_created']?>" ><?=$post['post_created']?></span>
@@ -200,22 +179,7 @@ $posts = getAllPosts($uid);
                         </div>
                     </div>
                     <hr>
-                    <?php endforeach; ?>
                 </div>
-                <?php 
-                    $page = httpGet('page');
-                    if($page != null && $page > 1) {
-                        $page++;
-                    } else {
-                        $page = 2;
-                    }
-                ?>
-                <?php if($page-1 > 1): ?>
-                <a href="<?=$config['url']['base_path']?>/?page=<?=$page-2?>">Previous</a>
-                <?php endif; ?>
-                <?php if(count($posts) > 0): ?>
-                <a href="<?=$config['url']['base_path']?>/?page=<?=$page?>" class="pull-right">Next</a>
-                <?php endif; ?>
             </div>
         </div>
         <div class="col-md-3 right-side">
