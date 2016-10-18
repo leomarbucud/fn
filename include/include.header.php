@@ -25,8 +25,9 @@
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <form class="navbar-form navbar-left" action="<?=$config['url']['base_path']?>/search.php" method="get">
-        <div class="form-group">
+        <div class="form-group search-box">
           <input type="text" class="form-control" placeholder="Search" name="q" required>
+          <span class="glyphicon glyphicon-search"></span>
         </div>
       </form>
       <ul class="nav navbar-nav navbar-right">
