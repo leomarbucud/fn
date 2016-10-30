@@ -1,4 +1,27 @@
 
+<?php 
+$s = new Session;
+if($s->_get('user')['level'] == 0 ) : ?>
+
+<?php endif; ?>
+<footer>
+	<div class="footer-bottom">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+					<div class="copyright">
+						&copy; 2016, Footnote, All rights reserved
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+					<div class="design">
+						<a href="#">Franchisee </a> |  <a target="_blank" href="http://www.webenlance.com">Web Design & Development by Webenlance</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
 <script type="text/javascript" src="<?=$config['url']['base_path']?>/assets/bower_components/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="<?=$config['url']['base_path']?>/assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="<?=$config['url']['base_path']?>/assets/bower_components/bootstrap/dist/js/bootstrap-date-picker.min.js"></script>

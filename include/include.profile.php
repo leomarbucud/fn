@@ -6,7 +6,7 @@ function getAllPosts($userId) {
     $db = new DB;
     $post_per_page = $config['post']['post_per_page'];
     $page = httpGet('page');
-    $sql  = "SELECT ud.user_id, ud.firstname, ud.lastname, ud.profile, p.post_id, p.post_text, p.location, p.lat, p.lng, p.post_images, p.post_metas, p.post_created, ";
+    $sql  = "SELECT ud.user_id, ud.firstname, ud.lastname, ud.profile, p.post_id, p.post_text, p.location, p.lat, p.lng, p.post_images, p.post_metas, p.post_created, p.isApproved, ";
     $sql .= "(SELECT `media_hash` FROM `medias` as m WHERE m.post_id = p.post_id) as media_hash, ";
     $sql .= "(SELECT COUNT(hearts_id) FROM `hearts` as h WHERE h.post_id = p.post_id) as hearts, ";
     $sql .= "(SELECT COUNT(hearts_id) FROM `hearts` as h WHERE h.post_id = p.post_id AND h.hearts_rating = 1) as hearts_1, ";
@@ -57,19 +57,7 @@ $posts = getAllPosts($uid);
 ?>
 <div class="row-offcanvas row-offcanvas-left">
     <div id="sidebar" class="sidebar-offcanvas">
-        <div class="col-md-12 profile-actions">
-            <ul>
-                <li><a href="<?=$config['url']['base_path']?>"><span class="glyphicon glyphicon-home"></span> News Feed</a></li>
-                <li class="active"><a href="<?=$config['url']['base_path']?>/profile.php"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-envelope"></span> Messages</a></li>
-            </ul>
-            <h4>Account Settings</h4>
-            <ul>
-                <li><a href="<?=$config['url']['base_path']?>/profile.php?action=edit&type=info"><span class="glyphicon glyphicon-pencil"></span> Edit Account</a></li>
-                <li><a href="<?=$config['url']['base_path']?>/profile.php?action=edit&type=security"><span class="glyphicon glyphicon-lock"></span> Change Password</a></li>
-                <li><a href="<?=$config['url']['base_path']?>/profile.php?action=edit&type=pic"><span class="glyphicon glyphicon-camera"></span> Change Profile Picture</a></li>
-            </ul>
-        </div>
+        <?php include_once 'include/include.side.bar.php'; ?>
     </div>
     <div id="main">
         <div class="profile-banner" >
@@ -122,7 +110,7 @@ $posts = getAllPosts($uid);
                 </div>
                 <div class="post-list">
                     <?php foreach($posts as $post): ?>
-                    <div class="media post" data-post-id="<?=$post['post_id']?>">
+                    <div class="media post <?=$post['isApproved'] == 0 ? 'alert alert-warning':''?>" data-post-id="<?=$post['post_id']?>">
                         <div class="media-left">
                             <a href="#">
                                 <img class="media-object img-circle" src="<?=$config['url']['profile_pic']?>/<?=$post['profile']?>" width="50" height="50" />

@@ -24,12 +24,11 @@ function removePost($postId, $userId) {
     $db = new DB;
     $sql =  "DELETE FROM `posts` ";
     $sql .= "WHERE ";
-    $sql .= "`user_id` = :user_id ";
-    $sql .= "AND `post_id` = :post_id ";
+    //$sql .= "`user_id` = :user_id ";
+    $sql .= "`post_id` = :post_id ";
 
     return $db->query($sql,
-                array("user_id" => $userId,
-                "post_id" => $postId));
+                array("post_id" => $postId));
 
 }
 

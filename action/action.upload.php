@@ -5,22 +5,35 @@ require_once '../class/class.session.php';
 require_once '../class/class.upload.php';
 require_once '../class/class.db.php';
 
-function save($user_id, $text, $media,$lat,$lng,$loc) {
+function save($user_id, $text, $media,$lat,$lng,$loc,$aname) {
     $db = new DB;
     $postId = $user_id.'_'.strtotime(date("Y-m-d H:i:s")).microtime(true);
 
     $sql =  "INSERT INTO ";
     $sql .= "`posts` ";
-    $sql .= "(`post_id`,`user_id`,`post_text`,`lat`,`lng`,`location`) ";
+    $sql .= "( ";
+    $sql .= "`post_id`,`user_id`,`post_text`,`lat`,`lng`,`location`";
+    if(!empty($aname)) {
+        $sql .= ",`aName` ";
+    }
+    $sql .= ") ";
     $sql .= "VALUES ";
-    $sql .= "(:id,:user_id,:text,:lat,:lng,:loc) ";
-    $db->query($sql,
-        Array("id" => $postId, 
-            "user_id" => $user_id,
-            "text" => $text,
-            "lat" => $lat,
-            "lng" => $lng,
-            "loc" => $loc));
+    $sql .= "( ";
+    $sql .= ":id,:user_id,:text,:lat,:lng,:loc";
+    if(!empty($aname)) {
+        $sql .= ",:aname ";
+    }
+    $sql .= ") ";
+    $params = array("id" => $postId, 
+                "user_id" => $user_id,
+                "text" => $text,
+                "lat" => $lat,
+                "lng" => $lng,
+                "loc" => $loc);
+    if(!empty($aname)) {
+        $params['aname'] = $aname;
+    }
+    $db->query($sql, $params);
 
     $mediaHash = $media["hash"];
     $mediaExt = $media["ext"];
@@ -40,13 +53,19 @@ function save($user_id, $text, $media,$lat,$lng,$loc) {
 }
 
 function create($media) {
+    global $config;
     $s = new Session;
     $data['status'] = 'failed';
     $text = httpPost('text');
     $lat = httpPost('lat');
     $lng = httpPost('lng');
     $loc = httpPost('loc');
-    $post_id = save($s->_get('id'),$text,$media,$lat,$lng,$loc);
+    $user_id = $config['var']['anonymous_id'];
+    $aname = httpPost('aname');
+    if($s->_get('id')) {
+        $user_id = $s->_get('id');
+    }
+    $post_id = save($user_id,$text,$media,$lat,$lng,$loc,$aname);
     
     $text = preg_replace("/(\r\n){3,}/","\r\n\r\n",trim($text));
 

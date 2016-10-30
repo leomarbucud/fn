@@ -1,12 +1,20 @@
 <?php 
 $s = new Session; 
-$uid = $s->_get('id');
+
+$uid = $config['var']['anonymous_id'];
+
+if($s->_get('id')) {
+    $uid = $s->_get('id');
+}
+
 function getAllPosts($userId) {
     global $config;
+    $anonymous_id = $config['var']['anonymous_id'];
     $db = new DB;
     $post_per_page = $config['post']['post_per_page'];
     $page = httpGet('page');
     $sql  = "SELECT ud.user_id, ud.firstname, ud.lastname, ud.profile, p.post_id, p.post_text, p.location, p.lat, p.lng, p.post_images, p.post_metas, p.post_created, ";
+    $sql .= "CASE WHEN ud.user_id = {$anonymous_id} THEN p.aName ELSE CONCAT(ud.firstname,' ',ud.lastname) END as name, ";
     $sql .= "(SELECT `media_hash` FROM `medias` as m WHERE m.post_id = p.post_id) as media_hash, ";
     $sql .= "(SELECT COUNT(hearts_id) FROM `hearts` as h WHERE h.post_id = p.post_id) as hearts, ";
     $sql .= "(SELECT COUNT(hearts_id) FROM `hearts` as h WHERE h.post_id = p.post_id AND h.hearts_rating = 1) as hearts_1, ";
@@ -20,9 +28,11 @@ function getAllPosts($userId) {
     $sql .= "ON p.user_id = u.id ";
     $sql .= "INNER JOIN `user_details` ud ";
     $sql .= "ON ud.user_id = u.id ";
+    $sql .= "WHERE ";
+    $sql .= "p.isApproved > 0 ";
     $sql .= "ORDER BY p.post_created DESC ";
     if($page > 1 ) {
-        $sql .= "LIMIT {$post_per_page} OFFSET ".($page * $post_per_page)." ";
+        $sql .= "LIMIT {$post_per_page} OFFSET ".(($page * $post_per_page) - $post_per_page)." ";
     } else {
         $sql .= "LIMIT {$post_per_page} ";
     }
@@ -55,26 +65,7 @@ $posts = getAllPosts($uid);
 ?>
 <div class="row-offcanvas row-offcanvas-left">
     <div id="sidebar" class="sidebar-offcanvas">
-        <div class="profile-side">
-            <img class="img-circle" src="<?=$config['url']['profile_pic']?>/<?=$s->_get('user')['profile']?>" width="50" height="50" />&nbsp;
-            <strong><?=$s->_get('user')['firstname']?> <?=$s->_get('user')['lastname']?></strong>
-            <div class="bio">
-                <?=$s->_get('user')['bio']?>
-            </div>
-        </div>
-        <div class="col-md-12 profile-actions">
-            <ul>
-                <li class="active"><a href="<?=$config['url']['base_path']?>"><span class="glyphicon glyphicon-home"></span> News Feed</a></li>
-                <li><a href="<?=$config['url']['base_path']?>/profile.php"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-envelope"></span> Messages</a></li>
-            </ul>
-            <h4>Account Settings</h4>
-            <ul>
-                <li><a href="<?=$config['url']['base_path']?>/profile.php?action=edit&type=info"><span class="glyphicon glyphicon-pencil"></span> Edit Account</a></li>
-                <li><a href="<?=$config['url']['base_path']?>/profile.php?action=edit&type=security"><span class="glyphicon glyphicon-lock"></span> Change Password</a></li>
-                <li><a href="<?=$config['url']['base_path']?>/profile.php?action=edit&type=pic"><span class="glyphicon glyphicon-camera"></span> Change Profile Picture</a></li>
-            </ul>
-        </div>
+        <?php include_once 'include/include.side.bar.php'; ?>
     </div>
     <div id="main">
         <div class="col-md-9">
@@ -82,35 +73,7 @@ $posts = getAllPosts($uid);
                 <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas"><i class="glyphicon glyphicon-chevron-left"></i></button>
             </p>
             <div class="news-feed">
-                <div class="status-box">
-                    <div class="media">
-                        <div class="media-left">
-                            <img class="media-object img-circle" src="<?=$config['url']['base_path']?>/assets/images/uploads/profiles/<?=$s->_get('user')['profile']?>" width="50" height="50" />
-                        </div>
-                        <div class="media-body">
-                            <form id="status-form" action="<?=$config['url']['base_path']?>/action/action.upload.php" enctype="multipart/form-data" data-toggle="validator" role="form">
-                                <input type="hidden" name="lat" id="lat" />
-                                <input type="hidden" name="lng" id="lng" />
-                                <input type="hidden" name="loc" id="loc" />
-                                <div class="panel panel-default">
-                                    <div class="image-preview hide"></div>
-                                    <div class="panel-body">
-                                        <textarea class="box" id="text" name="text" placeholder="Share your travels..." required></textarea>
-                                        <label class="my-location"><span class="glyphicon glyphicon-map-marker"></span> <span class="location">Looking where you are...</span></label>
-                                    </div>
-                                    <div class="panel-footer">
-                                        <span class="btn btn-default btn-sm btn-file">
-                                            <span class="glyphicon glyphicon-camera"></span>
-                                            <input type="file" name="postImg" id="post-image" required/>
-                                        </span>
-                                        <button type="submit" class="btn btn-success btn-sm pull-right">Post</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <hr>
-                </div>
+                <?php include_once 'include/include.status.box.php'; ?>
                 <div class="post-list">
                     <?php foreach($posts as $post): ?>
                     <div class="media post feed" data-post-id="<?=$post['post_id']?>">
@@ -126,14 +89,14 @@ $posts = getAllPosts($uid);
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="p-a">
                                     <li><a href="<?=$config['url']['base_path']?>/post.php?action=view&type=post&post=<?=$post['post_id']?>">View Post</a></li>
-                                    <?php if($uid == $post['user_id']): ?>
+                                    <?php if($s->_get('id') == $post['user_id']): ?>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="<?=$config['url']['base_path']?>/post.php?action=edit&type=post&post=<?=$post['post_id']?>">Edit Post</a></li>
                                     <li><a href="<?=$config['url']['base_path']?>/post.php?action=delete&type=post&post=<?=$post['post_id']?>&rUrl=<?=$_SERVER['REQUEST_URI']?>">Remove Post</a></li>
                                     <?php endif; ?>
                                 </ul>
                             </div>
-                            <h4 class="name"><a href="#"><?=$post['firstname']?> <?=$post['lastname']?></a></h4>
+                            <h4 class="name"><a href="#"><?=$post['name']?></a></h4>
                             <label class="my-location"><span class="glyphicon glyphicon-map-marker"></span> <?=$post['location']?></label>
                             <span class="moment" data-toggle="moment" data-time="<?=$post['post_created']?>" ><?=$post['post_created']?></span>
                             <div class="image">
@@ -211,10 +174,10 @@ $posts = getAllPosts($uid);
                     }
                 ?>
                 <?php if($page-1 > 1): ?>
-                <a href="<?=$config['url']['base_path']?>/?page=<?=$page-2?>">Previous</a>
+                <a href="<?=$config['url']['base_path']?>/newsfeed.php?page=<?=$page-2?>">Previous</a>
                 <?php endif; ?>
                 <?php if(count($posts) > 0): ?>
-                <a href="<?=$config['url']['base_path']?>/?page=<?=$page?>" class="pull-right">Next</a>
+                <a href="<?=$config['url']['base_path']?>/newsfeed.php?page=<?=$page?>" class="pull-right">Next</a>
                 <?php endif; ?>
             </div>
         </div>

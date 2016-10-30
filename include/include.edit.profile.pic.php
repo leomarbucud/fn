@@ -6,26 +6,7 @@ $user['email'] = $s->_get('email');
 ?>
 <div class="row-offcanvas row-offcanvas-left">
     <div id="sidebar" class="sidebar-offcanvas">
-        <div class="profile-side">
-            <img class="img-circle" src="<?=$config['url']['profile_pic']?>/<?=$s->_get('user')['profile']?>" width="50" height="50" />&nbsp;
-            <strong><?=$s->_get('user')['firstname']?> <?=$s->_get('user')['lastname']?></strong>
-            <div class="bio">
-                <?=$s->_get('user')['bio']?>
-            </div>
-        </div>
-        <div class="col-md-12 profile-actions">
-            <ul>
-                <li><a href="<?=$config['url']['base_path']?>"><span class="glyphicon glyphicon-home"></span> News Feed</a></li>
-                <li><a href="<?=$config['url']['base_path']?>/profile.php"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-envelope"></span> Messages</a></li>
-            </ul>
-            <h4>Account Settings</h4>
-            <ul>
-                <li><a href="<?=$config['url']['base_path']?>/profile.php?action=edit&type=info"><span class="glyphicon glyphicon-pencil"></span> Edit Account</a></li>
-                <li><a href="<?=$config['url']['base_path']?>/profile.php?action=edit&type=security"><span class="glyphicon glyphicon-lock"></span> Change Password</a></li>
-                <li class="active"><a href="<?=$config['url']['base_path']?>/profile.php?action=edit&type=pic"><span class="glyphicon glyphicon-camera"></span> Change Profile Picture</a></li>
-            </ul>
-        </div>
+        <?php include_once 'include/include.side.bar.php'; ?>
     </div>
     <div id="main">
         <div class="col-md-9">

@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-success">Register</button> | <a href="<?=$config['url']['base_path']?>">Login</a>
+                        <button type="submit" class="btn btn-success">Register</button> | <a href="<?=$config['url']['base_path']?>?login=true">Login</a>
                     </div>
                 </form>
             </div>

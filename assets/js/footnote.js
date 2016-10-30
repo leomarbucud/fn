@@ -104,57 +104,40 @@ var footnote = (function($, document) {
             // upload
             function($) {
 
-                $('form#status-form').on('submit', function(e) {
+                $('form#status-form').validator().on('submit', function(e) {
+                    if (e.isDefaultPrevented()) {
+                        var message = `
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <strong>Error!</strong><br/>Please describe your experience and upload your image.
+                        </div>
+                        <hr>
+                        `;
+                        $('.post-list').prepend(message);
+                        return;
+                    }
                     e.preventDefault();
                     var formData = new FormData($(this)[0]);
+                    var form = $(this);
                     console.log(formData);
+
                     $.ajax({
                         url: $(this).attr('action'),
                         type: 'POST',
                         data: formData,
                         async: false,
                         success: function(data) {
-                            var newPost = `
-                            <div class="media post" data-post-id="{0}">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object img-circle" src="{1}" width="50" height="50" />
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <h4 class="name"><a href="#">{2}</a></h4>
-                                    <label class="my-location"><span class="glyphicon glyphicon-map-marker"></span> {3}</label>
-                                    <span class="moment" data-toggle="moment">{4}</span>
-                                    <div class="image">
-                                        <img class="" src="{5}&type=post" />
-                                    </div>
-                                    <p>{6}</p>
-                                    <span class="likes">0 like</span>
-                                    <hr>
-                                    <div class="actions">
-                                        <form class="add-comment" action="/fn/action/action.comment.php" data-toggle="validator" data-post-id="{0}>">
-                                            <input type="hidden" name="post_id" value="{0}" />
-                                            <input type="text" name="comment" class="form-control comment-box" placeholder="Write comment..." required/>
-                                        </form>
-                                        <a href="#" data-toggle="like" data-post-id="{0}" class="favorite"><span class="glyphicon glyphicon-heart-empty"></span></a>
-                                    </div>
-                                    <hr>
-                                </div>
+                            var message = `
+                            <div class="alert alert-success alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <strong>Thank you for posting!</strong><br/>Your post will be verified by the admin and will be shown to our news feed if approved.
                             </div>
                             <hr>
                             `;
-                            $('.post-list').prepend(String.format(newPost,
-                                data.post_id,
-                                config.profile_pic + '/' + data.profile,
-                                data.firstname + ' ' + data.lastname,
-                                data.location,
-                                data.post_created,
-                                config.post_pic + data.media_hash,
-                                data.post_text
-
-                            ));
+                            $('.post-list').prepend(message);
                             $(".image-preview").addClass('hide');
                             $('#text').val('');
+                            //form.reset();
                             moments.init();
                         },
                         cache: false,
@@ -312,11 +295,110 @@ var footnote = (function($, document) {
             function($) {
                 var textarea = document.getElementById("text");
                 var limit = 200;
+                if(textarea) {
+                    textarea.oninput = function() {
+                        textarea.style.height = "";
+                        textarea.style.height = Math.min(textarea.scrollHeight, 300) + "px";
+                    };
+                }
+            },
 
-                textarea.oninput = function() {
-                    textarea.style.height = "";
-                    textarea.style.height = Math.min(textarea.scrollHeight, 300) + "px";
-                };
+            function($) {
+                $('#placeImage').on("change", function() {
+                    var files = !!this.files ? this.files : [];
+                    console.log(files);
+                    if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+
+                    if (/^image/.test(files[0].type)) { // only image file
+                        var reader = new FileReader(); // instance of the FileReader
+                        reader.readAsDataURL(files[0]); // read the local file
+
+                        reader.onloadend = function() { // set image data as background of div
+
+                            var img = '<div class="image thumbnail" style="max-width: 300px;">' +
+                                '<img src="' + this.result + '" data-action="zoom"/>' +
+                                '</div>';
+
+                            $("#imagePrev")
+                                .html('')
+                                .append(img)
+                                .removeClass('hide');
+                        }
+                    }
+                });
+            },
+
+            function($) {
+                $('#galleryImages').on("change", function() {
+                    var files = !!this.files ? this.files : [];
+                    
+                    if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+
+                    $("#imagesPrev").html('');
+
+                    var count = 0;
+                    for(var i=0; i<files.length; i++) {
+                        if (/^image/.test(files[i].type)) { // only image file
+                            var reader = new FileReader(); // instance of the FileReader
+                            reader.readAsDataURL(files[i]); // read the local file
+
+                            reader.onloadend = function() {
+                                count += 1;
+                                var img = '<div class="image thumbnail col-md-3" style="">' +
+                                    '<img src="' + this.result + '" data-action="zoom"/>' +
+                                    '</div>';
+
+                                
+
+                                if(count % 4 == 0 ) {
+                                    img += '<div class="clearfix"></div>';
+                                    count = 0;
+                                }
+
+                                $("#imagesPrev")
+                                    .append(img)
+                                    .removeClass('hide');
+                            }
+                        }
+                    } 
+                });
+            },
+            //tooltip
+            function($) {
+                $('[data-toggle="tooltip"]').tooltip();
+            },
+            // change location
+
+            function($) {
+                $('#status-form span.location').dblclick(function(e){
+                    var location = $(this).text();
+                    e.preventDefault();
+
+                    $(this).attr('contentEditable', true).blur(function(){
+                        if($(this).text() == '') {
+                            $(this).text(location);
+                        }
+                        $(this).attr('contentEditable', false);
+                        $('#status-form #loc').val($(this).text());
+                    });
+                });
+            },
+
+            // approve post
+            function($) {
+                $('a[data-action="approve-post"]').click(function(e){
+                    e.preventDefault()
+                    var url = $(this).attr('href');
+                    var post_id = $(this).data('post-id');
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        success: function(response) {
+                            console.log(response);
+                            $('.media.post[data-post-id="'+post_id+'"]').addClass('alert alert-success');
+                        }
+                    });
+                });
             }
 
         ],

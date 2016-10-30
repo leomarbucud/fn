@@ -10,7 +10,7 @@ require_once 'class/class.db.php';
 $session = new Session;
 
 if(!$session->_get('id')) {
-    header("location: {$config['url']['base_path']}");
+    //header("location: {$config['url']['base_path']}");
 }
 
 include_once 'include/include.header.php';
