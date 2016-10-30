@@ -14,6 +14,10 @@ if (!String.format) {
         });
     };
 }
+Number.prototype.format = function(n, x) {
+    var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+    return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+};
 var moments = (function($, document) {
     var evt = [
             // moment
@@ -243,10 +247,19 @@ var footnote = (function($, document) {
 
             // datepicker
             function($) {
+                var tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                $("#book-date").datepicker({
+                    autoclose: true,
+                    startDate: tomorrow
+                }); 
+
                 $('[data-toggle=datepicker], input[type=date]').each(function() {
-                    $(this).datepicker({});
-                    console.log($(this));
+                    $(this).datepicker({
+                        autoclose: true,
+                    });
                 });
+                
             },
 
             // select radius
@@ -398,6 +411,19 @@ var footnote = (function($, document) {
                             $('.media.post[data-post-id="'+post_id+'"]').addClass('alert alert-success');
                         }
                     });
+                });
+            },
+
+            //booking
+
+            function ($) {
+                var person = $("#book-person").val();
+                var price = $('#package-price').val();
+                $('#book-total').text((person * price).format(2));
+                $('#book-person').change(function(){
+                    var person = $(this).val();
+                    var price = $('#package-price').val();
+                    $('#book-total').text((person * price).format(2));
                 });
             }
 

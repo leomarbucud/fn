@@ -1,5 +1,6 @@
-body {
+body,html {
     /*padding-top: 50px;*/
+    min-height: 100%;
 }
 
 
@@ -11,7 +12,7 @@ html {
 }*/
 
 .m-t-50 {
-    margin-top: 50px;
+    padding-top: 50px;
 }
 
 .nb-g {
@@ -773,5 +774,6 @@ body {
     min-height:  100%;
     height: auto !important;
     height: 100%;
-    margin-bottom: -94px;
+    margin-bottom: -44px;
+    padding-bottom: 94px;
 }

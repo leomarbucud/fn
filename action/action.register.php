@@ -1,6 +1,6 @@
 <?php
 
-function register($username,$email,$hash_password,$hash) {
+function register($username,$email,$hash_password,$hash,$firstname,$lastname,$contact) {
     $db = new DB;
 
     $sql =  "INSERT INTO `users` ";
@@ -12,8 +12,8 @@ function register($username,$email,$hash_password,$hash) {
     $user_id = $db->lastInsertId();
 
     $sql =  "INSERT INTO `user_details` ";
-    $sql .= "(`user_id`) VALUES (:userid)";
-    $db->query($sql, Array("userid"=>$user_id));
+    $sql .= "(`user_id`,`firstname`,`lastname`,`contact`) VALUES (:userid,:firstname,:lastname,:contact)";
+    $db->query($sql, Array("userid"=>$user_id, "firstname" => $firstname, "lastname" => $lastname, "contact" => $contact));
 
     return $register;
 }
@@ -56,11 +56,15 @@ if ( !empty($_POST) ) {
     $password = httpPost('password');
     $hash_password = password_hash($password. $config['var']['hash_password'], PASSWORD_DEFAULT);
 
+    $firstname = httpPost('firstname');
+    $lastname = httpPost('lastname');
+    $contact = httpPost('contact');
+
     if(userExist($username)) {
         header("location: ".$config['url']['base_path']."/register.php?error=register&username={$login}&email={$email}");
     } else {
         $hash = md5( rand(0,1000) );
-        $register = register($username,$email,$hash_password,$hash);
+        $register = register($username,$email,$hash_password,$hash,$firstname,$lastname,$contact);
         if($register) {
             sendVerificationMail($username, $email, $hash);
             header("location: ".$config['url']['base_path']."/login.php?action=jr&username={$login}");

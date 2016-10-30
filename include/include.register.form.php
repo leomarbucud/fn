@@ -1,4 +1,4 @@
-<div class="aligner login-wrapper">
+<div class="aligner login-wrapper m-t-50">
     <div class="aligner-item">
         <div class="panel panel-success">
             <div class="panel-heading">
@@ -13,6 +13,18 @@
                 <?php endif; ?>
                 <form action="<?=$config['url']['base_path']?>/register.php" method="POST" data-toggle="validator" role="form">
                     <div class="form-group">
+                        <label for="firstname" class="control-label">First Name</label>
+                        <input type="text" name="firstname" class="form-control" id="firstname" placeholder="First name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastname" class="control-label">Last Name</label>
+                        <input type="text" name="lastname" class="form-control" id="lastname" placeholder="Last name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact" class="control-label">Contact No.</label>
+                        <input type="text" name="contact" class="form-control" id="contact" placeholder="Contact No." required>
+                    </div>
+                     <div class="form-group">
                         <label for="username" class="control-label">Username</label>
                         <input type="text" name="username" class="form-control" id="username" placeholder="Username" required>
                     </div>
