@@ -16,7 +16,7 @@ $places = $db->rows($sql);
 				<div class="col-md-7">
 					<h1>It's more fun in the Philippines!</h1>
 					<p>Visit the top destinations here in the Philippines.</p>
-					<p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+					<p><a class="btn btn-primary btn-lg" href="<?=$config['url']['base_path']?>/about.php" role="button">Learn more</a></p>
 				</div>
 			</div>
 		</div>
