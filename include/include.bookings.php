@@ -134,6 +134,9 @@ $bookings = $db->rows($sql, array("user_id" => $user_id));
                         <?php endforeach; ?>
                         </tbody>
                     </table>
+                    <?php if(count($bookings) == 0 ): ?>
+                    <div class="alert alert-info">You have no bookings</div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
