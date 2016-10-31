@@ -39,6 +39,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="<?=$config['url']['base_path']?>/profile.php">Profile</a></li>
+            <li><a href="<?=$config['url']['base_path']?>/bookings.php">Bookings</a></li>
             <?php if($s->_get('level') == '1' ) : ?>
             <li><a href="<?=$config['url']['base_path']?>/admin.php">Admin Panel</a></li>
             <?php  endif; ?> 

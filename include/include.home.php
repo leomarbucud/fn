@@ -116,7 +116,7 @@ $posts = getAllPosts($uid);
                                     <input type="hidden" name="post_id" value="<?=$post['post_id']?>" />
                                     <input type="text" name="comment" class="form-control comment-box" placeholder="Write comment..." required/>
                                 </form>
-                                <a data-toggle="like" data-post-id="<?=$post['post_id']?>" class="favorite <?=($post['hearts_given']?'red':'')?>">
+                                <a data-login="<?=($s->_get('id')?'true':'false')?>" data-toggle="like" data-post-id="<?=$post['post_id']?>" class="favorite <?=($post['hearts_given']?'red':'')?>">
                                     <span class="glyphicon glyphicon-heart<?=($post['hearts_given']?'':'-empty')?>"></span>
                                 </a>
                                 <?php /*<div class="like-btn">

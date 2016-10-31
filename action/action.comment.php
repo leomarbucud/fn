@@ -46,6 +46,10 @@ $s = new Session;
 $comment = httpPost('comment');
 $post_id = httpPost('post_id');
 $userId = $s->_get('id');
+// anonymouse user
+if(!$userId) {
+    $userId = $config['var']['anonymous_id'];
+}
 $comments = false;
 if($comment && $post_id) {
     $result = addComment($post_id, $comment, $userId);

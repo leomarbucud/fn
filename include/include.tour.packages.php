@@ -54,7 +54,7 @@ $place = $db->row($sql, array("place_id" => $place_id));
 							</div>
 						</div>
 						<?php if($counter % 3 == 0) : ?>
-						<div class="clearfix"></div>
+						<!-- <div class="clearfix"></div> -->
 						<?php endif; ?>
 						<?php $counter++; ?>
 						<?php endforeach; ?>

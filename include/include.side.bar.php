@@ -23,6 +23,7 @@
     <ul>
         <li><a href="<?=$config['url']['base_path']?>/newsfeed.php"><span class="glyphicon glyphicon-home"></span> News Feed</a></li>
         <li><a href="<?=$config['url']['base_path']?>/profile.php"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+        <li><a href="<?=$config['url']['base_path']?>/bookings.php"><span class="glyphicon glyphicon-book"></span> My Bookings</a></li>
     </ul>
     <h4>Account Settings</h4>
     <ul>
@@ -42,12 +43,13 @@
         <li><a href="<?=$config['url']['base_path']?>/places.php"><span class="glyphicon glyphicon-map-marker"></span> Places</a></li>
         <li><a href="<?=$config['url']['base_path']?>/gallery.php"><span class="glyphicon glyphicon-picture"></span> Gallery</a></li>
         <li><a href="<?=$config['url']['base_path']?>/packages.php"><span class="glyphicon glyphicon-picture"></span> Tour Packages</a></li>
+        <li><a href="<?=$config['url']['base_path']?>/admin.bookings.php"><span class="glyphicon glyphicon-book"></span> Bookings</a></li>
     </ul>
+    <?php endif; ?>
     <hr>
     <ul>
         <li><a href="<?=$config['url']['base_path']?>/logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
     </ul>
-    <?php endif; ?>
     <?php else: ?>
     <ul>
         <li><a href="<?=$config['url']['base_path']?>/newsfeed.php"><span class="glyphicon glyphicon-home"></span> News Feed</a></li>

@@ -34,11 +34,13 @@
                     <div class="form-group">
                         <label for="username">Username <small>(or email)</small></label>
                         <input type="username" name="login" id="username" class="form-control" placeholder="Username or Email" required value="<?=httpGet('username')?>">
+                        <div class="help-block with-errors"></div>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
                         <input type="password" name="password" id="password" class="form-control" placeholder="Password" required value="">
                         <div class="help-block"><a href="<?=$config['url']['base_path']?>/forgot.php">Forgot password?</a></div>
+                        <div class="help-block with-errors"></div>
                     </div>
                     <div class="checkbox">
                         <label>

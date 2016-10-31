@@ -180,24 +180,30 @@ var footnote = (function($, document) {
                     e.preventDefault();
                     var post_id = $(this).data('post-id');
                     var self = $(this);
-                    $.ajax({
-                        url: config.base_path + '/action/action.heart.post.php',
-                        type: 'POST',
-                        data: { rating: 5, post_id: post_id },
-                        success: function(data) {
-                            if (data.hearts_given > 0) {
-                                self.addClass('red');
-                                $('span', self).removeClass('glyphicon-heart-empty')
-                                    .addClass('glyphicon-heart');
-                            } else {
-                                self.removeClass('red');
-                                $('span', self).removeClass('glyphicon-heart')
-                                    .addClass('glyphicon-heart-empty');
+                    var isLogin = self.data('login');
+
+                    if(isLogin) {
+                        $.ajax({
+                            url: config.base_path + '/action/action.heart.post.php',
+                            type: 'POST',
+                            data: { rating: 5, post_id: post_id },
+                            success: function(data) {
+                                if (data.hearts_given > 0) {
+                                    self.addClass('red');
+                                    $('span', self).removeClass('glyphicon-heart-empty')
+                                        .addClass('glyphicon-heart');
+                                } else {
+                                    self.removeClass('red');
+                                    $('span', self).removeClass('glyphicon-heart')
+                                        .addClass('glyphicon-heart-empty');
+                                }
+                                $('.post[data-post-id="' + post_id + '"] .likes')
+                                    .text(data.total + " " + (data.total > 1 ? 'likes' : 'like'));
                             }
-                            $('.post[data-post-id="' + post_id + '"] .likes')
-                                .text(data.total + " " + (data.total > 1 ? 'likes' : 'like'));
-                        }
-                    });
+                        });
+                    } else {
+                        alert('Please login first');
+                    }
                 });
             },
 
@@ -419,11 +425,77 @@ var footnote = (function($, document) {
             function ($) {
                 var person = $("#book-person").val();
                 var price = $('#package-price').val();
-                $('#book-total').text((person * price).format(2));
+                var total = (person * price).format(2)
+                $('#book-total').text(total);
+                $("#total").val(total);
                 $('#book-person').change(function(){
                     var person = $(this).val();
                     var price = $('#package-price').val();
-                    $('#book-total').text((person * price).format(2));
+                     var total = (person * price).format(2)
+                    $('#book-total').text(total);
+                    $("#total").val(total);
+                });
+
+                $('#booking-form').validator().on('submit', function(e) {
+                    $form = $(this);
+                    if (e.isDefaultPrevented()) {
+
+                    } else {
+                        e.preventDefault();
+                        $.ajax({
+                            url: $form.attr('action'),
+                            type: 'POST',
+                            data: $form.serialize(),
+                            success: function(response) {
+                                $('.alert', $form).remove();
+                                if(response.status == 'success') {
+                                    $form.addClass('hide');
+                                    $form.parent().append('<div class="alert alert-success">'+response.message+'</div>');
+                                } else {
+                                    $form.parent().append('<div class="alert alert-danger">'+response.message+'</div>');
+                                }
+                            }
+                        });
+                    }
+                });
+            },
+
+            // cancel booking
+            function ($) {
+                $('[data-action="cancel-booking"]').click(function(e){
+                    var $button = $(this);
+                    $.ajax({
+                        url: config.base_path + '/action/action.cancel.booking.php',
+                        type: 'POST',
+                        data: { action: 'cancel', status_code: $button.data('status-code'), booking_id: $button.data('booking-id') },
+                        success: function(response) {
+                            if(response.status == 'success') {
+                                alert('Successfully cancelled');
+                                window.location.reload();
+                            }
+                        }
+                    });
+                });
+            },
+
+            // admin: change booking status
+
+            function($) {
+                $('[data-action="change-status"]').change(function(e){
+                    var status_code = $(this).val();
+                    var booking_id = $(this).data('booking-id');
+                    $.ajax({
+                        url: config.base_path + '/action/action.update.booking.status.php',
+                        type: 'POST',
+                        data: { action: 'update', status_code: status_code, booking_id: booking_id },
+                        success: function(response) {
+                            console.log(response);
+                            if(response.status == 'success') {
+                               // alert('Successfully cancelled');
+                                window.location.reload();
+                            }
+                        }
+                    });
                 });
             }
 
