@@ -21,6 +21,12 @@ $s = new Session;
                 <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas"><i class="glyphicon glyphicon-chevron-left"></i></button>
             </p>
             <div class="admin-page">
+            	<?php if(isset($update)) : ?>
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Success!</strong> Place successfully updated!
+                </div>
+                <?php endif; ?>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Places</h3>
@@ -55,7 +61,7 @@ $s = new Session;
                     				<?=$place['gallery_name']?>
                     			</td>
                     			<td>
-                    				<a href="<?=$config['url']['base_path']?>/places.php?action=edit&place_id=<?=$place['place_id']?>" >Edit</a> | <a href="">Delete</a>
+                    				<a href="<?=$config['url']['base_path']?>/places.php?action=edit&place_id=<?=$place['place_id']?>" >Edit</a> | <a href="" data-action="delete-place" data-place-id="<?=$place['place_id']?>">Delete</a>
                     			</td>
                     		</tr>
                     	<?php endforeach;?>

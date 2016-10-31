@@ -11,6 +11,7 @@ function updateProfile($info) {
     $sql .= "`lastname` = :lastname, "; 
     $sql .= "`birthdate` = :birthdate, ";
     $sql .= "`address` = :address, ";
+    $sql .= "`contact` = :contact, ";
     $sql .= "`gender` = :gender, ";
     $sql .= "`bio` = :bio ";
     $sql .= "WHERE `user_id` = :user_id";
@@ -41,6 +42,7 @@ function updateSession() {
     $sql .= "ud.firstname, ";
     $sql .= "ud.middlename, ";
     $sql .= "ud.address, ";
+    $sql .= "ud.contact, ";
     $sql .= "ud.birthdate, ";
     $sql .= "ud.gender, ";
     $sql .= "ud.bio, ";
@@ -74,6 +76,7 @@ if($action == 'update' && $type == 'info' && $_POST) {
         "lastname" => httpPost('lastname'),
         "birthdate" => httpPost('birthdate'),
         "address" => httpPost('address'),
+        "contact" => httpPost('contact'),
         "gender" => httpPost('gender'),
         "bio" => httpPost('bio'),
         "user_id" => $s->_get('id')

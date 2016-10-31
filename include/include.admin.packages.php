@@ -3,6 +3,7 @@
 $db = new DB;
 
 $sql =  "SELECT ";
+$sql .= "p.package_id, ";
 $sql .= "p.package_name, ";
 $sql .= "p.place_id, ";
 $sql .= "p.package_price, ";
@@ -32,6 +33,12 @@ $s = new Session;
                 <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas"><i class="glyphicon glyphicon-chevron-left"></i></button>
             </p>
             <div class="admin-page">
+                <?php if(isset($update)) : ?>
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Success!</strong> Package successfully updated!
+                </div>
+                <?php endif; ?>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Places</h3>
@@ -66,7 +73,7 @@ $s = new Session;
                     				<?=$package['package_details']?>
                     			</td>
                     			<td>
-                    				<a href="<?=$config['url']['base_path']?>/places.php?action=edit&place_id=<?=$packages['package_id']?>" >Edit</a> | <a href="">Delete</a>
+                    				<a href="<?=$config['url']['base_path']?>/packages.php?action=edit&package_id=<?=$package['package_id']?>" >Edit</a> | <a href="" data-action="delete-package" data-package-id="<?=$package['package_id']?>">Delete</a>
                     			</td>
                     		</tr>
                     	<?php endforeach;?>

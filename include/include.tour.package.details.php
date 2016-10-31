@@ -77,7 +77,7 @@ $images = $db->rows($sql, array("gallery_id" => $package_details['gallery_id']))
 				</div>
 				<div class="col-md-4">
 					<h1><?=$package_details['package_name']?></h1>
-					<h2>PHP <?=money_format('%i', $package_details['package_price'])?></h2>
+					<h2><span class="label label-success">PHP <?=money_format('%i', $package_details['package_price'])?></span></h2>
 					<h3>Package details</h3>
 					<dl>
 						<dt>Destination</dt>

@@ -15,14 +15,12 @@ if(httpGet('action') == 'save') {
 	require_once 'action/action.add.package.php';
 	include_once 'include/include.admin.packages.php';
 } elseif(httpGet('action') == 'update') {
-	require_once 'action/action.update.place.php';
-	include_once 'include/include.admin.places.php';
-}
-
-if(httpGet('action') == 'add') {
+	require_once 'action/action.update.package.php';
+	include_once 'include/include.admin.packages.php';
+} elseif(httpGet('action') == 'add') {
 	include_once 'include/include.admin.add.package.php';
 } elseif (httpGet('action') == 'edit') {
-	include_once 'include/include.admin.edit.place.php';
+	include_once 'include/include.admin.edit.package.php';
 } else {
 	include_once 'include/include.admin.packages.php';
 }

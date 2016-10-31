@@ -31,14 +31,18 @@ $user['email'] = $s->_get('email');
                                 <div class="form-inline row">
                                     <div class="form-group col-sm-6">
                                         <input type="text" name="firstname" class="form-control" id="firstname" placeholder="First name" value="<?=$user['firstname']?>" required>
+                                        <div class="help-block with-errors"></div>
                                     </div>
                                     <div class="form-group col-sm-6">
                                         <input type="text" name="lastname" class="form-control" id="lastname" placeholder="Last name" value="<?=$user['lastname']?>" required>
+                                        <div class="help-block with-errors"></div>
                                     </div>
-                                    <!--<div class="form-group col-sm-4">
-                                        <input type="text" name="middlename" class="form-control" id="middlename" placeholder="Middle name" value="<?=$user['middlename']?>" required>
-                                    </div>-->
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail" class="control-label">Contact</label>
+                                <input type="text" class="form-control" id="contact" name="contact" placeholder="Contact No." value="<?=$user['contact']?>" required>
+                                <div class="help-block with-errors"></div>
                             </div>
                             <div class="form-group">
                                 <label for="inputEmail" class="control-label">Email</label>
@@ -49,7 +53,7 @@ $user['email'] = $s->_get('email');
                                 <div class="form-inline row">
                                     <div class="form-group col-sm-6">
                                         <label for="" class="control-label">Birthdate</label>
-                                        <input type="date" name="birthdate" class="form-control" placeholder="YYYY-MM-DD" value="<?=$user['birthdate']?>"  required>
+                                        <input type="text" data-toggle="datepicker" name="birthdate" class="form-control"  value="<?=$user['birthdate']?>"  required>
                                     </div>
                                     <div class="form-group col-sm-6">
                                         <label for="" class="control-label">Gender</label>

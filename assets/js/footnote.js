@@ -263,6 +263,8 @@ var footnote = (function($, document) {
                 $('[data-toggle=datepicker], input[type=date]').each(function() {
                     $(this).datepicker({
                         autoclose: true,
+                        endDate: '-3d',
+                        startView: 'years'
                     });
                 });
                 
@@ -496,6 +498,54 @@ var footnote = (function($, document) {
                             }
                         }
                     });
+                });
+            },
+
+            // delete package
+            function($) {
+                $('[data-action="delete-package"]').click(function(e){
+                    e.preventDefault();
+                    var del = confirm("Are you sure you want to delete this?");
+                    var self = $(this);
+                    if(del) {
+                        $.ajax({
+                            url: config.base_path + '/action/action.delete.package.php',
+                            type: 'POST',
+                            data: { action: 'delete', package_id: self.data('package-id') },
+                            success: function(response) {
+                                if(response.status == 'success') {
+                                    self.closest('tr').remove();
+                                }
+                            }
+                        });
+
+                    } else {
+                        
+                    }
+                });
+            },
+
+            // delete place
+            function($) {
+                $('[data-action="delete-place"]').click(function(e){
+                    e.preventDefault();
+                    var del = confirm("Are you sure you want to delete this?");
+                    var self = $(this);
+                    if(del) {
+                        $.ajax({
+                            url: config.base_path + '/action/action.delete.place.php',
+                            type: 'POST',
+                            data: { action: 'delete', place_id: self.data('place-id') },
+                            success: function(response) {
+                                if(response.status == 'success') {
+                                    self.closest('tr').remove();
+                                }
+                            }
+                        });
+
+                    } else {
+                        
+                    }
                 });
             }
 
