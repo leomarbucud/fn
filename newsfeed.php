@@ -23,6 +23,7 @@ if(!$session->_get('id')) {
         $sql .= "ud.lastname, ";
         $sql .= "ud.firstname, ";
         $sql .= "ud.middlename, ";
+        $sql .= "ud.contact, ";
         $sql .= "ud.address, ";
         $sql .= "ud.birthdate, ";
         $sql .= "ud.gender, ";
