@@ -29,6 +29,12 @@ function getImages($gallery_id) {
                 <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas"><i class="glyphicon glyphicon-chevron-left"></i></button>
             </p>
             <div class="admin-page">
+                <?php if(isset($update)) : if($update) : ?>
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Successfully updated!</strong> 
+                </div>
+                <?php endif; endif; ?>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Gallery</h3>
@@ -60,8 +66,8 @@ function getImages($gallery_id) {
                                         <img src="<?=$config['url']['gallery']?>/<?=$image['image_hash']?>" style="width: 50px;" class="" data-action="zoom"/>
                                     <?php endforeach; ?>
                     			</td>
-                    			<td>
-                    				<a href="<?=$config['url']['base_path']?>/gallery.php?action=add_images&gallery_id=<?=$gallery['gallery_id']?>&gallery_name=<?=$gallery['gallery_name']?>" class="btn btn-sucess">Add images</a>
+                    			<td width="200">
+                                    <a href="<?=$config['url']['base_path']?>/gallery.php?action=edit&gallery_id=<?=$gallery['gallery_id']?>&gallery_name=<?=$gallery['gallery_name']?>" class="btn btn-sucess">Edit</a>|<a href="<?=$config['url']['base_path']?>/gallery.php?action=delete&gallery_id=<?=$gallery['gallery_id']?>&gallery_name=<?=$gallery['gallery_name']?>" class="btn btn-sucess">Delete</a>|<a href="<?=$config['url']['base_path']?>/gallery.php?action=add_images&gallery_id=<?=$gallery['gallery_id']?>&gallery_name=<?=$gallery['gallery_name']?>" class="btn btn-sucess">Add images</a>
                     			</td>
                     		</tr>
                     	<?php endforeach;?>

@@ -76,109 +76,100 @@ $posts = getAllPosts($uid);
                 <?php include_once 'include/include.status.box.php'; ?>
                 <div class="post-list">
                     <?php foreach($posts as $post): ?>
-                    <div class="media post feed" data-post-id="<?=$post['post_id']?>">
-                        <div class="media-left">
-                            <a href="#">
-                                <img class="media-object img-circle" src="<?=$config['url']['profile_pic']?>/<?=$post['profile']?>" width="50" height="50" />
-                            </a>
-                        </div>
-                        <div class="media-body">
-                            <div class="dropdown pull-right">
-                                <a href="#" class="dropdown-toggle" id="p-a" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="caret"></span>
+                        <div class="media post feed" data-post-id="<?=$post['post_id']?>">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img class="media-object img-circle" src="<?=$config['url']['profile_pic']?>/<?=$post['profile']?>" width="50" height="50" />
                                 </a>
-                                <ul class="dropdown-menu" aria-labelledby="p-a">
-                                    <li><a href="<?=$config['url']['base_path']?>/post.php?action=view&type=post&post=<?=$post['post_id']?>">View Post</a></li>
-                                    <?php if($s->_get('id') == $post['user_id']): ?>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="<?=$config['url']['base_path']?>/post.php?action=edit&type=post&post=<?=$post['post_id']?>">Edit Post</a></li>
-                                    <li><a href="<?=$config['url']['base_path']?>/post.php?action=delete&type=post&post=<?=$post['post_id']?>&rUrl=<?=$_SERVER['REQUEST_URI']?>">Remove Post</a></li>
+                            </div>
+                            <div class="media-body">
+                                <div class="dropdown pull-right">
+                                    <a href="#" class="dropdown-toggle" id="p-a" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="p-a">
+                                        <li><a href="<?=$config['url']['base_path']?>/post.php?action=view&type=post&post=<?=$post['post_id']?>">View Post</a></li>
+                                        <?php if($s->_get('id') == $post['user_id']): ?>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="<?=$config['url']['base_path']?>/post.php?action=edit&type=post&post=<?=$post['post_id']?>">Edit Post</a></li>
+                                            <li><a href="<?=$config['url']['base_path']?>/post.php?action=delete&type=post&post=<?=$post['post_id']?>&rUrl=<?=$_SERVER['REQUEST_URI']?>">Remove Post</a></li>
+                                        <?php endif; ?>
+                                    </ul>
+                                </div>
+                                <h4 class="name"><a href="#"><?=$post['name']?></a></h4>
+                                <label class="my-location"><span class="glyphicon glyphicon-map-marker"></span> <?=$post['location']?></label>
+                                <span class="moment" data-toggle="moment" data-time="<?=$post['post_created']?>" ><?=$post['post_created']?></span>
+                                <div class="image">
+                                    <img class="" src="<?=$config['url']['base_path']?>/media.php?hash=<?=$post['media_hash']?>&type=post" data-action="zoom"/>
+                                </div>
+                                <p><?=nl2br(trim($post['post_text']))?></p>
+                                <span class="likes">
+                                    <?php if($post['hearts'] > 1 ): ?>
+                                        <?=$post['hearts']?> likes
+                                    <?php else: ?>
+                                        <?=$post['hearts']?> like
                                     <?php endif; ?>
-                                </ul>
-                            </div>
-                            <h4 class="name"><a href="#"><?=$post['name']?></a></h4>
-                            <label class="my-location"><span class="glyphicon glyphicon-map-marker"></span> <?=$post['location']?></label>
-                            <span class="moment" data-toggle="moment" data-time="<?=$post['post_created']?>" ><?=$post['post_created']?></span>
-                            <div class="image">
-                                <img class="" src="<?=$config['url']['base_path']?>/media.php?hash=<?=$post['media_hash']?>&type=post" data-action="zoom"/>
-                            </div>
-                            <p><?=nl2br(trim($post['post_text']))?></p>
-                            <span class="likes">
-                            <?php if($post['hearts'] > 1 ): ?>
-                                <?=$post['hearts']?> likes
-                            <?php else: ?>
-                                <?=$post['hearts']?> like
-                            <?php endif; ?>
-                            </span>
-                            <hr>
-                            <div class="actions">
-                                <form class="add-comment" action="<?=$config['url']['base_path']?>/action/action.comment.php" data-toggle="validator" data-post-id="<?=$post['post_id']?>">
-                                    <input type="hidden" name="post_id" value="<?=$post['post_id']?>" />
-                                    <input type="text" name="comment" class="form-control comment-box" placeholder="Write comment..." required/>
-                                </form>
-                                <a data-login="<?=($s->_get('id')?'true':'false')?>" data-toggle="like" data-post-id="<?=$post['post_id']?>" class="favorite <?=($post['hearts_given']?'red':'')?>">
-                                    <span class="glyphicon glyphicon-heart<?=($post['hearts_given']?'':'-empty')?>"></span>
-                                </a>
-                                <?php /*<div class="like-btn">
-                                    <div class="reaction-box">
-                                        <div class="reaction-icon angry" data-rating="1" data-post-id="<?=$post['post_id']?>">
-                                            <label>Angry</label>
-                                        </div>
-                                        <div class="reaction-icon sad" data-rating="2" data-post-id="<?=$post['post_id']?>">
-                                            <label>Sad</label>
-                                        </div>
-                                        <div class="reaction-icon wow" data-rating="3" data-post-id="<?=$post['post_id']?>">
-                                            <label>Wow</label>
-                                        </div>
-                                        <div class="reaction-icon haha" data-rating="4" data-post-id="<?=$post['post_id']?>">
-                                            <label>Haha</label>
-                                        </div>
-                                         <div class="reaction-icon love" data-rating="5" data-post-id="<?=$post['post_id']?>">
-                                            <label>Love</label>
-                                        </div>
-                                        <div class="reaction-icon like" data-rating="6" data-post-id="<?=$post['post_id']?>">
-                                            <label>Like</label>
-                                        </div>
-                                    </div>
-                                </div> */ ?>
-                            </div>
-                            <hr>
-                            <div class="comments-cont" data-post-id="<?=$post['post_id']?>">
-                                <?php foreach(getComments($post['post_id']) as $comment) :?>
-                                <div class="media comment">
-                                    <div class="media-left">
-                                        <a href="#">
-                                            <img class="media-object img-circle" src="<?=$config['url']['base_path']?>/assets/images/uploads/profiles/<?=$comment['profile']?>" width="30" height="30" />
-                                        </a>
-                                    </div>
-                                    <div class="media-body">
-                                        <h4 class="name"><a href="#"><?=$comment['firstname']?> <?=$comment['lastname']?></a></h4>
-                                        <span class="moment" data-toggle="moment" data-time="<?=$comment['comment_created']?>"><?=$comment['comment_created']?></span>
-                                        <p><?=$comment['comment_text']?></p>
-                                    </div>
+                                </span>
+                                <hr>
+                                <div class="actions">
+                                    <form class="add-comment" action="<?=$config['url']['base_path']?>/action/action.comment.php" data-toggle="validator" data-post-id="<?=$post['post_id']?>">
+                                        <input type="hidden" name="post_id" value="<?=$post['post_id']?>" />
+                                        <input type="text" name="comment" class="form-control comment-box" placeholder="Write comment..." required/>
+                                    </form>
+                                    <a data-login="<?=($s->_get('id')?'true':'false')?>" data-toggle="like" data-post-id="<?=$post['post_id']?>" class="favorite <?=($post['hearts_given']?'red':'')?>">
+                                        <span class="glyphicon glyphicon-heart<?=($post['hearts_given']?'':'-empty')?>"></span>
+                                    </a>
+
                                 </div>
                                 <hr>
-                                <?php endforeach; ?>
+                                <div class="comments-cont" data-post-id="<?=$post['post_id']?>">
+                                    <?php foreach(getComments($post['post_id']) as $comment) :?>
+                                        <div class="media comment">
+                                            <div class="media-left">
+                                                <a href="#">
+                                                    <img class="media-object img-circle" src="<?=$config['url']['base_path']?>/assets/images/uploads/profiles/<?=$comment['profile']?>" width="30" height="30" />
+                                                </a>
+                                            </div>
+                                            <div class="media-body">
+                                                <h4 class="name"><a href="#"><?=$comment['firstname']?> <?=$comment['lastname']?></a></h4>
+                                                <span class="moment" data-toggle="moment" data-time="<?=$comment['comment_created']?>"><?=$comment['comment_created']?></span>
+                                                <p><?=$comment['comment_text']?></p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    <?php endforeach; ?>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <hr>
+                        <hr>
                     <?php endforeach; ?>
                 </div>
                 <?php 
-                    $page = httpGet('page');
-                    if($page != null && $page > 1) {
-                        $page++;
-                    } else {
-                        $page = 2;
-                    }
+                $page = httpGet('page');
+                if($page != null && $page > 1) {
+                    $page++;
+                } else {
+                    $page = 2;
+                }
                 ?>
-                <?php if($page-1 > 1): ?>
-                <a href="<?=$config['url']['base_path']?>/newsfeed.php?page=<?=$page-2?>">Previous</a>
-                <?php endif; ?>
-                <?php if(count($posts) > 0): ?>
-                <a href="<?=$config['url']['base_path']?>/newsfeed.php?page=<?=$page?>" class="pull-right">Next</a>
-                <?php endif; ?>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <?php if($page-1 > 1): ?>
+                        <li>
+                            <a href="<?=$config['url']['base_path']?>/newsfeed.php?page=<?=$page-2?>" aria-label="Previous">
+                                <span aria-hidden="true">&laquo; Prev</span>
+                            </a>
+                        </li>
+                        <?php endif; ?>
+                        <?php if(count($posts) > 0): ?>
+                        <li>
+                            <a href="<?=$config['url']['base_path']?>/newsfeed.php?page=<?=$page?>" aria-label="Next">
+                                <span aria-hidden="true">Next &raquo;</span>
+                            </a>
+                        </li>
+                        <?php endif; ?>
+                    </ul>
+                </nav>
             </div>
         </div>
         <div class="col-md-3 right-side">
@@ -188,7 +179,7 @@ $posts = getAllPosts($uid);
                     <span class="location"></span>
                 </div>
             </div>
-             <div class="panel panel-default">
+            <div class="panel panel-default">
                 <div class="panel-body">
                     <label>Nearby Places <small>(within)</small></label>
                     <form action="<?=htmlspecialchars($_SERVER["PHP_SELF"])?>" method="GET">

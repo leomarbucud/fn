@@ -181,12 +181,24 @@ $posts = getAllPosts($uid, httpGet('q'));
                         $page = 2;
                     }
                 ?>
-                <?php if($page-1 > 1): ?>
-                <a href="<?=$config['url']['base_path']?>/search.php?page=<?=$page-2?>&q=<?=httpGet('q')?>">Previous</a>
-                <?php endif; ?>
-                <?php if(count($posts) > 0): ?>
-                <a href="<?=$config['url']['base_path']?>/search.php?page=<?=$page?>&q=<?=httpGet('q')?>" class="pull-right">Next</a>
-                <?php endif; ?>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <?php if($page-1 > 1): ?>
+                        <li>
+                            <a href="<?=$config['url']['base_path']?>/newsfeed.php?page=<?=$page-2?>" aria-label="Previous">
+                                <span aria-hidden="true">&laquo; Prev</span>
+                            </a>
+                        </li>
+                        <?php endif; ?>
+                        <?php if(count($posts) > 0): ?>
+                        <li>
+                            <a href="<?=$config['url']['base_path']?>/newsfeed.php?page=<?=$page?>" aria-label="Next">
+                                <span aria-hidden="true">Next &raquo;</span>
+                            </a>
+                        </li>
+                        <?php endif; ?>
+                    </ul>
+                </nav>
             </div>
         </div>
         <div class="col-md-3 right-side">

@@ -23,6 +23,12 @@ if(httpGet('action') == 'add') {
 } elseif(httpGet('action') == 'save_images') {
 	require_once 'action/action.add.images.php';
 	include_once 'include/include.admin.gallery.php';
+} elseif(httpGet('action') == 'edit') {
+	//require_once 'action/action.edit.gallery.php';
+	include_once 'include/include.admin.edit.gallery.php';
+} elseif(httpGet('action') == 'update') {
+	require_once 'action/action.update.gallery.php';
+	include_once 'include/include.admin.gallery.php';
 } else {
 	include_once 'include/include.admin.gallery.php';
 }
