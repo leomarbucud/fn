@@ -189,14 +189,14 @@ $posts = getAllPosts($uid);
                     <ul class="pagination">
                         <?php if($page-1 > 1): ?>
                         <li>
-                            <a href="<?=$config['url']['base_path']?>/newsfeed.php?page=<?=$page-2?>" aria-label="Previous">
+                            <a href="<?=$config['url']['base_path']?>/profile.php?page=<?=$page-2?>" aria-label="Previous">
                                 <span aria-hidden="true">&laquo; Prev</span>
                             </a>
                         </li>
                         <?php endif; ?>
                         <?php if(count($posts) > 0): ?>
                         <li>
-                            <a href="<?=$config['url']['base_path']?>/newsfeed.php?page=<?=$page?>" aria-label="Next">
+                            <a href="<?=$config['url']['base_path']?>/profile.php?page=<?=$page?>" aria-label="Next">
                                 <span aria-hidden="true">Next &raquo;</span>
                             </a>
                         </li>

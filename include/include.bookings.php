@@ -127,7 +127,7 @@ $bookings = $db->rows($sql, array("user_id" => $user_id));
                                
                                 <td>
                                 <?php if($booking['status_code'] != 4 ) : ?>
-                                    <button class="btn btn-success" data-status-code="4" data-booking-id="<?=$booking['booking_id']?>" data-action="cancel-booking">Cancel</button>
+                                    <button class="btn btn-danger" data-status-code="4" data-booking-id="<?=$booking['booking_id']?>" data-action="cancel-booking">Cancel</button>
                                 <?php endif; ?>
                                 </td>
                             </tr>

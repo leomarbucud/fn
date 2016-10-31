@@ -181,7 +181,7 @@ $statuses = $db->rows($sql);
                                     <br>
                                 </td>
                                 <td rowspan="2">
-                                    <select data-action="change-status" data-booking-id="<?=$booking['booking_id']?>">
+                                    <select class="form-control" data-action="change-status" data-booking-id="<?=$booking['booking_id']?>">
                                         <?php foreach ($statuses as $status) : ?>
                                         <option value="<?=$status['status_code']?>" <?=$booking['status_code']==$status['status_code']?'selected':''?> ><?=$status['status_description']?></option>
                                         <?php endforeach; ?>

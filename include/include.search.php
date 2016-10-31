@@ -180,19 +180,19 @@ $posts = getAllPosts($uid, httpGet('q'));
                     } else {
                         $page = 2;
                     }
-                ?>
+                ?>                
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
                         <?php if($page-1 > 1): ?>
                         <li>
-                            <a href="<?=$config['url']['base_path']?>/newsfeed.php?page=<?=$page-2?>" aria-label="Previous">
+                            <a href="<?=$config['url']['base_path']?>/search.php?page=<?=$page-2?>&q=<?=httpGet('q')?>" aria-label="Previous">
                                 <span aria-hidden="true">&laquo; Prev</span>
                             </a>
                         </li>
                         <?php endif; ?>
                         <?php if(count($posts) > 0): ?>
                         <li>
-                            <a href="<?=$config['url']['base_path']?>/newsfeed.php?page=<?=$page?>" aria-label="Next">
+                            <a href="<?=$config['url']['base_path']?>/search.php?page=<?=$page?>&q=<?=httpGet('q')?>" aria-label="Next">
                                 <span aria-hidden="true">Next &raquo;</span>
                             </a>
                         </li>

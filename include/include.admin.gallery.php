@@ -67,7 +67,7 @@ function getImages($gallery_id) {
                                     <?php endforeach; ?>
                     			</td>
                     			<td width="200">
-                                    <a href="<?=$config['url']['base_path']?>/gallery.php?action=edit&gallery_id=<?=$gallery['gallery_id']?>&gallery_name=<?=$gallery['gallery_name']?>" class="btn btn-sucess">Edit</a>|<a href="<?=$config['url']['base_path']?>/gallery.php?action=delete&gallery_id=<?=$gallery['gallery_id']?>&gallery_name=<?=$gallery['gallery_name']?>" class="btn btn-sucess">Delete</a>|<a href="<?=$config['url']['base_path']?>/gallery.php?action=add_images&gallery_id=<?=$gallery['gallery_id']?>&gallery_name=<?=$gallery['gallery_name']?>" class="btn btn-sucess">Add images</a>
+                                    <a href="<?=$config['url']['base_path']?>/gallery.php?action=edit&gallery_id=<?=$gallery['gallery_id']?>&gallery_name=<?=$gallery['gallery_name']?>" class="btn btn-sucess">Edit</a>|<a href="" data-action="delete-gallery" data-gallery-id="<?=$gallery['gallery_id']?>" class="btn btn-sucess">Delete</a>|<a href="<?=$config['url']['base_path']?>/gallery.php?action=add_images&gallery_id=<?=$gallery['gallery_id']?>&gallery_name=<?=$gallery['gallery_name']?>" class="btn btn-sucess">Add images</a>
                     			</td>
                     		</tr>
                     	<?php endforeach;?>

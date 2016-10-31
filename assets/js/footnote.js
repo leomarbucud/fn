@@ -547,6 +547,30 @@ var footnote = (function($, document) {
                         
                     }
                 });
+            },
+
+            // delete gallery
+            function($) {
+                $('[data-action="delete-gallery"]').click(function(e){
+                    e.preventDefault();
+                    var del = confirm("Are you sure you want to delete this?");
+                    var self = $(this);
+                    if(del) {
+                        $.ajax({
+                            url: config.base_path + '/action/action.delete.gallery.php',
+                            type: 'POST',
+                            data: { action: 'delete', gallery_id: self.data('gallery-id') },
+                            success: function(response) {
+                                if(response.status == 'success') {
+                                    self.closest('tr').remove();
+                                }
+                            }
+                        });
+
+                    } else {
+                        
+                    }
+                });
             }
 
         ],

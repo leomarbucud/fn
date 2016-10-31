@@ -11,12 +11,6 @@ require_once 'class/class.upload.php';
 
 include_once 'include/include.header.php';
 
-$action = httpGet('action');
-
-if($action == 'view_details') {
-	include_once 'include/include.tour.package.details.php';
-} else {
-	include_once 'include/include.tour.packages.php';
-}
+include_once 'include/include.how.to.pay.php';
 
 include_once 'include/include.footer.php';
