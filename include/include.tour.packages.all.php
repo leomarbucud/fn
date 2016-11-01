@@ -44,7 +44,7 @@ $place_packages = $db->rows($sql);//, array("place_id" => $place_id));
 											<p class="lead">PHP <?=money_format('%i', $package['package_price'])?></p>
 										</div>
 										<div class="col-xs-12 col-md-7" style="text-align: right;">
-											<a href="<?=$config['url']['base_path']?>/tourpackage.php?place_id=<?=$package['place_id']?>" class="btn btn-success" role="button">Book</a>
+											<a href="<?=$config['url']['base_path']?>/tourpackage.php?action=view_details&package_id=<?=$package['package_id']?>" class="btn btn-success" role="button">Book</a>
 											<a href="<?=$config['url']['base_path']?>/tourpackage.php?action=view_details&package_id=<?=$package['package_id']?>" class="btn btn-default" role="button">View details</a>
 										</div>
 									</div>
