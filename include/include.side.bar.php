@@ -44,6 +44,7 @@
         <li><a href="<?=$config['url']['base_path']?>/gallery.php"><span class="glyphicon glyphicon-picture"></span> Gallery</a></li>
         <li><a href="<?=$config['url']['base_path']?>/packages.php"><span class="glyphicon glyphicon-picture"></span> Tour Packages</a></li>
         <li><a href="<?=$config['url']['base_path']?>/admin.bookings.php"><span class="glyphicon glyphicon-book"></span> Bookings</a></li>
+        <li><a href="<?=$config['url']['base_path']?>/inquiries.php"><span class="glyphicon glyphicon-book"></span> Inquiries</a></li>
     </ul>
     <?php endif; ?>
     <hr>

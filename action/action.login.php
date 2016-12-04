@@ -48,6 +48,7 @@ if($login && $password) {
                 $sql =  "SELECT ";
                 $sql .= "u.username, ";
                 $sql .= "u.password, ";
+                $sql .= "u.email, ";
                 $sql .= "u.level, ";
                 $sql .= "ud.user_id, ";
                 $sql .= "ud.lastname, ";

@@ -34,6 +34,7 @@
         <li><a href="<?=$config['url']['base_path']?>">Home</a></li>
         <li><a href="<?=$config['url']['base_path']?>/destinations.php">Destinations</a></li>
         <li><a href="<?=$config['url']['base_path']?>/tourpackages.php">Tour Packages</a></li>
+        <li><a href="<?=$config['url']['base_path']?>/inquire.php">Inquire</a></li>
         <li><a href="<?=$config['url']['base_path']?>/newsfeed.php">News Feed</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
@@ -74,6 +75,7 @@
         <li><a href="<?=$config['url']['base_path']?>">Home</a></li>
         <li><a href="<?=$config['url']['base_path']?>/destinations.php">Destinations</a></li>
         <li><a href="<?=$config['url']['base_path']?>/tourpackages.php">Tour Packages</a></li>
+        <li><a href="<?=$config['url']['base_path']?>/inquire.php">Inquire</a></li>
         <li><a href="<?=$config['url']['base_path']?>/newsfeed.php">News Feed</a></li>
         <li><a href="<?=$config['url']['base_path']?>/login.php">Login</a></li>
       </ul>

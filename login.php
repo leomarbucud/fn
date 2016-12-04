@@ -19,6 +19,7 @@ if($session->_get('id')) {
     $sql .= "ud.firstname, ";
     $sql .= "ud.middlename, ";
     $sql .= "ud.address, ";
+    $sql .= "ud.contact, ";
     $sql .= "ud.birthdate, ";
     $sql .= "ud.gender, ";
     $sql .= "ud.bio, ";
