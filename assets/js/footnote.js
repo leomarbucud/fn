@@ -255,7 +255,7 @@ var footnote = (function($, document) {
             function($) {
                 var tomorrow = new Date();
                 tomorrow.setDate(tomorrow.getDate() + 1);
-                $("#book-date").datepicker({
+                $("#book-date, #flight-date").datepicker({
                     autoclose: true,
                     startDate: tomorrow
                 }); 

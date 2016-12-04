@@ -42,9 +42,10 @@
     <ul>
         <li><a href="<?=$config['url']['base_path']?>/places.php"><span class="glyphicon glyphicon-map-marker"></span> Places</a></li>
         <li><a href="<?=$config['url']['base_path']?>/gallery.php"><span class="glyphicon glyphicon-picture"></span> Gallery</a></li>
-        <li><a href="<?=$config['url']['base_path']?>/packages.php"><span class="glyphicon glyphicon-picture"></span> Tour Packages</a></li>
+        <li><a href="<?=$config['url']['base_path']?>/packages.php"><span class="glyphicon glyphicon-briefcase"></span> Tour Packages</a></li>
         <li><a href="<?=$config['url']['base_path']?>/admin.bookings.php"><span class="glyphicon glyphicon-book"></span> Bookings</a></li>
-        <li><a href="<?=$config['url']['base_path']?>/inquiries.php"><span class="glyphicon glyphicon-book"></span> Inquiries</a></li>
+        <li><a href="<?=$config['url']['base_path']?>/inquiries.php"><span class="glyphicon glyphicon-list-alt"></span> Inquiries</a></li>
+        <li><a href="<?=$config['url']['base_path']?>/flight.schedules.php"><span class="glyphicon glyphicon-globe"></span> Flight Schedules</a></li>
     </ul>
     <?php endif; ?>
     <hr>
