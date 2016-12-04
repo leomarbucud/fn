@@ -1,5 +1,28 @@
-<?php 
-$s = new Session;
+<?php
+
+$db = new DB;
+
+$sql =  "SELECT ";
+$sql .= "flight_id, ";
+$sql .= "flight_number, ";
+$sql .= "flight_from, ";
+$sql .= "flight_to, ";
+$sql .= "date, ";
+$sql .= "depart, ";
+$sql .= "arrive, ";
+$sql .= "airline, ";
+$sql .= "date_created ";
+$sql .= "FROM ";
+$sql .= "flight_schedules ";
+$sql .= "WHERE ";
+$sql .= "flight_id = :flight_id ";
+$sql .= "ORDER BY ";
+$sql .= "date_created ASC ";
+
+$flight_id = httpGet('id');
+
+$flight = $db->row($sql, array("flight_id" => $flight_id));
+
 ?>
 <div class="row-offcanvas row-offcanvas-left">
     <div id="sidebar" class="sidebar-offcanvas">
@@ -13,7 +36,7 @@ $s = new Session;
             <div class="admin-page">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Add Flight Schedule</h3>
+                        <h3 class="panel-title">Edit Flight Schedule</h3>
                     </div>
                     <div class="panel-body">
                         <?php if(isset($save)) : if($save) : ?>
@@ -22,21 +45,22 @@ $s = new Session;
                             <strong>Successfully updated!</strong> 
                         </div>
                         <?php endif; endif; ?>
-                        <form action="<?=$config['url']['base_path']?>/flight.schedules.php?action=save" method="POST" data-toggle="validator" role="form">
+                        <form action="<?=$config['url']['base_path']?>/flight.schedules.php?action=update&id=<?=$flight['flight_id']?>" method="POST" data-toggle="validator" role="form">
+                            <input type="hidden" name="flight_id" value="<?=$flight['flight_id']?>">
                             <div class="form-group">
                                 <label for="flight_no" class="control-label">Flight No.</label>
-                                <input type="text" class="form-control" id="flight_no" name="flight_number" required>
+                                <input type="text" class="form-control" id="flight_no" name="flight_number" required value="<?=$flight['flight_number']?>">
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Route</label>
                                 <div class="form-inline row">
                                     <div class="form-group col-sm-6">
-                                        <input type="text" name="flight_from" class="form-control" id="from" placeholder="From" value="" required>
+                                        <input type="text" name="flight_from" class="form-control" id="from" placeholder="From" required value="<?=$flight['flight_from']?>">
                                         <div class="help-block with-errors"></div>
                                     </div>
                                     <div class="form-group col-sm-6">
-                                        <input type="text" name="flight_to" class="form-control" id="to" placeholder="Destination" value="" required>
+                                        <input type="text" name="flight_to" class="form-control" id="to" placeholder="Destination" required value="<?=$flight['flight_to']?>">
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
@@ -45,24 +69,24 @@ $s = new Session;
                                 <div class="form-inline row">
                                     <div class="form-group col-sm-4">
                                         <label for="" class="control-label">Date</label>
-                                        <input id="flight-date" type="text" data-toggle="datepicker" class="form-control" name="date" required placeholder="dd/mm/yyyy" />
+                                        <input id="flight-date" type="text" data-toggle="datepicker" class="form-control" name="date" required placeholder="dd/mm/yyyy" value="<?=$flight['date']?>"/>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                     <div class="form-group col-sm-4">
                                         <label for="" class="control-label">Depart</label>
-                                        <input type="time" name="depart" id="depart" class="form-control" placeholder="00:00" value=""  required>
+                                        <input type="time" name="depart" id="depart" class="form-control" placeholder="00:00" required value="<?=$flight['depart']?>">
                                         <div class="help-block with-errors"></div>
                                     </div>
                                     <div class="form-group col-sm-4">
                                         <label for="" class="control-label">Arrive</label>
-                                        <input type="time" name="arrive" id="arrive" class="form-control" placeholder="00:00" value=""  required>
+                                        <input type="time" name="arrive" id="arrive" class="form-control" placeholder="00:00" required value="<?=$flight['arrive']?>">
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="address" class="control-label">Airline</label>
-                                <input type="text" class="form-control" id="airline" name="airline" placeholder="Airline" value="" required>
+                                <input type="text" class="form-control" id="airline" name="airline" placeholder="Airline" required value="<?=$flight['airline']?>">
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="form-group">

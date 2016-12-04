@@ -73,11 +73,8 @@ $flights = $db->rows($sql);
                                 	?>
                                 </td>
                                 <td class="text-center">
-                                    <a href="<?=$config['url']['base_path']?>/flight.schedules.php?action=view_details&id=<?=$flight['flight_id']?>" class="btn btn-default btn-xs">
-                                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View details
-                                    </a>
-                                    <a href="<?=$config['url']['base_path']?>/flight.schedules.php?action=write_email&type=user&id=<?=$flight['flight_id']?>" class="btn btn-success btn-xs">
-                                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Send email
+                                    <a href="<?=$config['url']['base_path']?>/flight.schedules.php?action=edit&id=<?=$flight['flight_id']?>" class="btn btn-default btn-xs">
+                                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit
                                     </a>
                                 </td>
                             </tr>

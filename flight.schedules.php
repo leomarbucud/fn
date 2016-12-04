@@ -19,9 +19,11 @@ if($action == 'add') {
 } elseif($action == 'save') {
 	require_once 'action/action.add.flight.schedule.php';
 	include_once 'include/include.admin.flight.schedules.php';
-} elseif($action == 'send_email') {
-	require_once 'action/action.response.inquiry.php';
-	include_once 'include/include.admin.inquiries.php';
+} elseif($action == 'edit') {
+	include_once 'include/include.admin.edit.flight.schedule.php';
+} elseif($action == 'update') {
+	require_once 'action/action.update.flight.schedule.php';
+	include_once 'include/include.admin.edit.flight.schedule.php';
 } else {
 	include_once 'include/include.admin.flight.schedules.php';
 }

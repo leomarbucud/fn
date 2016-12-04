@@ -1,6 +1,6 @@
 <?php
 
-function save() {
+function update() {
 
 	$db = new DB;
 
@@ -13,28 +13,20 @@ function save() {
     $depart = httpPost('depart');
     $arrive = httpPost('arrive');
 	$airline = httpPost('airline');
+	$flight_id = httpPost('flight_id');
 
-    $sql =  "INSERT INTO ";
+    $sql =  "UPDATE ";
     $sql .=  "`flight_schedules` ";
-	$sql .= "(";
-	$sql .= "`flight_number`, ";
-	$sql .= "`flight_from`, ";
-	$sql .= "`flight_to`, ";
-	$sql .= "`date`, ";
-	$sql .= "`depart`, ";
-	$sql .= "`arrive`, ";
-	$sql .= "`airline` ";
-	$sql .= ")";
-	$sql .= "VALUES ";
-	$sql .= "(";
-	$sql .= ":flight_number, ";
-	$sql .= ":flight_from, ";
-	$sql .= ":flight_to, ";
-	$sql .= ":date, ";
-	$sql .= ":depart, ";
-	$sql .= ":arrive, ";
-	$sql .= ":airline ";
-	$sql .= ")";
+	$sql .= "SET ";
+	$sql .= "`flight_number` = :flight_number, ";
+	$sql .= "`flight_from` = :flight_from, ";
+	$sql .= "`flight_to` = :flight_to, ";
+	$sql .= "`date` = :date, ";
+	$sql .= "`depart` = :depart, ";
+	$sql .= "`arrive` = :arrive, ";
+	$sql .= "`airline` = :airline ";
+	$sql .= "WHERE `flight_id` = :flight_id";
+	
 
 	return $db->query($sql, array("flight_number" => $flight_number,
 						"flight_from" => $flight_from,
@@ -42,13 +34,14 @@ function save() {
                         "date" => $date,
 						"depart" => $depart,
                         "arrive" => $arrive,
-                        "airline" => $airline
+                        "airline" => $airline,
+                        "flight_id" => $flight_id
 						));
 
 }
 
-if(httpGet('action') == 'save' && httpPost('flight_number') != null) {
-	if(save()){
+if(httpGet('action') == 'update' && httpPost('flight_id') != null) {
+	if(update()){
 		$save = true;
 	}
 } else {
