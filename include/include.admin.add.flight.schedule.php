@@ -1,5 +1,27 @@
 <?php 
 $s = new Session;
+$db = new DB;
+
+$sql =  "SELECT ";
+$sql .= "airport_id, ";
+$sql .= "airport_name, ";
+$sql .= "airport_location ";
+$sql .= "FROM ";
+$sql .= "airports ";
+
+$airports = $db->rows($sql);
+
+$sql =  "SELECT ";
+$sql .= "airline_id, ";
+$sql .= "airline_name, ";
+$sql .= "airline_details, ";
+$sql .= "date_created ";
+$sql .= "FROM ";
+$sql .= "airlines ";
+
+$airlines = $db->rows($sql);
+
+
 ?>
 <div class="row-offcanvas row-offcanvas-left">
     <div id="sidebar" class="sidebar-offcanvas">
@@ -32,11 +54,21 @@ $s = new Session;
                                 <label class="control-label">Route</label>
                                 <div class="form-inline row">
                                     <div class="form-group col-sm-6">
-                                        <input type="text" name="flight_from" class="form-control" id="from" placeholder="From" value="" required>
+                                        <select class="form-control" id="flight_from" name="flight_from" required>
+                                        	<option value="">--Select--</option>
+                                        	<?php foreach($airports as $airport) : ?>
+                                        	<option value="<?=$airport['airport_id']?>"><?=$airport['airport_location']?></option>
+                                        	<?php endforeach;?>
+                                        </select>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                     <div class="form-group col-sm-6">
-                                        <input type="text" name="flight_to" class="form-control" id="to" placeholder="Destination" value="" required>
+                                        <select class="form-control" id="flight_to" name="flight_to" required>
+                                        	<option value="">--Select--</option>
+                                        	<?php foreach($airports as $airport) : ?>
+                                        	<option value="<?=$airport['airport_id']?>"><?=$airport['airport_location']?></option>
+                                        	<?php endforeach;?>
+                                        </select>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
@@ -61,8 +93,13 @@ $s = new Session;
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="address" class="control-label">Airline</label>
-                                <input type="text" class="form-control" id="airline" name="airline" placeholder="Airline" value="" required>
+                                <label for="addreairliness" class="control-label">Airline</label>
+                                <select class="form-control" id="airline" name="airline" required>
+                                	<option value="">--Select--</option>
+                                	<?php foreach($airlines as $airline) : ?>
+                                	<option value="<?=$airline['airline_id']?>"><?=$airline['airline_name']?></option>
+                                	<?php endforeach;?>
+                                </select>
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="form-group">

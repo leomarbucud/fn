@@ -10,11 +10,19 @@ $sql .= "p.package_name, ";
 $sql .= "p.place_id, ";
 $sql .= "p.package_price, ";
 $sql .= "p.package_details, ";
+$sql .= "p.package_days, ";
 $sql .= "p.package_person, ";
 $sql .= "p.package_accomodation, ";
 $sql .= "p.package_transportation, ";
+$sql .= "p.package_start, ";
+$sql .= "p.package_end, ";
+$sql .= "p.package_from, ";
+$sql .= "p.package_to, ";
+$sql .= "(SELECT airport_location FROM airports as a WHERE a.airport_id = p.package_from) as package_from_location, ";
+$sql .= "(SELECT airport_location FROM airports as a WHERE a.airport_id = p.package_to) as package_to_location, ";
 $sql .= "g.place_image, ";
 $sql .= "g.place_name, ";
+$sql .= "p.package_trip, ";
 $sql .= "g.place_details, ";
 $sql .= "g.gallery_id ";
 $sql .= "FROM ";
@@ -32,6 +40,37 @@ $package_details = $db->row($sql, array("package_id" => $package_id));
 
 $sql = "SELECT * FROM `images` WHERE `gallery_id` = :gallery_id";
 $images = $db->rows($sql, array("gallery_id" => $package_details['gallery_id']));
+
+$sql =  "SELECT ";
+$sql .= "f.flight_id, ";
+$sql .= "f.flight_number, ";
+$sql .= "f.flight_from, ";
+$sql .= "f.flight_to, ";
+$sql .= "f.date, ";
+$sql .= "f.depart, ";
+$sql .= "f.arrive, ";
+$sql .= "f.airline, ";
+$sql .= "(SELECT airline_name FROM airlines as a WHERE a.airline_id = f.airline) as airline_name, ";
+$sql .= "f.date_created, ";
+$sql .= "(SELECT airport_location FROM airports as a WHERE a.airport_id = f.flight_from) as flight_from_location, ";
+$sql .= "(SELECT airport_location FROM airports as a WHERE a.airport_id = f.flight_to) as flight_to_location ";
+$sql .= "FROM ";
+$sql .= "flight_schedules as f ";
+$sql .= "WHERE ";
+$sql .= "f.flight_from = :flight_from ";
+$sql .= "AND ";
+$sql .= "f.flight_to = :flight_to ";
+$sql .= "AND ";
+$sql .= "f.date BETWEEN ";
+$sql .= ":start AND :end";
+
+$available_flights = $db->rows($sql,
+		array("flight_from" => $package_details['package_from'],
+				"flight_to" => $package_details['package_to'],
+				"start" => $package_details['package_start'],
+				"end" => $package_details['package_end']
+				)
+	);
 
 ?>
 <div id="wrap">
@@ -84,10 +123,28 @@ $images = $db->rows($sql, array("gallery_id" => $package_details['gallery_id']))
 						<dl><?=$package_details['place_name']?></dl>
 						<dt>No. of person</dt>
 						<dl><?=$package_details['package_person']?></dl>
+						<dt>Days</dt>
+						<dl><?=$package_details['package_days']?></dl>
 						<dt>Transportation</dt>
 						<dl><?=$package_details['package_transportation']?></dl>
 						<dt>Accomodation</dt>
 						<dl><?=$package_details['package_accomodation']?></dl>
+						<dt>Availability</dt>
+						<dl><?=date_format(date_create($package_details['package_start']),"F d, Y")?> to <?=date_format(date_create($package_details['package_end']),"F d, Y")?></dl>
+						<dt>Route</dt>
+						<dl>
+							<?=$package_details['package_from_location']?> <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span> <?=$package_details['package_to_location']?>
+							<br/>
+							<?php if($package_details['package_trip'] == 2): ?>
+							<?=$package_details['package_to_location']?> <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span> <?=$package_details['package_from_location']?>
+							<?php endif; ?>
+						</dl>
+						<dt>Flight Schedules</dt>
+						<dl>
+						<?php foreach ($available_flights as $flight): ?>
+							<span class="label label-default"><?=date_format(date_create($flight['date']),"F d, Y")?></span>
+						<?php endforeach ?>
+						</dl>
 						<dt>Other details</dt>
 						<dl><?=$package_details['package_details']?></dl>
 					</dl>
@@ -106,7 +163,13 @@ $images = $db->rows($sql, array("gallery_id" => $package_details['gallery_id']))
 									<input type="hidden" name="total" id="total" value="" />
 									<div class="form-group">
 										<label for="">Date</label>
-										<input id="book-date" type="text" data-toggle="datepicker" class="form-control" name="date" required />
+										<!-- <input id="book-date" type="text" data-toggle="datepicker" class="form-control" name="date" required /> -->
+										<select id="available-flights" class="form-control" name="date" required>
+											<option value="">--Select from available flights--</option>
+										<?php foreach ($available_flights as $flight): ?>
+											<option value="<?=$flight['date']?>" data-flight-id="<?=$flight['flight_id']?>"><?=date_format(date_create($flight['date']),"F d, Y")?></option>
+										<?php endforeach ?>
+										</select>
 										<div class="help-block with-errors"></div>
 									</div>
 									<div class="form-group">

@@ -23,6 +23,25 @@ $flight_id = httpGet('id');
 
 $flight = $db->row($sql, array("flight_id" => $flight_id));
 
+$sql =  "SELECT ";
+$sql .= "airport_id, ";
+$sql .= "airport_name, ";
+$sql .= "airport_location ";
+$sql .= "FROM ";
+$sql .= "airports ";
+
+$airports = $db->rows($sql);
+
+$sql =  "SELECT ";
+$sql .= "airline_id, ";
+$sql .= "airline_name, ";
+$sql .= "airline_details, ";
+$sql .= "date_created ";
+$sql .= "FROM ";
+$sql .= "airlines ";
+
+$airlines = $db->rows($sql);
+
 ?>
 <div class="row-offcanvas row-offcanvas-left">
     <div id="sidebar" class="sidebar-offcanvas">
@@ -56,11 +75,33 @@ $flight = $db->row($sql, array("flight_id" => $flight_id));
                                 <label class="control-label">Route</label>
                                 <div class="form-inline row">
                                     <div class="form-group col-sm-6">
-                                        <input type="text" name="flight_from" class="form-control" id="from" placeholder="From" required value="<?=$flight['flight_from']?>">
+                                        <select class="form-control" id="flight_from" name="flight_from" required>
+                                            <option value="">--Select--</option>
+                                            <?php foreach($airports as $airport) : ?>
+                                            <?php
+                                                $selected_from = "";
+                                                if($flight['flight_from'] == $airport['airport_id']) {
+                                                    $selected_from = "selected";
+                                                }
+                                            ?>
+                                            <option value="<?=$airport['airport_id']?>" <?=$selected_from?> ><?=$airport['airport_location']?></option>
+                                            <?php endforeach;?>
+                                        </select>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                     <div class="form-group col-sm-6">
-                                        <input type="text" name="flight_to" class="form-control" id="to" placeholder="Destination" required value="<?=$flight['flight_to']?>">
+                                        <select class="form-control" id="flight_to" name="flight_to" required>
+                                            <option value="">--Select--</option>
+                                            <?php foreach($airports as $airport) : ?>
+                                            <?php
+                                                $selected_to = "";
+                                                if($flight['flight_to'] == $airport['airport_id']) {
+                                                    $selected_to = "selected";
+                                                }
+                                            ?>
+                                            <option value="<?=$airport['airport_id']?>" <?=$selected_to?> ><?=$airport['airport_location']?></option>
+                                            <?php endforeach;?>
+                                        </select>
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
@@ -85,8 +126,19 @@ $flight = $db->row($sql, array("flight_id" => $flight_id));
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="address" class="control-label">Airline</label>
-                                <input type="text" class="form-control" id="airline" name="airline" placeholder="Airline" required value="<?=$flight['airline']?>">
+                                <label for="airline" class="control-label">Airline</label>
+                                <select class="form-control" id="airline" name="airline" required>
+                                    <option value="">--Select--</option>
+                                    <?php foreach($airlines as $airline) : ?>
+                                    <?php
+                                        $selected = "";
+                                        if($airline['airline_id'] == $flight['airline']) {
+                                            $selected = "selected";
+                                        }
+                                    ?>
+                                    <option value="<?=$airline['airline_id']?>" <?=$selected?> ><?=$airline['airline_name']?></option>
+                                    <?php endforeach;?>
+                                </select>
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="form-group">

@@ -13,6 +13,11 @@ function update() {
 	$transpo = httpPost('transpo');
     $days = httpPost('days');
     $package_id = httpPost('package_id');
+    $start = date("Y-m-d H:i:s", strtotime(httpPost('package-start')));
+    $end = date("Y-m-d H:i:s", strtotime(httpPost('package-end')));
+    $from = httpPost('package_from');
+    $to = httpPost('package_to');
+    $trip = httpPost('package_trip');
 
 	$sql =  "UPDATE `packages` ";
 	$sql .= "SET ";
@@ -23,7 +28,12 @@ function update() {
 	$sql .= "`package_details` = :details, ";
 	$sql .= "`package_person` = :person, ";
 	$sql .= "`package_accomodation` = :accom, ";
-	$sql .= "`package_transportation` = :transpo ";
+	$sql .= "`package_transportation` = :transpo, ";
+	$sql .= "`package_start` = :start, ";
+	$sql .= "`package_end` = :end, ";
+	$sql .= "`package_from` = :from, ";
+	$sql .= "`package_to` = :to, ";
+	$sql .= "`package_trip` = :trip ";
 	$sql .= "WHERE ";
 	$sql .= "`package_id` = :package_id";
 
@@ -36,7 +46,12 @@ function update() {
                             "person" => $person,
                             "accom" => $accomodation,
                             "transpo" => $transpo,
-                            "package_id" => $package_id
+                            "package_id" => $package_id,
+                            "start" => $start,
+                            "end" => $end,
+                            "from" => $from,
+                            "to" => $to,
+                            "trip" => $trip
 			));
 
 }

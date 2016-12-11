@@ -260,11 +260,44 @@ var footnote = (function($, document) {
                     startDate: tomorrow
                 }); 
 
+                // set default dates
+                var start = new Date();
+                // set end date to max one year period:
+                var end = new Date(new Date().setYear(start.getFullYear()+1));
+
+                $('#package-start').datepicker({
+                    autoclose: true,
+                    startDate : start,
+                    endDate   : end
+                
+                }).on('changeDate', function(){
+                    
+                    var date = new Date($(this).val());
+                    $('#package-end').datepicker(
+                        'setStartDate', date
+                    );
+                }); 
+
+                $('#package-end').datepicker({
+                    autoclose: true,
+                    startDate : start,
+                    endDate   : end
+                
+                }).on('changeDate', function(){
+                    
+                    var date = new Date($(this).val());
+                    $('#package-start').datepicker(
+                        'setEndDate', date
+                    );
+                });
+
                 $('[data-toggle=datepicker], input[type=date]').each(function() {
+                    var startView = $(this).data('start-view') || 'years',
+                        endDate = $(this).data('end-date') || '-3d';
                     $(this).datepicker({
                         autoclose: true,
-                        endDate: '-3d',
-                        startView: 'years'
+                        endDate: endDate,
+                        startView: startView
                     });
                 });
                 
@@ -569,6 +602,16 @@ var footnote = (function($, document) {
 
                     } else {
                         
+                    }
+                });
+            },
+
+            // change event for available-flights
+            function($) {
+                $('select#available-flights').on("change", function(){
+                    $(this).parent().find('a').remove();
+                    if($(this).val()) {
+                        $(this).parent().append("<a id='flight-details' href='"+config.base_path+"/flight.details.php?&id="+$(this).find(':selected').data('flight-id')+"' target='_blank'>View flight details</a>");
                     }
                 });
             }

@@ -64,9 +64,11 @@ function getComments($postId) {
 $posts = getAllPosts($uid);
 ?>
 <div class="row-offcanvas row-offcanvas-left">
+    <?php if($s->_get('user')) : ?>
     <div id="sidebar" class="sidebar-offcanvas">
         <?php include_once 'include/include.side.bar.php'; ?>
     </div>
+    <?php endif; ?>
     <div id="main">
         <div class="col-md-9">
             <p class="visible-xs">

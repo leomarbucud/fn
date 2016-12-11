@@ -3,19 +3,25 @@
 $db = new DB;
 
 $sql =  "SELECT ";
-$sql .= "flight_id, ";
-$sql .= "flight_number, ";
-$sql .= "flight_from, ";
-$sql .= "flight_to, ";
-$sql .= "date, ";
-$sql .= "depart, ";
-$sql .= "arrive, ";
-$sql .= "airline, ";
-$sql .= "date_created ";
+$sql .= "f.flight_id, ";
+$sql .= "f.flight_number, ";
+$sql .= "f.flight_from, ";
+$sql .= "f.flight_to, ";
+$sql .= "f.date, ";
+$sql .= "f.depart, ";
+$sql .= "TIMEDIFF(f.arrive, f.depart) as duration, ";
+$sql .= "f.arrive, ";
+$sql .= "f.airline, ";
+$sql .= "(SELECT airline_name FROM airlines as a WHERE a.airline_id = f.airline) as airline_name, ";
+$sql .= "f.date_created, ";
+$sql .= "(SELECT airport_location FROM airports as a WHERE a.airport_id = f.flight_from) as flight_from_location, ";
+$sql .= "(SELECT airport_location FROM airports as a WHERE a.airport_id = f.flight_to) as flight_to_location ";
 $sql .= "FROM ";
-$sql .= "flight_schedules ";
+$sql .= "flight_schedules as f ";
+$sql .= "WHERE ";
+$sql .= "f.date >= CURDATE() ";
 $sql .= "ORDER BY ";
-$sql .= "date_created ASC ";
+$sql .= "f.date ASC ";
 
 $flights = $db->rows($sql);
 
@@ -57,19 +63,20 @@ $flights = $db->rows($sql);
                         <tbody>
                             <?php foreach($flights as $flight) : ?>
                             <tr>
-                                <td><?=$flight['date']?></td>
+                                <td><?=date_format(date_create($flight['date']),"F d, Y")?></td>
                                 <td><?=$flight['flight_number']?></td>
-                                <td><?=$flight['flight_from']?> <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>  <?=$flight['flight_to']?></td>
+                                <td><?=$flight['flight_from_location']?> <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>  <?=$flight['flight_to_location']?></td>
                                 <td><?=$flight['depart']?></td>
                                 <td><?=$flight['arrive']?></td>
-                                <td><?=$flight['airline']?></td>
+                                <td><?=$flight['airline_name']?></td>
                                 <td>
                                 	<?php
-                                		$depart = strtotime($flight['depart']);
-                                		$arrive = strtotime($flight['arrive']);
-                                		$duration = $depart - $arrive;
-
-                                		echo date('H:i',abs($duration));
+                                		if(strpos($flight['duration'], "-") !== false) {
+                                			$flight['duration'] = str_replace("-", "", $flight['duration']);
+                                			echo date('H:i',strtotime("23:00:00") - strtotime($flight['duration']));
+                                		} else {
+                                			echo date('H:i',strtotime($flight['duration']));
+                                		}
                                 	?>
                                 </td>
                                 <td class="text-center">

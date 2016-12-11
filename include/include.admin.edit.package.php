@@ -12,6 +12,11 @@ $sql .= "p.package_person, ";
 $sql .= "p.package_accomodation, ";
 $sql .= "p.package_transportation, ";
 $sql .= "p.package_details, ";
+$sql .= "p.package_start, ";
+$sql .= "p.package_end, ";
+$sql .= "p.package_from, ";
+$sql .= "p.package_to, ";
+$sql .= "p.package_trip, ";
 $sql .= "g.place_image, ";
 $sql .= "g.place_name  ";
 $sql .= "FROM ";
@@ -29,6 +34,8 @@ if(!$package) {
     header("location: {$config['url']['base_path']}/packages.php");
 }
 
+//$package['package_start'] = date_format(strtotime($package['package_start']), "d/m/Y");
+
 function getPlaces() {
     $db = new DB;
     $sql = "SELECT * FROM `places`";
@@ -39,6 +46,15 @@ $places = getPlaces();
 
 $accomodations = array("Hotel","Guest house","Trancient home","None");
 $transportations = array("Bus","Van","Jeepney","Airplane");
+
+$sql =  "SELECT ";
+$sql .= "airport_id, ";
+$sql .= "airport_name, ";
+$sql .= "airport_location ";
+$sql .= "FROM ";
+$sql .= "airports ";
+
+$airports = $db->rows($sql);
 
 ?>
 <div class="row-offcanvas row-offcanvas-left">
@@ -66,78 +82,139 @@ $transportations = array("Bus","Van","Jeepney","Airplane");
                             <input type="hidden" name="package_id" value="<?=$package['package_id']?>" />
                             <div class="form-group">
                                 <label class="control-label">Name</label>
-                                <div class="form-inline row">
-                                    <div class="form-group col-sm-6">
+                                <div class="form-group">
                                         <input type="text" name="name" class="form-control" id="name" placeholder="Name" value="<?=$package['package_name']?>" required>
-                                    </div>
+                                        <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                              <div class="form-group">
                                 <label for="details" class="control-label">Destination</label>
-                                <div class="form-inline row">
-                                    <div class="form-group col-sm-6">
+                                <div class="form-group">
                                         <select class="form-control" name="place">
                                             <option value="">--Select--</option>
                                             <?php foreach ($places as $place) : ?>
                                             <option value="<?=$place['place_id']?>" <?=($place['place_id']==$package['place_id']?'selected':'')?> ><?=$place['place_name']?></option>
                                             <?php endforeach; ?>
                                         </select>
-                                    </div>
+                                        <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Package Price </label>
-                                <div class="form-inline row">
-                                    <div class="form-group col-sm-6">
+                                <div class="form-group">
                                         <input type="text" name="price" class="form-control" id="name" placeholder="Price" value="<?=$package['package_price']?>" required>
-                                    </div>
+                                        <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Days</label>
-                                <div class="form-inline row">
-                                    <div class="form-group col-sm-6">
+                                <div class="form-group">
                                        <input type="number" name="days" class="form-control" id="name" placeholder="" value="<?=$package['package_days']?>" required>
-                                    </div>
+                                       <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                              <div class="form-group">
                                 <label class="control-label">No of. person</label>
-                                <div class="form-inline row">
-                                    <div class="form-group col-sm-6">
+                                <div class="form-group">
                                         <select class="form-control" name="person">
                                             <option value="">--Select--</option>
                                             <?php for($i = 1; $i<=10; $i++): ?>
                                             <option value="<?=$i?>" <?=($i==$package['package_person']?'selected':'')?>><?=$i?></option>
                                             <?php endfor; ?>
                                         </select>
-                                    </div>
+                                        <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Accomodation</label>
-                                <div class="form-inline row">
-                                    <div class="form-group col-sm-6">
+                                <div class="form-group">
                                         <select class="form-control" name="accomodation" required>
                                             <option value="">--Select--</option>
                                             <?php foreach ($accomodations as $accomodation) : ?>
                                             <option value="<?=$accomodation?>" <?=$accomodation==$package['package_accomodation']?'selected':''?> ><?=$accomodation?></option>
                                             <?php endforeach; ?>
                                         </select>
-                                    </div>
+                                        <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Transportaion</label>
-                                <div class="form-inline row">
-                                    <div class="form-group col-sm-6">
+                                <div class="form-group">
                                         <select class="form-control" name="transpo" required>
                                             <option value="">--Select--</option>
                                             <?php foreach ($transportations as $transportation) : ?>
                                             <option value="<?=$transportation?>" <?=$transportation==$package['package_transportation']?'selected':''?> ><?=$transportation?></option>
                                             <?php endforeach; ?>
                                         </select>
+                                        <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Availablity</label>
+                                <div class="form-inline row">
+                                    <div class="form-group col-sm-6">
+                                       <input id="package-start" type="text" class="form-control" name="package-start" required placeholder="Start" value="<?=$package['package_start']?>"/>
+                                       <div class="help-block with-errors"></div>
                                     </div>
+                                    <div class="form-group col-sm-6">
+                                        <input id="package-end" type="text" class="form-control" name="package-end" required placeholder="End" value="<?=$package['package_end']?>" />
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Route</label>
+                                <div class="form-inline row">
+                                    <div class="form-group col-sm-6">
+                                        <select class="form-control" id="package_from" name="package_from" required>
+                                            <option value="">--Select--</option>
+                                            <?php foreach($airports as $airport) : ?>
+                                            <?php
+                                                $selected = "";
+                                                if($airport['airport_id'] == $package['package_from']) {
+                                                    $selected = "selected";
+                                                }
+                                            ?>
+                                            <option value="<?=$airport['airport_id']?>" <?=$selected?> ><?=$airport['airport_location']?></option>
+                                            <?php endforeach;?>
+                                        </select>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <select class="form-control" id="package_to" name="package_to" required>
+                                            <option value="">--Select--</option>
+                                            <?php foreach($airports as $airport) : ?>
+                                            <?php
+                                                $selected = "";
+                                                if($airport['airport_id'] == $package['package_to']) {
+                                                    $selected = "selected";
+                                                }
+                                            ?>
+                                            <option value="<?=$airport['airport_id']?>" <?=$selected?> ><?=$airport['airport_location']?></option>
+                                            <?php endforeach;?>
+                                        </select>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Trip</label>
+                                <div class="form-group">
+                                    <select class="form-control" name="package_trip" required>
+                                        <option value="">--Select--</option>
+                                        <?php
+                                            $st = "";
+                                            $rt = "";
+                                            if($package['package_trip'] == 1) {
+                                                $st = "selected";
+                                            } elseif($package['package_trip'] == 2) {
+                                                $rt = "selected";
+                                            }
+                                        ?>
+                                        <option value="1" <?=$st?> >One Way</option>
+                                        <option value="2" <?=$rt?> >Round Trip</option>
+                                    </select>
+                                    <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                             <div class="form-group">

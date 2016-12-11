@@ -27,3 +27,17 @@ function httpPost($name) {
     }
 
 }
+
+function timeDiff($firstTime,$lastTime) {
+    $firstTime = strtotime($firstTime);
+    $lastTime = strtotime($lastTime);
+    $day = strtotime("00:00:00");
+
+    if($firstTime <= $lastTime) {
+        $timeDiff = $lastTime - $firstTime;   
+    } else {
+        $timeDiff = $day - ($firstTime + $lastTime);
+    }
+
+    return $timeDiff;
+}
