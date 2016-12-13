@@ -8,4 +8,4 @@ $session = new Session;
 setcookie('remember','', time()-3600, $config['url']['base_path']);
 session_destroy();
 
-header('location: '.$config['url']['base_path']);
+header("location: {$config['url']['base_path']}/");
