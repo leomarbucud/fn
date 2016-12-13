@@ -73,7 +73,7 @@ if($login && $password) {
             if($returnUrl != null) {
                 header("location: {$returnUrl}");
             } else {
-                header('location: '.$config['url']['base_path']);
+                header("location: {$config['url']['base_path']}/");
             }
         }
     } else {

@@ -33,7 +33,7 @@ if($session->_get('id')) {
     $data = $db->row($sql, Array("id" => $session->_get('id')));
 
 	$session->_set('user', $data);
-    header("location: {$config['url']['base_path']}");
+    header("location: {$config['url']['base_path']}/");
 }
 
 require_once 'action/action.login.php';
