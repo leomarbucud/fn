@@ -23,7 +23,8 @@ function save() {
 	$sql .= "`date`, ";
 	$sql .= "`depart`, ";
 	$sql .= "`arrive`, ";
-	$sql .= "`airline` ";
+	$sql .= "`airline`, ";
+	$sql .= "`date_created` ";
 	$sql .= ")";
 	$sql .= "VALUES ";
 	$sql .= "(";
@@ -33,7 +34,8 @@ function save() {
 	$sql .= ":date, ";
 	$sql .= ":depart, ";
 	$sql .= ":arrive, ";
-	$sql .= ":airline ";
+	$sql .= ":airline, ";
+	$sql .= "now() ";
 	$sql .= ")";
 
 	return $db->query($sql, array("flight_number" => $flight_number,

@@ -46,6 +46,10 @@ if($session->_get('id')) {
     	include 'splash.php';
     }
 }
-
+//echo dirname(__FILE__);
+echo shell_exec('/bin/ffmpeg -h 2>&1');
+$execQuery = "echo -n test_command";
+$output = shell_exec($execQuery);
+echo $output;
 
 // /include 'splash.php';

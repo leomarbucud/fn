@@ -12,21 +12,21 @@ function save($user_id, $text, $media,$lat,$lng,$loc,$aname) {
     $sql =  "INSERT INTO ";
     $sql .= "`posts` ";
     $sql .= "( ";
-    $sql .= "`post_id`,`user_id`,`post_text`,`lat`,`lng`,`location`";
+    $sql .= "`post_id`,`user_id`,`post_text`,`lat`,`lng`,`location`,`post_created`";
     if(!empty($aname)) {
         $sql .= ",`aName` ";
     }
     $sql .= ") ";
     $sql .= "VALUES ";
     $sql .= "( ";
-    $sql .= ":id,:user_id,:text,:lat,:lng,:loc";
+    $sql .= ":id,:user_id,:text,:lat,:lng,:loc,now()";
     if(!empty($aname)) {
         $sql .= ",:aname ";
     }
     $sql .= ") ";
     $params = array("id" => $postId, 
                 "user_id" => $user_id,
-                "text" => $text,
+                "text" => $text, 
                 "lat" => $lat,
                 "lng" => $lng,
                 "loc" => $loc);
@@ -40,14 +40,15 @@ function save($user_id, $text, $media,$lat,$lng,$loc,$aname) {
 
     $sql =  "INSERT INTO ";
     $sql .= "`medias` ";
-    $sql .= "(`post_id`,`media_hash`,`media_ext`) ";
+    $sql .= "(`post_id`,`media_hash`,`media_ext`,`user_id`) ";
     $sql .= "VALUES ";
-    $sql .= "(:postId, :mediaHash, :mediaExt)";
+    $sql .= "(:postId, :mediaHash, :mediaExt, :user_id)";
 
     $db->query($sql, 
         Array("postId" => $postId, 
             "mediaHash" => $mediaHash, 
-            "mediaExt" => $mediaExt));
+            "mediaExt" => $mediaExt,
+            "user_id" => $user_id));
 
     return $postId;
 }

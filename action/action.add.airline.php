@@ -12,12 +12,14 @@ function save() {
     $sql .=  "`airlines` ";
 	$sql .= "(";
 	$sql .= "`airline_name`, ";
-	$sql .= "`airline_details` ";
+	$sql .= "`airline_details`, ";
+	$sql .= "`date_created` ";
 	$sql .= ")";
 	$sql .= "VALUES ";
 	$sql .= "(";
 	$sql .= ":airline_name, ";
-	$sql .= ":airline_details ";
+	$sql .= ":airline_details, ";
+	$sql .= "now() ";
 	$sql .= ")";
 
 	return $db->query($sql, array("airline_name" => $airline_name,

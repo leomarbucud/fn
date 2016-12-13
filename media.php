@@ -30,4 +30,4 @@ switch( $img['media_ext'] ) {
 }
 
 header('Content-type: ' . $ctype);
-echo file_get_contents($config['url']['site'].'/'.$config['url']['post_pic'].'/'.$img["media_hash"].'.'.$img["media_ext"]);
+echo file_get_contents($config['url']['site'].$config['url']['post_pic'].'/'.$img["media_hash"].'.'.$img["media_ext"]);

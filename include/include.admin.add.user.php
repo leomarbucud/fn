@@ -43,7 +43,7 @@ $s = new Session;
                                 <div class="form-inline row">
                                     <div class="form-group col-sm-6">
                                         <label for="" class="control-label">Birthdate</label>
-                                        <input type="date" name="birthdate" class="form-control" placeholder="mm/dd/yyyy" value=""  required>
+                                        <input type="text" data-toggle="datepicker" name="birthdate" class="form-control" placeholder="mm/dd/yyyy" value=""  required>
                                     </div>
                                     <div class="form-group col-sm-6">
                                         <label for="" class="control-label">Gender</label>

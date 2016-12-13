@@ -19,9 +19,9 @@ function save() {
     $trip = httpPost('package_trip');
 
 	$sql =  "INSERT INTO `packages` ";
-	$sql .= "(`place_id`, `package_name`, `package_price`, `package_days`, `package_details`, `package_person`, `package_accomodation`, `package_transportation`, `package_start`, `package_end`, `package_from`, `package_to`, `package_trip`) ";
+	$sql .= "(`place_id`, `package_name`, `package_price`, `package_days`, `package_details`, `package_person`, `package_accomodation`, `package_transportation`, `package_start`, `package_end`, `package_from`, `package_to`, `package_trip`, `package_created`) ";
 	$sql .= "VALUES ";
-	$sql .= "(:place_id, :name, :price, :days, :details, :person, :accom, :transpo, :start, :end, :from, :to, :trip) ";
+	$sql .= "(:place_id, :name, :price, :days, :details, :person, :accom, :transpo, :start, :end, :from, :to, :trip, now()) ";
 
 	$db->query($sql, array("place_id" => $place,
 							"name" => $name,

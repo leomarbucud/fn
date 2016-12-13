@@ -53,8 +53,8 @@ function save($username,$email,$hash_password,$hash,$info) {
     $db = new DB;
 
     $sql =  "INSERT INTO `users` ";
-    $sql .= "(`username`, `password`,`email`,`hash`) ";
-    $sql .= "VALUES(:username, :password, :email, :hash)";
+    $sql .= "(`username`, `password`,`email`,`hash`,`created`) ";
+    $sql .= "VALUES(:username, :password, :email, :hash, now())";
 
     $register =  $db->query($sql,
         Array("username" => $username, "password" => $hash_password, "email" => $email,"hash" => $hash));

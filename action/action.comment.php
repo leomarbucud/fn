@@ -8,9 +8,9 @@ function addComment($post_id, $comment, $userId) {
     $db = new DB;
 
     $sql =  "INSERT INTO `comments` ";
-    $sql .= "(`post_id`, `comment_text`, `user_id`) ";
+    $sql .= "(`post_id`, `comment_text`, `user_id`, `comment_created`) ";
     $sql .= "VALUES ";
-    $sql .= "(:postId, :comment, :userId)";
+    $sql .= "(:postId, :comment, :userId, now())";
 
     return $db->query($sql, array(
             "postId" => $post_id,

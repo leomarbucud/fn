@@ -24,12 +24,14 @@ if(httpPost('action') == 'book') {
 	$sql .= "`package_id`, ";
 	$sql .= "`user_id`, ";
 	$sql .= "`note`, ";
-	$sql .= "`date_of_booking` ";
+	$sql .= "`date_of_booking`, ";
+	$sql .= "`date_created` ";
 	$sql .= ") VALUES (";
 	$sql .= ":package_id, ";
 	$sql .= ":user_id, ";
 	$sql .= ":note, ";
-	$sql .= ":date_of_booking ";
+	$sql .= ":date_of_booking, ";
+	$sql .= "now() ";
 	$sql .= ")";
 
 	$book = $db->query($sql, array(
@@ -62,7 +64,7 @@ if(httpPost('action') == 'book') {
 
 	if($book && $payment) {
 		$return['status'] = 'success';
-		$return['message'] = 'Transactional successfully process!';
+		$return['message'] = 'Transaction successfully process!';
 	} else {
 		$return['status'] = 'failed';
 		$return['message'] = 'An error occurred';

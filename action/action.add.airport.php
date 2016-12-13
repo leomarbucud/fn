@@ -12,12 +12,14 @@ function save() {
     $sql .=  "`airports` ";
 	$sql .= "(";
 	$sql .= "`airport_name`, ";
-	$sql .= "`airport_location` ";
+	$sql .= "`airport_location`, ";
+	$sql .= "`date_created` ";
 	$sql .= ")";
 	$sql .= "VALUES ";
 	$sql .= "(";
 	$sql .= ":airport_name, ";
-	$sql .= ":airport_location ";
+	$sql .= ":airport_location, ";
+	$sql .= "now() ";
 	$sql .= ")";
 
 	return $db->query($sql, array("airport_name" => $airport_name,
