@@ -21,7 +21,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="<?=$config['url']['base_path']?>">Footnote</a>
+      <a class="navbar-brand" href="<?=$config['url']['base_path']?>/">Footnote</a>
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <form class="navbar-form navbar-left" action="<?=$config['url']['base_path']?>/search.php" method="get">
@@ -31,10 +31,11 @@
         </div>
       </form>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="<?=$config['url']['base_path']?>">Home</a></li>
+        <li><a href="<?=$config['url']['base_path']?>/">Home</a></li>
         <li><a href="<?=$config['url']['base_path']?>/destinations.php">Destinations</a></li>
         <li><a href="<?=$config['url']['base_path']?>/tourpackages.php">Tour Packages</a></li>
         <li><a href="<?=$config['url']['base_path']?>/inquire.php">Inquire</a></li>
+        <li><a href="<?=$config['url']['base_path']?>/flights.php">Flight Schedules</a></li>
         <li><a href="<?=$config['url']['base_path']?>/newsfeed.php">News Feed</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
@@ -62,7 +63,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="<?=$config['url']['base_path']?>">Footnote</a>
+      <a class="navbar-brand" href="<?=$config['url']['base_path']?>/">Footnote</a>
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <form class="navbar-form navbar-left" action="<?=$config['url']['base_path']?>/search.php" method="get">
@@ -72,10 +73,11 @@
         </div>
       </form>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="<?=$config['url']['base_path']?>">Home</a></li>
+        <li><a href="<?=$config['url']['base_path']?>/">Home</a></li>
         <li><a href="<?=$config['url']['base_path']?>/destinations.php">Destinations</a></li>
         <li><a href="<?=$config['url']['base_path']?>/tourpackages.php">Tour Packages</a></li>
         <li><a href="<?=$config['url']['base_path']?>/inquire.php">Inquire</a></li>
+        <li><a href="<?=$config['url']['base_path']?>/flights.php">Flight Schedules</a></li>
         <li><a href="<?=$config['url']['base_path']?>/newsfeed.php">News Feed</a></li>
         <li><a href="<?=$config['url']['base_path']?>/login.php">Login</a></li>
       </ul>

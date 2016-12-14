@@ -167,7 +167,7 @@ $available_flights = $db->rows($sql,
 										<select id="available-flights" class="form-control" name="date" required>
 											<option value="">--Select from available flights--</option>
 										<?php foreach ($available_flights as $flight): ?>
-											<option value="<?=$flight['date']?>" data-flight-id="<?=$flight['flight_id']?>"><?=date_format(date_create($flight['date']),"F d, Y")?></option>
+											<option value="<?=$flight['date']?>" data-flight-id="<?=$flight['flight_id']?>"><?=date_format(date_create($flight['date']),"F d, Y")?> [<?=$flight['depart']?> | <?=$flight['arrive']?>]</option>
 										<?php endforeach ?>
 										</select>
 										<div class="help-block with-errors"></div>

@@ -47,9 +47,9 @@ if($session->_get('id')) {
     }
 }
 //echo dirname(__FILE__);
-echo shell_exec('/bin/ffmpeg -h 2>&1');
-$execQuery = "echo -n test_command";
-$output = shell_exec($execQuery);
-echo $output;
+// echo shell_exec('/bin/ffmpeg -h 2>&1');
+// $execQuery = "echo -n test_command";
+// $output = shell_exec($execQuery);
+// echo $output;
 
 // /include 'splash.php';

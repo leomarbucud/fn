@@ -7,21 +7,79 @@ $places = $db->rows($sql);
 
 ?>
 <div class="m-t-50">
+	<div id="carousel-home" class="carousel slide" data-ride="carousel">
+      <div class="carousel-inner">
+      	<div class="item active" style="height: 500px; background-image: url(<?=$config['url']['base_path']?>/assets/images/content/boracay-white-beach-sunset.jpg); background-size: cover; background-position: center center;">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>It's more fun in the Philippines!</h1>
+              <p class="lead">Visit the top destinations here in the Philippines.</p>
+				<a class="btn btn-primary btn-lg" href="<?=$config['url']['base_path']?>/about.php" role="button">Learn more</a>
+            </div>
+          </div>
+        </div>
+        <div class="item" style="height: 500px; background-image: url(<?=$config['url']['base_path']?>/assets/images/content/lions_head_baguio_city.jpg); background-size: cover; background-position: center center;">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>Enjoy traveling with your friends.</h1>
+              <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+              <a class="btn btn-lg btn-primary" href="<?=$config['url']['base_path']?>/?register=true">Sign up today</a>
+            </div>
+          </div>
+        </div>
+        <div class="item" style="height: 500px; background-image: url(<?=$config['url']['base_path']?>/assets/images/content/Pearl-Farm-Davao-BEACH-RESORT-3.png); background-size: cover; background-position: center center;">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>Explore the Philippines.</h1>
+              <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+              <a class="btn btn-lg btn-primary" href="<?=$config['url']['base_path']?>/destinations.php">View Destinations</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a class="left carousel-control" href="#carousel-home" role="button" data-slide="prev">
+				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+				<span class="sr-only">Previous</span>
+			</a>
+			<a class="right carousel-control" href="#carousel-home" role="button" data-slide="next">
+				<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+				<span class="sr-only">Next</span>
+			</a>
+    </div><!-- /.carousel -->
+<?php /*
 	<div class="jumbotron green">
 		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-5">
-					<img src="<?=$config['url']['base_path']?>/assets/images/content/boracay-white-beach-sunset.jpg" class="thumbnail img-responsive"/>
+			<div id="carousel-home" class="carousel slide" data-ride="carousel">
+
+				<!-- Wrapper for slides -->
+				<div class="carousel-inner" role="listbox">
+					<div class="item">
+						<div class="row">
+							<div class="col-md-5">
+								<img src="<?=$config['url']['base_path']?>/assets/images/content/boracay-white-beach-sunset.jpg" class="thumbnail img-responsive"/>
+							</div>
+							<div class="col-md-7">
+								<h1>It's more fun in the Philippines!</h1>
+								<p>Visit the top destinations here in the Philippines.</p>
+								<p><a class="btn btn-primary btn-lg" href="<?=$config['url']['base_path']?>/about.php" role="button">Learn more</a></p>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="col-md-7">
-					<h1>It's more fun in the Philippines!</h1>
-					<p>Visit the top destinations here in the Philippines.</p>
-					<p><a class="btn btn-primary btn-lg" href="<?=$config['url']['base_path']?>/about.php" role="button">Learn more</a></p>
-				</div>
+
+				<!-- Controls -->
+				<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+					<span class="sr-only">Previous</span>
+				</a>
+				<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+					<span class="sr-only">Next</span>
+				</a>
 			</div>
 		</div>
 	</div>
-	
+*/ ?>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-8">
