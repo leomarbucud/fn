@@ -112,9 +112,6 @@ $hotels = $db->rows($sql);
                                 <div class="form-group">
                                     <select class="form-control" name="transpo" required>
                                         <option value="">--Select--</option>
-                                        <option value="Bus">Bus</option>
-                                        <option value="Van">Van</option>
-                                        <option value="Jeepney">Jeepney</option>
                                         <option value="Airplane">Airplane</option>
                                     </select>
                                     <div class="help-block with-errors"></div>

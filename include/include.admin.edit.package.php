@@ -46,7 +46,7 @@ function getPlaces() {
 $places = getPlaces();
 
 $accomodations = array("Hotel","Guest house","Trancient home","None");
-$transportations = array("Bus","Van","Jeepney","Airplane");
+$transportations = array("Airplane");
 
 $sql =  "SELECT ";
 $sql .= "airport_id, ";

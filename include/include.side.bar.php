@@ -48,7 +48,7 @@
         <li><a href="<?=$config['url']['base_path']?>/flight.schedules.php"><span class="glyphicon glyphicon-globe"></span> Flight Schedules</a></li>
         <li><a href="<?=$config['url']['base_path']?>/airlines.php"><span class="glyphicon glyphicon-plane"></span> Airlines</a></li>
         <li><a href="<?=$config['url']['base_path']?>/airports.php"><span class="glyphicon glyphicon-plane"></span> Airports</a></li>
-        <li><a href="<?=$config['url']['base_path']?>/hotels.php"><span class="glyphicon glyphicon-hotel"></span> Hotels</a></li>
+        <li><a href="<?=$config['url']['base_path']?>/hotels.php"><span class="glyphicon glyphicon-home"></span> Hotels</a></li>
     </ul>
     <?php endif; ?>
     <hr>
