@@ -32,6 +32,7 @@ function timeDiff($firstTime,$lastTime) {
     $firstTime = strtotime($firstTime);
     $lastTime = strtotime($lastTime);
     $day = strtotime("00:00:00");
+    $h = strtotime("01");
 
     if($firstTime <= $lastTime) {
         $timeDiff = $lastTime - $firstTime;   

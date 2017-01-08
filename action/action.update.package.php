@@ -9,7 +9,7 @@ function update() {
 	$details = httpPost('details');
     $price = httpPost('price');
     $person = httpPost('person');
-    $accomodation = httpPost('accomodation');
+    $hotel = httpPost('hotel');
 	$transpo = httpPost('transpo');
     $days = httpPost('days');
     $package_id = httpPost('package_id');
@@ -27,7 +27,7 @@ function update() {
 	$sql .= "`package_days` = :days, ";
 	$sql .= "`package_details` = :details, ";
 	$sql .= "`package_person` = :person, ";
-	$sql .= "`package_accomodation` = :accom, ";
+	$sql .= "`package_hotel` = :hotel, ";
 	$sql .= "`package_transportation` = :transpo, ";
 	$sql .= "`package_start` = :start, ";
 	$sql .= "`package_end` = :end, ";
@@ -44,7 +44,7 @@ function update() {
                             "days" => $days,
 							"details" => $details,
                             "person" => $person,
-                            "accom" => $accomodation,
+                            "hotel" => $hotel,
                             "transpo" => $transpo,
                             "package_id" => $package_id,
                             "start" => $start,

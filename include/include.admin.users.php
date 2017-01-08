@@ -2,6 +2,7 @@
 $s = new Session; 
 
 function getUsers() {
+    global $config;
     $db = new DB;
     $s = new Session;
     $sql =  "SELECT ";
@@ -23,8 +24,10 @@ function getUsers() {
     $sql .= "ON ";
     $sql .= "u.id = ud.user_id ";
     $sql .= "WHERE ";
-    $sql .= "u.id != :user_id";
-    $return = $db->rows($sql, array("user_id" => $s->_get('id')));
+    $sql .= "u.id != :user_id ";
+    $sql .= "AND ";
+    $sql .= "u.id != :anony_id";
+    $return = $db->rows($sql, array("user_id" => $s->_get('id'), "anony_id" => $config['var']['anonymous_id']));
 
     return $return;
 }

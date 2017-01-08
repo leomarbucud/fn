@@ -19,6 +19,14 @@ $sql .= "airports ";
 
 $airports = $db->rows($sql);
 
+$sql =  "SELECT ";
+$sql .= "hotel_id, ";
+$sql .= "hotel_name ";
+$sql .= "FROM ";
+$sql .= "hotels ";
+
+$hotels = $db->rows($sql);
+
 ?>
 <div class="row-offcanvas row-offcanvas-left">
     <div id="sidebar" class="sidebar-offcanvas">
@@ -88,14 +96,13 @@ $airports = $db->rows($sql);
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label">Accomodation</label>
+                                <label class="control-label">Hotel</label>
                                 <div class="form-group">
-                                    <select class="form-control" name="accomodation" required>
+                                    <select class="form-control" id="hotel" name="hotel" required>
                                         <option value="">--Select--</option>
-                                        <option value="Hotel">Hotel</option>
-                                        <option value="Guest house">Guest house</option>
-                                        <option value="Trancient home">Trancient home</option>
-                                        <option value="none">None</option>
+                                        <?php foreach($hotels as $hotel) : ?>
+                                        <option value="<?=$hotel['hotel_id']?>"><?=$hotel['hotel_name']?></option>
+                                        <?php endforeach;?>
                                     </select>
                                     <div class="help-block with-errors"></div>
                                 </div>

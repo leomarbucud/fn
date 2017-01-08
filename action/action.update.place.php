@@ -7,7 +7,8 @@ function save($media) {
 	$name = httpPost('name');
 	$address = httpPost('address');
 	$details = httpPost('details');
-	$gallery = httpPost('gallery');
+    $gallery = httpPost('gallery');
+	$rank = httpPost('rank');
     $id = httpPost('place_id');
 
     $sql =  "UPDATE `places` ";
@@ -18,7 +19,8 @@ function save($media) {
     if(!empty($media)) {
         $sql .= "`place_image` = :image, ";
     }
-    $sql .= "`gallery_id` = :gallery ";
+    $sql .= "`gallery_id` = :gallery, ";
+    $sql .= "`rank` = :rank ";
     $sql .= "WHERE ";
     $sql .= "`place_id` = :id";
 	
@@ -26,6 +28,7 @@ function save($media) {
                     "address" => $address,
                     "details" => $details,
                     "gallery" => $gallery,
+                    "rank" => $rank,
                     "id" => $id   
                             );
     if(!empty($media)) {

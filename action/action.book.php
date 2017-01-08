@@ -18,6 +18,8 @@ if(httpPost('action') == 'book') {
 	$person = httpPost('person');
 	$date = httpPost('date');
 	$timestamp = strtotime($date);
+	$seat = httpPost('seat');
+	$flight_id = httpPost('flight_id');
 	$date = date("Y-m-d H:i:s", $timestamp);
 
 	$sql =  "INSERT INTO `bookings` (";
@@ -25,18 +27,24 @@ if(httpPost('action') == 'book') {
 	$sql .= "`user_id`, ";
 	$sql .= "`note`, ";
 	$sql .= "`date_of_booking`, ";
+	$sql .= "`seat`, ";
+	$sql .= "`flight_id`, ";
 	$sql .= "`date_created` ";
 	$sql .= ") VALUES (";
 	$sql .= ":package_id, ";
 	$sql .= ":user_id, ";
 	$sql .= ":note, ";
 	$sql .= ":date_of_booking, ";
+	$sql .= ":seat, ";
+	$sql .= ":flight_id, ";
 	$sql .= "now() ";
 	$sql .= ")";
 
 	$book = $db->query($sql, array(
 			"package_id" => $package_id,
 			"user_id" => $user_id,
+			"seat" => $seat,
+			"flight_id" => $flight_id,
 			"note" => $note,
 			"date_of_booking" => $date
 		));

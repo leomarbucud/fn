@@ -10,6 +10,7 @@ $sql .= "p.package_price, ";
 $sql .= "p.package_days, ";
 $sql .= "p.package_person, ";
 $sql .= "p.package_accomodation, ";
+$sql .= "p.package_hotel, ";
 $sql .= "p.package_transportation, ";
 $sql .= "p.package_details, ";
 $sql .= "p.package_start, ";
@@ -55,6 +56,14 @@ $sql .= "FROM ";
 $sql .= "airports ";
 
 $airports = $db->rows($sql);
+
+$sql =  "SELECT ";
+$sql .= "hotel_id, ";
+$sql .= "hotel_name ";
+$sql .= "FROM ";
+$sql .= "hotels ";
+
+$hotels = $db->rows($sql);
 
 ?>
 <div class="row-offcanvas row-offcanvas-left">
@@ -126,15 +135,15 @@ $airports = $db->rows($sql);
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label">Accomodation</label>
+                                <label class="control-label">Hotel</label>
                                 <div class="form-group">
-                                        <select class="form-control" name="accomodation" required>
-                                            <option value="">--Select--</option>
-                                            <?php foreach ($accomodations as $accomodation) : ?>
-                                            <option value="<?=$accomodation?>" <?=$accomodation==$package['package_accomodation']?'selected':''?> ><?=$accomodation?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                        <div class="help-block with-errors"></div>
+                                    <select class="form-control" id="hotel" name="hotel" required>
+                                        <option value="">--Select--</option>
+                                        <?php foreach($hotels as $hotel) : ?>
+                                        <option value="<?=$hotel['hotel_id']?>" <?=$hotel['hotel_id']==$package['package_hotel']?'selected':''?>><?=$hotel['hotel_name']?></option>
+                                        <?php endforeach;?>
+                                    </select>
+                                    <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                             <div class="form-group">

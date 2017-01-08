@@ -4,8 +4,8 @@ function inquire($name, $email, $contact, $from, $to, $note, $type) {
     $db = new DB;
 
     $sql =  "INSERT INTO `inquiries` ";
-    $sql .= "(`name`,`email`,`contact`,`place_from`,`place_togo`,`additional_note`,`type`) ";
-    $sql .= "VALUES(:name, :email, :contact, :from, :to, :note, :type)";
+    $sql .= "(`name`,`email`,`contact`,`place_from`,`place_togo`,`additional_note`,`type`, `date_created`) ";
+    $sql .= "VALUES(:name, :email, :contact, :from, :to, :note, :type, now() )";
 
     $inquire =  $db->query($sql,
         Array("name" => $name, "email" => $email, "contact" => $contact, "from" => $from, "to" => $to, "note" => $note, "type" => $type));

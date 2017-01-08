@@ -6,6 +6,20 @@ function getGalleries() {
 	return $db->rows($sql);
 }
 
+function isRankUsed($rank) {
+    $db = new DB;
+    $sql =  "SELECT ";
+    $sql .= "COUNT(*) ";
+    $sql .= "FROM ";
+    $sql .= "`places` ";
+    $sql .= "WHERE ";
+    $sql .= "`rank` = :rank";
+
+    $count = $db->single($sql, array("rank" => (string)$rank));
+
+    return $count > 0 ? true : false;
+}
+
 $galleries = getGalleries();
 
 $db = new DB;
@@ -64,14 +78,27 @@ $place = $db->row($sql, array("place_id" => httpGet('place_id')));
 	                                <input type="file" name="placeImage" id="placeImage"/>
 	                            </span>
                             </div>
-                             <div class="form-group">
+                            <div class="form-group">
                                 <label for="details" class="control-label">Gallery</label>
-	                            <select class="form-control" name="gallery">
+                                <select class="form-control" name="gallery">
                                     <option value="">--Select--</option>
                                     <?php foreach ($galleries as $gallery) : ?>
                                     <option value="<?=$gallery['gallery_id']?>" <?=$place['gallery_id']==$gallery['gallery_id']?'selected':''?> ><?=$gallery['gallery_name']?></option>
                                     <?php endforeach; ?>
 
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="details" class="control-label">Rank</label>
+                                <select class="form-control" name="rank">
+                                    <option value="">--Select--</option>
+                                    <?php for ($i=1; $i<=count($place); $i++) : ?>
+                                        <?php if(isRankUsed($i) && $place['rank'] != $i): ?>
+                                            <option value="<?=$i?>" disabled <?=$place['rank']==$i?'selected':''?> ><?=$i?></option>
+                                        <?php else: ?>
+                                            <option value="<?=$i?>" <?=$place['rank']==$i?'selected':''?>><?=$i?></option>
+                                        <?php endif; ?>
+                                    <?php endfor; ?>
                                 </select>
                             </div>
                             <div class="form-group">

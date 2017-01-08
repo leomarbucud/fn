@@ -9,7 +9,7 @@ function save() {
 	$details = httpPost('details');
     $price = httpPost('price');
     $person = httpPost('person');
-    $accomodation = httpPost('accomodation');
+    $hotel = httpPost('hotel');
 	$transpo = httpPost('transpo');
     $days = httpPost('days');
     $start = date("Y-m-d H:i:s", strtotime(httpPost('package-start')));
@@ -19,9 +19,9 @@ function save() {
     $trip = httpPost('package_trip');
 
 	$sql =  "INSERT INTO `packages` ";
-	$sql .= "(`place_id`, `package_name`, `package_price`, `package_days`, `package_details`, `package_person`, `package_accomodation`, `package_transportation`, `package_start`, `package_end`, `package_from`, `package_to`, `package_trip`, `package_created`) ";
+	$sql .= "(`place_id`, `package_name`, `package_price`, `package_days`, `package_details`, `package_person`, `package_hotel`, `package_transportation`, `package_start`, `package_end`, `package_from`, `package_to`, `package_trip`, `package_created`) ";
 	$sql .= "VALUES ";
-	$sql .= "(:place_id, :name, :price, :days, :details, :person, :accom, :transpo, :start, :end, :from, :to, :trip, now()) ";
+	$sql .= "(:place_id, :name, :price, :days, :details, :person, :hotel, :transpo, :start, :end, :from, :to, :trip, now()) ";
 
 	$db->query($sql, array("place_id" => $place,
 							"name" => $name,
@@ -29,7 +29,7 @@ function save() {
                             "days" => $days,
 							"details" => $details,
                             "person" => $person,
-                            "accom" => $accomodation,
+                            "hotel" => $hotel,
                             "transpo" => $transpo,
                             "start" => $start,
                             "end" => $end,

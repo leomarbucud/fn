@@ -1,8 +1,9 @@
+var bp = window.location.origin.match('localhost') ? '/fn' : '';
 var config = {
-    base_path: '/fn',
-    site: 'http://localhost',
-    profile_pic: '/fn/assets/images/uploads/profiles',
-    post_pic: '/fn/media.php?hash='
+    base_path: bp,
+    site: window.location.origin || 'http://localhost',
+    profile_pic: bp + '/assets/images/uploads/profiles',
+    post_pic: bp + '/media.php?hash='
 };
 if (!String.format) {
     String.format = function(format) {
@@ -469,6 +470,10 @@ var footnote = (function($, document) {
                      var total = (person * price).format(2)
                     $('#book-total').text(total);
                     $("#total").val(total);
+                });
+                $('#available-flights').on('change', function(){
+                    var flight_id = $(this).find(':selected').data('flight-id');
+                    $('#flight_id').val(flight_id);
                 });
 
                 $('#booking-form').validator().on('submit', function(e) {

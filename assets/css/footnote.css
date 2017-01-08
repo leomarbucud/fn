@@ -777,3 +777,58 @@ body {
     margin-bottom: -44px;
     padding-bottom: 94px;
 }
+
+/**
+ *   Flag component
+ */
+
+.flag {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+}
+
+/**
+ * The traingle shape of the flag.
+ * 1. The size of the triangle.
+ */  
+.flag:before { 
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 59px 59px 0 0;
+    border-color: #ff0000 transparent transparent 
+}
+
+/*
+ * Rotate the text and position it.
+ * 1. Put on the GPU to ensure the text is rendered correctly
+ */
+.flag-text {
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg) translateZ(0);    /* [1] */
+    transform: rotate(-45deg) translateZ(0);
+    color: #FFF;
+    display: inline-block;
+    position: absolute;
+    top: 12px;
+    left: -6px;
+    z-index: 1;
+    font-size: 12px;
+    text-transform: uppercase;
+    width: 50px;
+    text-align: center;
+}
+
+/*
+ * Modifier classes for different colour flags
+ */
+.flag.is-paid:before {
+    border-color: rgba(206,3,5,0.7) transparent transparent rgba(206,3,5,0.7)
+}

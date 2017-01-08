@@ -1,7 +1,14 @@
 <?php
 
 $db = new DB;
-$sql =  "SELECT * FROM `places`";
+$sql =  "SELECT ";
+$sql .= "* ";
+$sql .= "FROM ";
+$sql .= "`places` ";
+$sql .= "ORDER BY ";
+$sql .= "`rank` = 0, `rank`";
+$sql .= "ASC ";
+$sql .= "LIMIT 10";
 
 $places = $db->rows($sql);
 
@@ -46,40 +53,6 @@ $places = $db->rows($sql);
 				<span class="sr-only">Next</span>
 			</a>
     </div><!-- /.carousel -->
-<?php /*
-	<div class="jumbotron green">
-		<div class="container-fluid">
-			<div id="carousel-home" class="carousel slide" data-ride="carousel">
-
-				<!-- Wrapper for slides -->
-				<div class="carousel-inner" role="listbox">
-					<div class="item">
-						<div class="row">
-							<div class="col-md-5">
-								<img src="<?=$config['url']['base_path']?>/assets/images/content/boracay-white-beach-sunset.jpg" class="thumbnail img-responsive"/>
-							</div>
-							<div class="col-md-7">
-								<h1>It's more fun in the Philippines!</h1>
-								<p>Visit the top destinations here in the Philippines.</p>
-								<p><a class="btn btn-primary btn-lg" href="<?=$config['url']['base_path']?>/about.php" role="button">Learn more</a></p>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- Controls -->
-				<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-					<span class="sr-only">Previous</span>
-				</a>
-				<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-					<span class="sr-only">Next</span>
-				</a>
-			</div>
-		</div>
-	</div>
-*/ ?>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-8">
@@ -87,12 +60,12 @@ $places = $db->rows($sql);
 				<div class="row">
 				<?php foreach ($places as $place) : ?>
 				  <div class="col-sm-6 col-md-4">
-				    <div class="thumbnail">
-				      <img src="<?=$config['url']['places']?>/<?=$place['place_image']?>" alt="<?=$place['place_name']?>">
+				    <div class="thumbnail" style="height: 450px;">
+				      <img src="<?=$config['url']['places']?>/<?=$place['place_image']?>" alt="<?=$place['place_name']?>" style="max-height: 160px;">
 				      <div class="caption">
 				        <h3><?=$place['place_name']?></h3>
 				        <small><?=$place['place_address']?></small>
-				        <p><?=$place['place_details']?></p>
+				        <p style="height: 100px;"><?=$place['place_details']?></p>
 				        <p><a href="<?=$config['url']['base_path']?>/tourpackage.php?place_id=<?=$place['place_id']?>" class="btn btn-success btn-block" role="button">View tour packages</a> <a href="<?=$config['url']['base_path']?>/search.php?q=<?=$place['place_name']?>" class="btn btn-default btn-block" role="button">View posts</a></p>
 				      </div>
 				    </div>
@@ -101,8 +74,14 @@ $places = $db->rows($sql);
 				</div>
 			</div>
 			<div class="col-md-4">
-				<p class="lead">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
-				<p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+			    <br>
+				<p class="lead">The Philippines is the third largest English speaking country in the world. It has a rich history combining Asian, European, and American influences. Prior to Spanish colonization in 1521, the Filipinos had a rich culture and were trading with the Chinese and the Japanese. Spain's colonization brought about the construction of Intramuros in 1571, a "Walled City" comprised of European buildings and churches, replicated in different parts of the archipelago. In 1898, after 350 years and 300 rebellions, the Filipinos, with leaders like Jose Rizal and Emilio Aguinaldo, succeeded in winning their independence.</p>
+				 
+				<p>In 1898, the Philippines became the first and only colony of the United States. Following the Philippine-American War, the United States brought widespread education to the islands. Filipinos fought alongside Americans during World War II, particularly at the famous battle of Bataan and Corregidor which delayed Japanese advance and saved Australia. They then waged a guerilla war against the Japanese from 1941 to 1945. The Philippines regained its independence in 1946.</p>
+				 
+				<p>Filipinos are a freedom-loving people, having waged two peaceful, bloodless revolutions against what were perceived as corrupt regimes. The Philippines is a vibrant democracy, as evidenced by 12 English national newspapers, 7 national television stations, hundreds of cable TV stations, and 2,000 radio stations.</p>
+				 
+				<p>Filipinos are a fun-loving people. Throughout the islands, there are fiestas celebrated everyday and foreign guests are always welcome to their homes.</p>
 			</div>
 		</div>
 	</div>

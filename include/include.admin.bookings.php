@@ -15,6 +15,8 @@ $sql .= "b.package_id, ";
 $sql .= "b.user_id, ";
 $sql .= "b.status_code, ";
 $sql .= "b.note, ";
+$sql .= "b.seat, ";
+$sql .= "b.flight_id, ";
 $sql .= "b.date_of_booking, ";
 $sql .= "p.place_id, ";
 $sql .= "p.package_name, ";
@@ -22,6 +24,7 @@ $sql .= "p.package_price, ";
 $sql .= "p.package_days, ";
 $sql .= "p.package_person, ";
 $sql .= "p.package_accomodation, ";
+$sql .= "p.package_hotel, ";
 $sql .= "p.package_transportation, ";
 $sql .= "pl.place_name, ";
 $sql .= "pl.place_address, ";
@@ -33,12 +36,18 @@ $sql .= "py.payment_id, ";
 $sql .= "py.payment_amount, ";
 $sql .= "py.payment_quantity, ";
 $sql .= "py.payment_total, ";
+$sql .= "py.payment_status, ";
 $sql .= "ud.firstname, ";
 $sql .= "ud.lastname, ";
 $sql .= "ud.contact, ";
 $sql .= "ud.address, ";
 $sql .= "ud.user_id, ";
-$sql .= "u.email ";
+$sql .= "u.email, ";
+$sql .= "h.hotel_name, ";
+$sql .= "h.hotel_details, ";
+$sql .= "f.flight_number, ";
+$sql .= "f.date, ";
+$sql .= "a.airline_name ";
 $sql .= "FROM `bookings` as b ";
 $sql .= "INNER JOIN ";
 $sql .= "`packages` as p ";
@@ -64,6 +73,18 @@ $sql .= "INNER JOIN ";
 $sql .= "`users` as u ";
 $sql .= "ON ";
 $sql .= "u.id = b.user_id ";
+$sql .= "LEFT JOIN ";
+$sql .= "`hotels` as h ";
+$sql .= "ON ";
+$sql .= "h.hotel_id = p.package_hotel ";
+$sql .= "LEFT JOIN ";
+$sql .= "`flight_schedules` as f ";
+$sql .= "ON ";
+$sql .= "f.flight_id = b.flight_id ";
+$sql .= "LEFT JOIN ";
+$sql .= "`airlines` as a ";
+$sql .= "ON ";
+$sql .= "a.airline_id = f.airline ";
 $sql .= "WHERE (";
 $sql .= "ud.lastname LIKE '%{$name}%' ";
 $sql .= "OR ";
@@ -175,10 +196,16 @@ $statuses = $db->rows($sql);
                                 <td><?=$booking['package_name']?></td>
                                 <td><?=$booking['place_name']?></td>
                                 <td><?=date_format(date_create($booking['date_of_booking']), "F d, Y")?></td>
-                                <td rowspan="2" style="text-align: right;">PHP <?=money_format('%i', $booking['payment_amount'])?> <br>
-                                     x <?=$booking['payment_quantity']?> <br>
-                                    <h4><span class="label label-success">PHP <?=money_format('%i', $booking['payment_total'])?></span></h4>
-                                    <br>
+                                <td rowspan="2" style="text-align: right;">
+                                    <div style="position: relative;">
+                                            PHP <?=money_format('%i', $booking['payment_amount'])?> <br>
+                                         x <?=$booking['payment_quantity']?> <br>
+                                        <h4><span class="label label-success">PHP <?=money_format('%i', $booking['payment_total'])?></span></h4>
+                                        <br>
+                                        <?php if($booking['payment_status'] == 1) : ?>
+                                            <p class="flag"><span class="flag-text">PAID</span></p>
+                                        <?php endif; ?>
+                                    </div>
                                 </td>
                                 <td rowspan="2">
                                     <select class="form-control" data-action="change-status" data-booking-id="<?=$booking['booking_id']?>">
@@ -192,11 +219,16 @@ $statuses = $db->rows($sql);
                                 <td>
                                    Personal Note: <br>
                                    <small><?=($booking['note'] != '' ? $booking['note'] : 'N/A')?></small>
+                                   <?php if($booking['seat'] == 1 ): ?>
+                                        <small>Requested to seat next to window</small>
+                                   <?php endif; ?>
                                 </td>
                                 <td colspan="2">
-                                    <strong>Transpo</strong> : <small><?=($booking['package_transportation'] != '' ? $booking['package_transportation'] : 'N/A')?></small>
+                                    <strong>Flight no.</strong> : <small><?=($booking['flight_number'] != '' ? $booking['flight_number'] : 'N/A')?></small>
                                      <br>
-                                    <strong>Accomodation</strong> : <small><?=($booking['package_accomodation'] != '' ? $booking['package_accomodation'] : 'N/A')?></small>
+                                     <strong>Airline</strong> : <small><?=($booking['airline_name'] != '' ? $booking['airline_name'] : 'N/A')?></small>
+                                     <br>
+                                    <strong>Hotel</strong> : <small><?=($booking['hotel_name'] != '' ? $booking['hotel_name'] : 'N/A')?></small>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

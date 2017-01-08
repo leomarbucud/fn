@@ -13,6 +13,7 @@ $sql .= "p.package_details, ";
 $sql .= "p.package_days, ";
 $sql .= "p.package_person, ";
 $sql .= "p.package_accomodation, ";
+$sql .= "p.package_hotel, ";
 $sql .= "p.package_transportation, ";
 $sql .= "p.package_start, ";
 $sql .= "p.package_end, ";
@@ -24,13 +25,19 @@ $sql .= "g.place_image, ";
 $sql .= "g.place_name, ";
 $sql .= "p.package_trip, ";
 $sql .= "g.place_details, ";
-$sql .= "g.gallery_id ";
+$sql .= "g.gallery_id, ";
+$sql .= "h.hotel_name, ";
+$sql .= "h.hotel_details ";
 $sql .= "FROM ";
 $sql .= "`packages` as p ";
 $sql .= "LEFT JOIN ";
 $sql .= "`places` as g ";
 $sql .= "ON ";
 $sql .= "g.place_id = p.place_id ";
+$sql .= "LEFT JOIN ";
+$sql .= "`hotels` as h ";
+$sql .= "ON ";
+$sql .= "h.hotel_id = p.package_hotel ";
 $sql .= "WHERE ";
 $sql .= "`package_id` = :package_id ";
 
@@ -127,8 +134,12 @@ $available_flights = $db->rows($sql,
 						<dl><?=$package_details['package_days']?></dl>
 						<dt>Transportation</dt>
 						<dl><?=$package_details['package_transportation']?></dl>
-						<dt>Accomodation</dt>
-						<dl><?=$package_details['package_accomodation']?></dl>
+						<dt>Hotel</dt>
+						<dl>
+							<?=$package_details['hotel_name']?>
+							<br/>
+							<?=$package_details['hotel_details']?>
+						</dl>
 						<dt>Availability</dt>
 						<dl><?=date_format(date_create($package_details['package_start']),"F d, Y")?> to <?=date_format(date_create($package_details['package_end']),"F d, Y")?></dl>
 						<dt>Route</dt>
@@ -161,6 +172,7 @@ $available_flights = $db->rows($sql,
 									<input type="hidden" name="price" id="package-price" value="<?=$package_details['package_price']?>" />
 									<input type="hidden" name="package_id" id="package-id" value="<?=$package_details['package_id']?>" />
 									<input type="hidden" name="total" id="total" value="" />
+									<input type="hidden" name="flight_id" id="flight_id" value="" />
 									<div class="form-group">
 										<label for="">Date</label>
 										<!-- <input id="book-date" type="text" data-toggle="datepicker" class="form-control" name="date" required /> -->
@@ -181,6 +193,15 @@ $available_flights = $db->rows($sql,
 									<div class="form-group">
 										<label for="exampleInputPassword1">Total</label>
 										<p class="form-control-static">PHP <span id="book-total">--</span></p>
+									</div>
+									<div class="form-group">
+										<div class="checkbox">
+											<label>
+												<input type="hidden" name="seat" value="0">
+												<input type="checkbox" name="seat" value="1"> Check if you want your seat next to window. *Additional charge may apply.
+											</label>
+											<div class="help-block with-errors"></div>
+										</div>
 									</div>
 									<div class="form-group">
 										<label for="note">Additional note</label>

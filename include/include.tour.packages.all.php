@@ -34,7 +34,7 @@ $place_packages = $db->rows($sql);//, array("place_id" => $place_id));
 				<div class="row">
 					<?php foreach ($place_packages as $package) : ?>
 						<div class="col-sm-12 col-md-4">
-							<div class="thumbnail">
+							<div class="thumbnail" style="height: 480px;">
 								<img src="<?=$config['url']['places']?>/<?=$package['place_image']?>" alt="<?=$package['place_name']?>">
 								<div class="caption">
 									<h3><?=$package['package_name']?></h3>
