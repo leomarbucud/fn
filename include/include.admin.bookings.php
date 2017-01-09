@@ -109,6 +109,20 @@ $sql = "SELECT * FROM `ref_booking_status`";
 
 $statuses = $db->rows($sql);
 
+function checkRebook($booking_id) {
+    $db = new DB;
+
+    $sql = "SELECT ";
+    $sql .= "* ";
+    $sql .= "FROM ";
+    $sql .= "`rebook` ";
+    $sql .= "WHERE ";
+    $sql .= "`booking_id` = :booking_id";
+
+    $rebook = $db->row($sql, array("booking_id" => $booking_id));
+    return $rebook;
+}
+
 ?>
 <div class="row-offcanvas row-offcanvas-left">
     <div id="sidebar" class="sidebar-offcanvas">
@@ -166,6 +180,7 @@ $statuses = $db->rows($sql);
                                         $tr_class = 'info';
                                         break;
                                     case 3:
+                                    case 5:
                                         $tr_class = 'success';
                                         break;
                                     case 4  :
@@ -195,7 +210,14 @@ $statuses = $db->rows($sql);
                                 </td>
                                 <td><?=$booking['package_name']?></td>
                                 <td><?=$booking['place_name']?></td>
-                                <td><?=date_format(date_create($booking['date_of_booking']), "F d, Y")?></td>
+                                <td>
+                                    <?=date_format(date_create($booking['date_of_booking']), "F d, Y")?>
+                                    <?php $rebook = checkRebook($booking['booking_id']); ?>
+                                    <?php if($rebook) : ?>
+                                        <br/>
+                                        Rebooked date: <?=date_format(date_create($rebook['rebook_date']), "F d, Y")?>
+                                    <?php endif; ?>
+                                </td>
                                 <td rowspan="2" style="text-align: right;">
                                     <div style="position: relative;">
                                             PHP <?=money_format('%i', $booking['payment_amount'])?> <br>
@@ -204,6 +226,13 @@ $statuses = $db->rows($sql);
                                         <br>
                                         <?php if($booking['payment_status'] == 1) : ?>
                                             <p class="flag"><span class="flag-text">PAID</span></p>
+                                        <?php endif; ?>
+                                        <?php if($rebook): ?>
+                                        <hr>
+                                        Rebooking fee: <h4><span class="label label-success">PHP <?=money_format('%i', $rebook['rebook_amount'])?></span></h4>
+                                        <?php if($rebook['rebook_status'] == 1 ): ?>
+                                            <small>PAID</small>
+                                        <?php endif; ?>
                                         <?php endif; ?>
                                     </div>
                                 </td>

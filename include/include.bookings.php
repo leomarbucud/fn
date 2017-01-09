@@ -74,6 +74,20 @@ $bookings = $db->rows($sql, array("user_id" => $user_id));
 
 $user = $s->_get('user');
 
+function checkRebook($booking_id) {
+    $db = new DB;
+
+    $sql = "SELECT ";
+    $sql .= "* ";
+    $sql .= "FROM ";
+    $sql .= "`rebook` ";
+    $sql .= "WHERE ";
+    $sql .= "`booking_id` = :booking_id";
+
+    $rebook = $db->row($sql, array("booking_id" => $booking_id));
+    return $rebook;
+}
+
 ?>
 <div class="row-offcanvas row-offcanvas-left">
     <div id="sidebar" class="sidebar-offcanvas">
@@ -85,12 +99,18 @@ $user = $s->_get('user');
                 <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas"><i class="glyphicon glyphicon-chevron-left"></i></button>
             </p>
             <div class="admin-page">
-                <?php if(httpGet('status') == '1') : ?>
+                <?php if(isset($update_payment)) : if($update_payment) : ?>
                 <div class="alert alert-success alert-dismissible" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <strong>Thank you!</strong> Your booking is now on process. We will notify you once completed.
                 </div>
-                <?php endif; ?>
+                <?php endif; endif; ?>
+                <?php if(isset($update_rebook_payment)) : if($update_rebook_payment) : ?>
+                <div class="alert alert-info alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Thank you!</strong> Your rebooking is now on process. We will notify you once completed.
+                </div>
+                <?php endif; endif; ?>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Bookings</h3>
@@ -118,6 +138,7 @@ $user = $s->_get('user');
                                         $tr_class = 'info';
                                         break;
                                     case 3:
+                                    case 5:
                                         $tr_class = 'success';
                                         break;
                                     case 4  :
@@ -134,7 +155,14 @@ $user = $s->_get('user');
                                 </td>
                                 <td><?=$booking['package_name']?></td>
                                 <td><?=$booking['place_name']?></td>
-                                <td><?=date_format(date_create($booking['date_of_booking']), "F d, Y")?></td>
+                                <td>
+                                    <?=date_format(date_create($booking['date_of_booking']), "F d, Y")?>
+                                    <?php $rebook = checkRebook($booking['booking_id']); ?>
+                                    <?php if($rebook) : ?>
+                                        <br/>
+                                        Rebooked date: <?=date_format(date_create($rebook['rebook_date']), "F d, Y")?>
+                                    <?php endif; ?>
+                                </td>
                                 <td rowspan="2" style="text-align: right;">
                                     <div style="position: relative;">
                                         PHP <?=money_format('%i', $booking['payment_amount'])?> <br>
@@ -144,7 +172,7 @@ $user = $s->_get('user');
                                         <?php if($booking['payment_status'] == 1) : ?>
                                             <p class="flag"><span class="flag-text">PAID</span></p>
                                         <?php endif; ?>
-                                        <?php if($booking['status_code'] != 3 ): ?>
+                                        <?php if($booking['payment_status'] != 1): ?>
                                         <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
                                             <input type="hidden" name="cmd" value="_xclick">
                                             <input type="hidden" name="business" value="admin@footnote.com">
@@ -152,7 +180,7 @@ $user = $s->_get('user');
                                             <input type="hidden" name="item_number" value="<?=$booking['booking_id']?>">
                                             <input type="hidden" name="item_name" value="<?=$booking['package_name']?>">
                                             <input type="hidden" name="amount" value="<?=money_format('%i', $booking['payment_total'])?>">
-                                            <input type="hidden" name="return" value="<?=$config['url']['site'].$config['url']['base_path']?>/bookings.php?boooking_id=<?=$booking['booking_id']?>&payment_id=<?=$booking['payment_id']?>&status=1">
+                                            <input type="hidden" name="return" value="<?=$config['url']['site'].$config['url']['base_path']?>/bookings.php?booking_id=<?=$booking['booking_id']?>&payment_id=<?=$booking['payment_id']?>&status=1">
                                             <input type="hidden" name="cancel_return" value="<?=$config['url']['site'].$config['url']['base_path']?>/bookings.php?booking_id=<?=$booking['booking_id']?>&status=0">
 
                                             <!-- user info prefill paypal -->
@@ -167,9 +195,39 @@ $user = $s->_get('user');
                                         </form>
                                         <small><a href="<?=$config['url']['base_path']?>/howtopay.php">How to pay?</a></small>
                                         <?php endif; ?>
+                                        <?php if($rebook): ?>
+                                        <hr>
+                                        Rebooking fee: <h4><span class="label label-success">PHP <?=money_format('%i', $rebook['rebook_amount'])?></span></h4>
+                                        <?php if($rebook['rebook_status'] == 1 ): ?>
+                                            <small>PAID</small>
+                                        <?php endif; ?>
+                                        <?php if($rebook['rebook_status'] != 1 ): ?>
+                                        <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+                                            <input type="hidden" name="cmd" value="_xclick">
+                                            <input type="hidden" name="business" value="admin@footnote.com">
+                                            <input type="hidden" name="currency_code" value="PHP">
+                                            <input type="hidden" name="item_number" value="<?=$rebook['booking_id']?>">
+                                            <input type="hidden" name="item_name" value="<?=$booking['package_name']?>">
+                                            <input type="hidden" name="amount" value="<?=money_format('%i', $rebook['rebook_amount'])?>">
+                                            <input type="hidden" name="return" value="<?=$config['url']['site'].$config['url']['base_path']?>/bookings.php?booking_id=<?=$rebook['booking_id']?>&rebook_id=<?=$rebook['rebook_id']?>&status=1">
+                                            <input type="hidden" name="cancel_return" value="<?=$config['url']['site'].$config['url']['base_path']?>/bookings.php?booking_id=<?=$rebook['booking_id']?>&status=0">
+
+                                            <!-- user info prefill paypal -->
+                                            <input type="hidden" name="first_name" value="<?=$user['firstname']?>">
+                                            <input type="hidden" name="last_name" value="<?=$user['lastname']?>">
+                                            <input type="hidden" name="address1" value="<?=$user['address']?>">
+                                            <input type="hidden" name="email" value="<?=$user['email']?>">
+                                            <small>Pay now with</small>
+                                            <input type="image" name="submit" src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_100x26.png" alt="PayPal - The safer, easier way to pay online">
+                                            <img alt="" width="1" height="1"
+                                            src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" >
+                                        </form>
+                                        <small><a href="<?=$config['url']['base_path']?>/howtopay.php">How to pay?</a></small>
+                                        <?php endif; ?>
+                                        <?php endif; ?>
                                     </div>
                                 </td>
-                                <td><?=$booking['status_description']?></td>
+                                <td><h4><span class="label label-<?=$tr_class?>"><?=$booking['status_description']?></span></h4></td>
                             </tr>
                             <tr class="<?=$tr_class?>">
                                 <td>
@@ -193,6 +251,9 @@ $user = $s->_get('user');
                                 <td>
                                 <?php if($booking['status_code'] != 4 ) : ?>
                                     <button class="btn btn-danger" data-status-code="4" data-booking-id="<?=$booking['booking_id']?>" data-action="cancel-booking">Cancel</button>
+                                <?php endif; ?>
+                                <?php if($booking['status_code'] == 3): ?>
+                                    <a href="<?=$config['url']['base_path']?>/rebook.php?id=<?=$booking['booking_id']?>" class="btn btn-success">Rebook</a>
                                 <?php endif; ?>
                                 </td>
                             </tr>

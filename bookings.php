@@ -19,8 +19,12 @@ $booking_id = httpGet('booking_id');
 $payment_id = httpGet('payment_id');
 $status = httpGet('status');
 
+$rebook_id = httpGet('rebook_id');
+
 if($booking_id && $payment_id && $status) {
 	require_once 'action/action.update.payment.php';
+} else if($booking_id && $rebook_id && $status) {
+	require_once 'action/action.update.rebook.php';
 }
 
 include_once 'include/include.bookings.php';

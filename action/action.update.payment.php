@@ -13,6 +13,6 @@ $sql .= "`payment_status` = 1 ";
 $sql .= "WHERE ";
 $sql .= "`payment_id` = :payment_id ";
 
-$update = $db->query($sql, array(
+$update_payment = $db->query($sql, array(
 		"payment_id" => $payment_id
 	));
