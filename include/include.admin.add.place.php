@@ -58,7 +58,7 @@ $galleries = getGalleries();
                             </div>
                              <div class="form-group">
                                 <label for="details" class="control-label">Gallery</label>
-	                            <select class="form-control" name="gallery">
+	                            <select class="form-control" name="gallery" required>
                                     <option value="">--Select--</option>
                                     <?php foreach ($galleries as $gallery) : ?>
                                     <option value="<?=$gallery['gallery_id']?>"><?=$gallery['gallery_name']?></option>

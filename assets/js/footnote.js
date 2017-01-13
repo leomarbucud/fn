@@ -619,6 +619,13 @@ var footnote = (function($, document) {
                         $(this).parent().append("<a id='flight-details' href='"+config.base_path+"/flight.details.php?&id="+$(this).find(':selected').data('flight-id')+"' target='_blank'>View flight details</a>");
                     }
                 });
+            },
+
+            // modal welcome user
+            function($) {
+                if($('#welcomeModal').length) {
+                    $('#welcomeModal').modal('show');
+                }
             }
 
         ],

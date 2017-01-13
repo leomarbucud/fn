@@ -212,6 +212,7 @@ $available_flights = $db->rows($sql,
 											<label>
 												<input type="checkbox" data-error="You must aggree to terms and conditions." required> Agree to terms and conditions.
 											</label>
+											<a href="<?=$config['url']['base_path']?>/terms.php" target="_blank">Terms and Conditions</a>
 											<div class="help-block with-errors"></div>
 										</div>
 									</div>

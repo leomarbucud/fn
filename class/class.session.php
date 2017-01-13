@@ -32,7 +32,7 @@ class Session {
 	public function _unset($name)
 	{
 		if (isset($_SESSION[$name]))
-			session_unset($name);
+			unset($_SESSION[$name]);
 		else
 			return false;	
 	}

@@ -69,6 +69,7 @@ if($login && $password) {
                 $data = $db->row($sql, Array("id" => $session->_get('id')));
 
                 $session->_set('user', $data);
+                $session->_set('welcome', true);
             }
             if($returnUrl != null) {
                 header("location: {$returnUrl}");
