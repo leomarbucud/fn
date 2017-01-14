@@ -29,7 +29,7 @@ $places = $db->rows($sql);
           <div class="container">
             <div class="carousel-caption">
               <h1>Enjoy traveling with your friends.</h1>
-              <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+              <p class="lead">It’s always more fun to travel with friends!</p>
               <a class="btn btn-lg btn-primary" href="<?=$config['url']['base_path']?>/?register=true">Sign up today</a>
             </div>
           </div>
@@ -38,7 +38,7 @@ $places = $db->rows($sql);
           <div class="container">
             <div class="carousel-caption">
               <h1>Explore the Philippines.</h1>
-              <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+              <p class="lead">Philippines has 7,000 tropical islands, come and visit Philippine’s best tourist spot.</p>
               <a class="btn btn-lg btn-primary" href="<?=$config['url']['base_path']?>/destinations.php">View Destinations</a>
             </div>
           </div>
