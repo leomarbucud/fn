@@ -1,7 +1,5 @@
 <?php
 
-$db = new DB;
-
 $sql =  "SELECT * FROM `galleries`";
 
 $galleries = $db->rows($sql);
@@ -10,7 +8,7 @@ $s = new Session;
 
 function getImages($gallery_id) {
 
-    $db = new DB;
+    global $db;
 
     $sql = "SELECT * FROM `images` WHERE `gallery_id` = :gallery";
 

@@ -2,7 +2,7 @@
 
 function save($media, $gallery) {
 
-	$db = new DB;
+    global $db;	
 
 	$sql =  "INSERT INTO `images` ";
 	$sql .= "(`image_hash`, `gallery_id`) ";

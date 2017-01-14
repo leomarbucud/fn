@@ -11,6 +11,8 @@ require_once 'class/class.upload.php';
 
 include_once 'include/include.header.php';
 
+$db = new DB;
+
 if(httpGet('action') == 'save') {
 	require_once 'action/action.add.gallery.php';
 	include_once 'include/include.admin.gallery.php';

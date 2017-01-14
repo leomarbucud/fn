@@ -1,6 +1,5 @@
 <?php 
 $s = new Session;
-$db = new DB;
 $gallery_id = httpGet('gallery_id');
 
 $sql = "SELECT * FROM `galleries` WHERE `gallery_id` = :gallery_id";
@@ -12,7 +11,7 @@ if(!$gallery) {
 }
 
 function getImages($gallery_id) {
-    $db = new DB;
+    global $db;
     $sql = "SELECT * FROM `images` WHERE `gallery_id` = :gallery";
     return $db->rows($sql, array("gallery" => $gallery_id));
 }

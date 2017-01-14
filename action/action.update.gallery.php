@@ -3,7 +3,7 @@
 
 function update() {
 
-    $db = new DB;
+    global $db;
 
     $name = httpPost('name');
     $desc = httpPost('description');
