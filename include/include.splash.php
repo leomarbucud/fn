@@ -1,5 +1,5 @@
 <?php
-$s = new Session;
+
 $db = new DB;
 $sql =  "SELECT ";
 $sql .= "* ";
@@ -87,6 +87,7 @@ $places = $db->rows($sql);
 	</div>
 
 </div>
+
 <?php if($s->_get('user') && $s->_get('welcome')) : ?>
 <div id="welcomeModal" class="modal fade" tabindex="-1" role="dialog" >
   <div class="modal-dialog" role="document">
