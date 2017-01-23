@@ -25,15 +25,17 @@ class DB {
         $dsn = "mysql:dbname={$this->db};host={$this->host}";
         
         try {
-            $this->pdo = new PDO($dsn, $this->user, $this->password, array(
-                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
-            ));
+            if(!$this->bConnected) {
+                $this->pdo = new PDO($dsn, $this->user, $this->password, array(
+                    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
+                ));
 
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+                $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
-            $this->bConnected = true;
+                $this->bConnected = true;
+            }
 
         } catch (PDOException $e) {
             echo $this->ExceptionLog($e->getMessage());

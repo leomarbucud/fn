@@ -139,6 +139,7 @@ $hotels = $db->rows($sql);
                                 <div class="form-group">
                                     <select class="form-control" id="hotel" name="hotel" required>
                                         <option value="">--Select--</option>
+                                        <option value="0" <?=$package['package_hotel']==0?'selected':''?>>None</option>
                                         <?php foreach($hotels as $hotel) : ?>
                                         <option value="<?=$hotel['hotel_id']?>" <?=$hotel['hotel_id']==$package['package_hotel']?'selected':''?>><?=$hotel['hotel_name']?></option>
                                         <?php endforeach;?>

@@ -100,6 +100,7 @@ $hotels = $db->rows($sql);
                                 <div class="form-group">
                                     <select class="form-control" id="hotel" name="hotel" required>
                                         <option value="">--Select--</option>
+                                        <option value="0">None</option>
                                         <?php foreach($hotels as $hotel) : ?>
                                         <option value="<?=$hotel['hotel_id']?>"><?=$hotel['hotel_name']?></option>
                                         <?php endforeach;?>

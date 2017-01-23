@@ -136,9 +136,13 @@ $available_flights = $db->rows($sql,
 						<dl><?=$package_details['package_transportation']?></dl>
 						<dt>Hotel</dt>
 						<dl>
-							<?=$package_details['hotel_name']?>
-							<br/>
-							<?=$package_details['hotel_details']?>
+							<?php if($package_details['package_hotel'] == 0 ): ?>
+								None
+							<?php else : ?>
+								<?=$package_details['hotel_name']?>
+								<br/>
+								<?=$package_details['hotel_details']?>
+							<?php endif; ?>
 						</dl>
 						<dt>Availability</dt>
 						<dl><?=date_format(date_create($package_details['package_start']),"F d, Y")?> to <?=date_format(date_create($package_details['package_end']),"F d, Y")?></dl>
