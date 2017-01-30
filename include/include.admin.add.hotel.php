@@ -34,6 +34,11 @@ $s = new Session;
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="form-group">
+                                <label for="airline_name" class="control-label">Hotel Website</label>
+                                <input type="text" class="form-control" id="hotel_link" name="hotel_link" required>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Save</button>
                                 <a href="<?=$config['url']['base_path']?>/hotels.php" class="btn btn-default">
                                         Back

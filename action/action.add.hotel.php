@@ -6,6 +6,7 @@ function save() {
 
 	$hotel_name = httpPost('hotel_name');
 	$hotel_details = httpPost('hotel_details');
+	$hotel_link = httpPost('hotel_link');
 	
 
     $sql =  "INSERT INTO ";
@@ -13,17 +14,20 @@ function save() {
 	$sql .= "(";
 	$sql .= "`hotel_name`, ";
 	$sql .= "`hotel_details`, ";
+	$sql .= "`hotel_link`, ";
 	$sql .= "`date_created` ";
 	$sql .= ")";
 	$sql .= "VALUES ";
 	$sql .= "(";
 	$sql .= ":hotel_name, ";
 	$sql .= ":hotel_details, ";
+	$sql .= ":hotel_link, ";
 	$sql .= "now() ";
 	$sql .= ")";
 
 	return $db->query($sql, array("hotel_name" => $hotel_name,
-						"hotel_details" => $hotel_details
+						"hotel_details" => $hotel_details,
+						"hotel_link" => $hotel_link
 						));
 
 }

@@ -35,7 +35,7 @@
     <h4>Admin Settings</h4>
     <ul>
         <li class="active"><a href="<?=$config['url']['base_path']?>/admin.php?action=view&type=users"><span class="glyphicon glyphicon-user"></span> Users</a></li>
-        <li><a href="<?=$config['url']['base_path']?>/admin.php?action=view&type=ads"><span class="glyphicon glyphicon-flag"></span> Ads</a></li>
+        <!-- <li><a href="<?=$config['url']['base_path']?>/admin.php?action=view&type=ads"><span class="glyphicon glyphicon-flag"></span> Ads</a></li> -->
         <li><a href="<?=$config['url']['base_path']?>/posts.php"><span class="glyphicon glyphicon-list-alt"></span> Pending Posts</a></li>
     </ul>
     <h4>Agency Settings</h4>

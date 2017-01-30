@@ -29,25 +29,21 @@ $place_packages = $db->rows($sql);//, array("place_id" => $place_id));
 <div class="m-t-50">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-1"></div>
+			<div class="col-md-10">
 				<h1>Tour packages</h1>
 				<div class="row">
 					<?php foreach ($place_packages as $package) : ?>
 						<div class="col-sm-12 col-md-4">
-							<div class="thumbnail" style="height: 480px;">
-								<img src="<?=$config['url']['places']?>/<?=$package['place_image']?>" alt="<?=$package['place_name']?>">
+							<div class="thumbnail">
+								<img src="<?=$config['url']['places']?>/<?=$package['place_image']?>" alt="<?=$package['place_name']?>" style="max-height: 220px;">
 								<div class="caption">
-									<h3><?=$package['package_name']?></h3>
-									<p><?=$package['package_details']?></p>
-									<div class="row">
-										<div class="col-xs-12 col-md-5">
-											<p class="lead">PHP <?=money_format('%i', $package['package_price'])?></p>
-										</div>
-										<div class="col-xs-12 col-md-7" style="text-align: right;">
-											<a href="<?=$config['url']['base_path']?>/tourpackage.php?action=view_details&package_id=<?=$package['package_id']?>" class="btn btn-success" role="button">Book</a>
-											<a href="<?=$config['url']['base_path']?>/tourpackage.php?action=view_details&package_id=<?=$package['package_id']?>" class="btn btn-default" role="button">View details</a>
-										</div>
-									</div>
+									<h3 style="height: 52px;"><?=$package['package_name']?></h3>
+									<div style="height: 70px;">
+							        	<p class="block-with-text"><?=$package['package_details']?></p>
+							        </div>
+									<p class="lead">PHP <?=money_format('%i', $package['package_price'])?></p>
+							        <p><a href="<?=$config['url']['base_path']?>/tourpackage.php?action=view_details&package_id=<?=$package['package_id']?>" class="btn btn-success btn-block" role="button">Book</a> <a href="<?=$config['url']['base_path']?>/search.php?q=<?=$package['place_name']?>" class="btn btn-default btn-block" role="button">View posts</a></p>
 								</div>
 							</div>
 						</div>
@@ -59,6 +55,7 @@ $place_packages = $db->rows($sql);//, array("place_id" => $place_id));
 						<?php endif; ?>
 					</div>
 				</div>
+				<div class="col-md-1"></div>
 			</div>
 		</div>
 

@@ -6,6 +6,7 @@ $sql =  "SELECT ";
 $sql .= "hotel_id, ";
 $sql .= "hotel_name, ";
 $sql .= "hotel_details, ";
+$sql .= "hotel_link, ";
 $sql .= "date_created ";
 $sql .= "FROM ";
 $sql .= "hotels ";
@@ -40,6 +41,7 @@ $hotels = $db->rows($sql);
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Details</th>
+                                <th>Website</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -49,6 +51,7 @@ $hotels = $db->rows($sql);
                                 <td><?=$hotel['hotel_id']?></td>
                                 <td><?=$hotel['hotel_name']?></td>
                                 <td><?=$hotel['hotel_details']?></td>
+                                <td><a href="<?=$hotel['hotel_link']?>" target="_blank"><?=$hotel['hotel_link']?></a></td>
                                 <td class="text-center">
                                     <a href="<?=$config['url']['base_path']?>/hotels.php?action=edit&id=<?=$hotel['hotel_id']?>" class="btn btn-default btn-xs">
                                         <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit

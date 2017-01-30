@@ -5,6 +5,7 @@ $sql =  "SELECT ";
 $sql .= "hotel_id, ";
 $sql .= "hotel_name, ";
 $sql .= "hotel_details, ";
+$sql .= "hotel_link, ";
 $sql .= "date_created ";
 $sql .= "FROM ";
 $sql .= "hotels ";
@@ -48,6 +49,11 @@ $hotel = $db->row($sql, array("hotel_id" => $hotel_id));
                             <div class="form-group">
                                 <label for="hotel_details" class="control-label">Details</label>
                                 <textarea class="form-control" id="hotel_details" name="hotel_details"><?=$hotel['hotel_details']?></textarea>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="hotel_name" class="control-label">Hotel Website</label>
+                                <input type="text" class="form-control" id="hotel_link" name="hotel_link" required value="<?=$hotel['hotel_link']?>">
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="form-group">

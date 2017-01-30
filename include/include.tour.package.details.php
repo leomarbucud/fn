@@ -27,7 +27,8 @@ $sql .= "p.package_trip, ";
 $sql .= "g.place_details, ";
 $sql .= "g.gallery_id, ";
 $sql .= "h.hotel_name, ";
-$sql .= "h.hotel_details ";
+$sql .= "h.hotel_details, ";
+$sql .= "h.hotel_link ";
 $sql .= "FROM ";
 $sql .= "`packages` as p ";
 $sql .= "LEFT JOIN ";
@@ -140,6 +141,8 @@ $available_flights = $db->rows($sql,
 								None
 							<?php else : ?>
 								<?=$package_details['hotel_name']?>
+								<br/>
+								Website: <a href="<?=$package_details['hotel_link']?>" target="_blank"><?=$package_details['hotel_name']?></a>
 								<br/>
 								<?=$package_details['hotel_details']?>
 							<?php endif; ?>

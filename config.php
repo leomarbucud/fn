@@ -37,6 +37,7 @@ $config['var']['hash_password'] = '^#$4%9f+1^p9)M@4M)V$';
 $config['var']['default_profile_pic'] = '1476196571_18_41b586905e6233e72b076191f8bf9512.png';
 $config['var']['anonymous_id'] = '45';
 $config['var']['rebook_amount'] = '1000';
+$config['var']['dest_rank'] = 'user';
 
 // post config
 $config['post']['post_per_page'] = 5;
