@@ -1,34 +1,86 @@
 <?php
-
+$s = new Session; 
 $db = new DB;
 
+// $sql =  "SELECT ";
+// $sql .= "* ";
+// $sql .= ", (";
+// $sql .= "SELECT COUNT(*) ";
+// $sql .= "FROM `posts` as p ";
+// $sql .= "WHERE ";
+// $sql .= "p.post_text LIKE CONCAT(\"%\",pl.place_name,\"%\") ";
+// $sql .= "OR ";
+// $sql .= "p.location LIKE CONCAT(\"%\",pl.place_name,\"%\") ";
+// $sql .= "AND p.isApproved > 0 ";
+// $sql .= ") as user_rank ";
+// $sql .= "FROM ";
+// $sql .= "`places` as pl ";
+// $sql .= "ORDER BY ";
+// if($config['var']['dest_rank'] == "user") {
+// 	$sql .= "user_rank ";
+// 	$sql .= "DESC ";
+// } else {
+// 	$sql .= "`rank` = 0, `rank` ";
+// 	$sql .= "ASC ";
+// }
+// $sql .= "LIMIT 10";
+
 $sql =  "SELECT ";
-$sql .= "* ";
-$sql .= ", (";
+$sql .= "pl.place_id, ";
+$sql .= "pl.place_name, ";
+$sql .= "pl.place_address, ";
+$sql .= "pl.place_details, ";
+$sql .= "pl.place_image, ";
+$sql .= "pl.gallery_id, ";
+$sql .= "pl.rank, ";
+$sql .= "(";
 $sql .= "SELECT COUNT(*) ";
-$sql .= "FROM `posts` as p ";
+$sql .= "FROM `bookings` as b ";
+$sql .= "INNER JOIN ";
+$sql .= "`packages` as p ";
+$sql .= "ON b.package_id = p.package_id ";
 $sql .= "WHERE ";
-$sql .= "p.post_text LIKE CONCAT(\"%\",pl.place_name,\"%\") ";
-$sql .= "OR ";
-$sql .= "p.location LIKE CONCAT(\"%\",pl.place_name,\"%\") ";
-// $sql .= "p.post_text RLIKE '[[:<:]]baguio[[:>:]]' ";
-// $sql .= "MATCH (p.post_text,p.location) ";
-// $sql .= "AGAINST (CONCAT(\"'\",pl.place_name,\"'\")) ";
-$sql .= "AND p.isApproved > 0 ";
-$sql .= ") as user_rank ";
+$sql .= "p.place_id = pl.place_id";
+$sql .= ") as reservation_number, ";
+$sql .= "(SELECT COUNT(*) FROM `bookings`) as total ";
 $sql .= "FROM ";
 $sql .= "`places` as pl ";
 $sql .= "ORDER BY ";
-if($config['var']['dest_rank'] == "user") {
-	$sql .= "user_rank ";
-	$sql .= "DESC ";
-} else {
-	$sql .= "`rank` = 0, `rank` ";
-	$sql .= "ASC ";
-}
-$sql .= "LIMIT 10";
+$sql .= "reservation_number DESC ";
+$sql .= "LIMIT 5";
 
 $places = $db->rows($sql);
+
+$uid = $config['var']['anonymous_id'];
+
+if($s->_get('id')) {
+    $uid = $s->_get('id');
+}
+
+function getAllPosts($userId) {
+    global $config;
+    $anonymous_id = $config['var']['anonymous_id'];
+    $db = new DB;
+    $post_per_page = 5;//$config['post']['post_per_page'];
+    $page = httpGet('page');
+    $sql  = "SELECT ud.user_id, ud.firstname, ud.lastname, ud.profile, p.post_id, p.post_text, p.location, p.lat, p.lng, p.post_images, p.post_metas, p.post_created, ";
+    $sql .= "CASE WHEN ud.user_id = {$anonymous_id} THEN p.aName ELSE CONCAT(ud.firstname,' ',ud.lastname) END as name ";
+    $sql .= "FROM `posts` as p LEFT JOIN `users` as u ";
+    $sql .= "ON p.user_id = u.id ";
+    $sql .= "INNER JOIN `user_details` ud ";
+    $sql .= "ON ud.user_id = u.id ";
+    $sql .= "WHERE ";
+    $sql .= "p.isApproved > 0 ";
+    $sql .= "ORDER BY p.post_created DESC ";
+    if($page > 1 ) {
+        $sql .= "LIMIT {$post_per_page} OFFSET ".(($page * $post_per_page) - $post_per_page)." ";
+    } else {
+        $sql .= "LIMIT {$post_per_page} ";
+    }
+    return $db->rows($sql, Array("userId" => $userId, "uId" => $userId));
+}
+
+$posts = getAllPosts($uid);
 
 ?>
 <div class="m-t-50">
@@ -74,25 +126,42 @@ $places = $db->rows($sql);
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-8">
-				<h1>Top Destinations</h1>
+				<h1>Top Destinations <small>(According to users books and reservations)</small></h1>
 				<div class="row">
 				<?php foreach ($places as $place) : ?>
+					<?php
+						$percentage = ($place['reservation_number'] / $place['total']) * 100;
+					?>
 				  <div class="col-sm-6 col-md-4">
 				    <div class="thumbnail" style="">
 				      <img src="<?=$config['url']['places']?>/<?=$place['place_image']?>" alt="<?=$place['place_name']?>" style="height: 160px;">
 				      <div class="caption">
 				        <h3><?=$place['place_name']?></h3>
-				        <!-- <h3><?=$place['r']?></h3> -->
 				        <small><?=$place['place_address']?></small>
 				        <div style="height: 50px;">
 				        	<p class="block-with-text"><?=$place['place_details']?></p>
 				        </div>
-				        Go to <a href="http://www.tourism.gov.ph/" target="_blank">Department of Tourism</a>
+				        <!-- Go to <a href="http://www.tourism.gov.ph/" target="_blank">Department of Tourism</a> -->
+				        <br/>
+				        <div class="progress">
+						  <div class="progress-bar" role="progressbar" aria-valuenow="<?=$percentage?>" aria-valuemin="0" aria-valuemax="100" style="width: <?=$percentage?>%;">
+						    <?=$place['reservation_number']?>
+						  </div>
+						</div>
+
 				        <p><a href="<?=$config['url']['base_path']?>/tourpackage.php?place_id=<?=$place['place_id']?>" class="btn btn-success btn-block" role="button">View tour packages</a> <a href="<?=$config['url']['base_path']?>/search.php?q=<?=$place['place_name']?>" class="btn btn-default btn-block" role="button">View posts</a></p>
 				      </div>
 				    </div>
 				  </div>
 				  <?php endforeach; ?>
+				  <div class="col-sm-6 col-md-4">
+				        <h3>LEGEND</h3>
+				        <div class="progress">
+						  <div class="progress-bar" role="progressbar" aria-valuenow="<?=$percentage?>" aria-valuemin="0" aria-valuemax="100" style="width: 40%;">
+						  </div>
+						</div>
+				        <p>Number of books/reservations on the destination according to usera</p>
+				  </div>
 				</div>
 			</div>
 			<div class="col-md-4">
@@ -104,6 +173,25 @@ $places = $db->rows($sql);
 				<p>Filipinos are a freedom-loving people, having waged two peaceful, bloodless revolutions against what were perceived as corrupt regimes. The Philippines is a vibrant democracy, as evidenced by 12 English national newspapers, 7 national television stations, hundreds of cable TV stations, and 2,000 radio stations.</p>
 				 
 				<p>Filipinos are a fun-loving people. Throughout the islands, there are fiestas celebrated everyday and foreign guests are always welcome to their homes.</p>
+				<h2>Newsfeed Overview</h2>
+				<?php foreach($posts as $post): ?>
+                        <div class="media post feed" data-post-id="<?=$post['post_id']?>">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img class="media-object img-circle" src="<?=$config['url']['profile_pic']?>/<?=$post['profile']?>" width="50" height="50" />
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <div class="pull-right">
+									<a href="<?=$config['url']['base_path']?>/post.php?action=view&type=post&post=<?=$post['post_id']?>">View Post</a>
+                                </div>
+                                <h4 class="name"><a href="#"><?=$post['name']?></a></h4>
+                                <span class="moment" data-toggle="moment" data-time="<?=$post['post_created']?>" ><?=$post['post_created']?></span>
+                                <p><?=nl2br(trim($post['post_text']))?></p>
+                        	</div>
+                        </div>
+                        <hr>
+                    <?php endforeach; ?>
 			</div>
 		</div>
 	</div>
