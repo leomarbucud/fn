@@ -13,4 +13,4 @@ $sms = new SMS;
 $sms->from = '+12168209293';
 $sms->to = '+639263751877';
 $sms->message = "Hi Leomar Bucud!";
-$sms->send();
+var_dump($sms->send());
