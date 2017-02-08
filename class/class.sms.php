@@ -7,6 +7,7 @@ use Twilio\Rest\Client;
 class SMS {
 
 	private $sid = 'ACa3c6bf37c7fb258265a4c6c06eb3389f';
+	// private $sid = 'MGd27491a9a8850ca68886b79a530c2553';
 	private $token = '006bc17df734f25577019556bfb1a7f8';
 	private $client = null;
 
@@ -29,6 +30,7 @@ class SMS {
 			);
 			return true;
 		} catch (Exception $e) {
+			var_dump($e);
 			return false;
 		}
 	}
