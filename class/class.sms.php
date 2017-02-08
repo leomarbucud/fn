@@ -30,7 +30,7 @@ class SMS {
 			);
 			return true;
 		} catch (Exception $e) {
-			var_dump($e);
+			// var_dump($e);
 			return false;
 		}
 	}
