@@ -83,6 +83,7 @@ class CurlClient implements Client {
             CURLOPT_INFILESIZE => -1,
             CURLOPT_HTTPHEADER => array(),
             CURLOPT_TIMEOUT => $timeout,
+            CURLOPT_SSL_VERIFYPEER => FALSE,
         );
 
         foreach ($headers as $key => $value) {
