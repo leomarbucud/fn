@@ -12,6 +12,7 @@ function updateUser($info) {
     $sql .= "`birthdate` = :birthdate, ";
     $sql .= "`address` = :address, ";
     $sql .= "`gender` = :gender, ";
+    $sql .= "`contact` = :contact, ";
     $sql .= "`bio` = :bio ";
     $sql .= "WHERE `user_id` = :user_id";
 
@@ -86,6 +87,7 @@ if($action == 'update' && $type == 'user' && $_POST) {
         "address" => httpPost('address'),
         "gender" => httpPost('gender'),
         "bio" => httpPost('bio'),
+        "contact" => httpPost('contact'),
         "user_id" => httpPost('user_id')
     );
 

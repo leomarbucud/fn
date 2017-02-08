@@ -13,6 +13,7 @@ function getUserById($userId) {
     $sql .= "ud.gender, ";
     $sql .= "ud.bio, ";
     $sql .= "ud.profile, ";
+    $sql .= "ud.contact, ";
     $sql .= "u.username, ";
     $sql .= "u.email, ";
     $sql .= "u.active ";
@@ -71,6 +72,20 @@ if($userId) {
                                 <label for="inputEmail" class="control-label">Email</label>
                                 <input type="email" class="form-control" id="email" name="email" placeholder="Email" data-error="Email address is invalid" value="<?=$user['email']?>" required>
                                 <div class="help-block with-errors"></div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-inline row">
+                                    <div class="form-group col-sm-6">
+                                        <label for="inputEmail" class="control-label">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" data-error="Email address is invalid" value="<?=$user['email']?>" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="contact" class="control-label">Contact</label>
+                                        <input type="text" class="form-control" id="contact" name="contact" placeholder="Contact Number e.g +639261234567" value="<?=$user['contact']?>" required>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <div class="form-inline row">

@@ -13,6 +13,7 @@ function getUserById($userId) {
     $sql .= "ud.gender, ";
     $sql .= "ud.bio, ";
     $sql .= "ud.profile, ";
+    $sql .= "ud.contact, ";
     $sql .= "u.username, ";
     $sql .= "u.email, ";
     $sql .= "u.active ";
@@ -35,7 +36,7 @@ if($userId) {
 ?>
 <div class="row-offcanvas row-offcanvas-left">
     <div id="sidebar" class="sidebar-offcanvas">
-        <<?php include_once 'include/include.side.bar.php'; ?>
+        <?php include_once 'include/include.side.bar.php'; ?>
     </div>
     <div id="main">
         <div class="col-md-12">
@@ -78,6 +79,10 @@ if($userId) {
                                     <tr>
                                         <td>Address</td>
                                         <td><?=$user['address']?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Contact</td>
+                                        <td><?=$user['contact']?></td>
                                     </tr>
                                     <tr>
                                         <td>Bio</td>

@@ -44,6 +44,18 @@ $inquiries = $db->rows($sql);
                     </p>
                 </div>
                 <?php endif; endif; ?>
+                <?php if(isset($sms_sent)) : if($sms_sent) : ?>
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>SMS has been sent!</strong> 
+                </div>
+                <?php endif; endif; ?>
+                <?php if(isset($error_sms)) : if($error_sms) : ?>
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>SMS failed to send, please check the number and try again.</strong> 
+                </div>
+                <?php endif; endif; ?>
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Inquiries</h3>
@@ -73,6 +85,9 @@ $inquiries = $db->rows($sql);
                                     </a>
                                     <a href="<?=$config['url']['base_path']?>/inquiries.php?action=write_email&type=user&id=<?=$inquiry['inquiry_id']?>" class="btn btn-success btn-xs">
                                         <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Send email
+                                    </a>
+                                    <a href="<?=$config['url']['base_path']?>/inquiries.php?action=write_sms&type=user&id=<?=$inquiry['inquiry_id']?>" class="btn btn-info btn-xs">
+                                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Send SMS
                                     </a>
                                 </td>
                             </tr>

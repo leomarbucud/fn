@@ -8,7 +8,7 @@ require_once 'class/class.session.php';
 require_once 'class/class.db.php';
 require_once 'class/class.upload.php';
 require_once 'class/class.email.php';
-
+require_once 'class/class.sms.php';
 
 include_once 'include/include.header.php';
 
@@ -20,6 +20,11 @@ if($action == 'view_details') {
 	include_once 'include/include.admin.inquiry.write.email.php';
 } elseif($action == 'send_email') {
 	require_once 'action/action.response.inquiry.php';
+	include_once 'include/include.admin.inquiries.php';
+} elseif($action == 'write_sms') {
+	include_once 'include/include.admin.inquiry.write.sms.php';
+} elseif($action == 'send_sms') {
+	require_once 'action/action.response.inquiry.sms.php';
 	include_once 'include/include.admin.inquiries.php';
 } else {
 	include_once 'include/include.admin.inquiries.php';
