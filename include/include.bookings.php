@@ -193,6 +193,19 @@ function checkRebook($booking_id) {
                                             <img alt="" width="1" height="1"
                                             src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" >
                                         </form>
+                                        <form action="<?=$config['url']['site'].$config['url']['base_path']?>/bookings.php?booking_id=<?=$booking['booking_id']?>&payment_id=<?=$booking['payment_id']?>&status=1" method="POST">
+                                          <script
+                                            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                            data-key="pk_test_50wHWiEaH2XMl1x32R4i0XXM"
+                                            data-amount="<?=(($booking['payment_total'] / 1 ) * 100)?>"
+                                            data-name="Footnote"
+                                            data-description="<?=$booking['package_name']?>"
+                                            data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                                            data-currency="PHP "
+                                            data-locale="en-PH">
+                                          </script>
+                                          <?=$booking['payment_total']?>
+                                        </form>
                                         <small><a href="<?=$config['url']['base_path']?>/howtopay.php">How to pay?</a></small>
                                         <?php endif; ?>
                                         <?php if($rebook): ?>

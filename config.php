@@ -38,6 +38,7 @@ $config['var']['default_profile_pic'] = '1476196571_18_41b586905e6233e72b076191f
 $config['var']['anonymous_id'] = '45';
 $config['var']['rebook_amount'] = '1000';
 $config['var']['dest_rank'] = 'user';
+$config['var']['usd'] = 50;
 
 // post config
 $config['post']['post_per_page'] = 5;
